@@ -9,11 +9,11 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@babel/runtime": "^7.12.5"
+    "@babel/runtime": "^7.12.5",
+    "@enzymefinance/ethers": "0.0.0"
   },
   "devDependencies": {
     "@enzymefinance/codegen": "0.0.0",
-    "@enzymefinance/ethers": "0.0.0",
     "@enzymefinance/hardhat": "0.0.0",
     "@openzeppelin/contracts": "^3.2.0",
     "hardhat": "^2.1.1"
