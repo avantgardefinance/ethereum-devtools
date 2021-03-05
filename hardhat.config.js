@@ -1,3 +1,2 @@
-module.exports = {
-  solidity: '0.7.3',
-};
+// NOTE: This file only exists to mute the hardhat postinstall message.
+module.exports = {};

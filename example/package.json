@@ -1,0 +1,21 @@
+{
+  "name": "@enzymefinance/example",
+  "version": "0.0.0",
+  "private": true,
+  "main": "dist/enzymefinance-example.cjs.js",
+  "module": "dist/enzymefinance-example.esm.js",
+  "scripts": {
+    "compile": "hardhat compile",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.12.5"
+  },
+  "devDependencies": {
+    "@enzymefinance/codegen": "0.0.0",
+    "@enzymefinance/ethers": "0.0.0",
+    "@enzymefinance/hardhat": "0.0.0",
+    "@openzeppelin/contracts": "^3.2.0",
+    "hardhat": "^2.1.1"
+  }
+}

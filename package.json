@@ -3,17 +3,18 @@
   "private": true,
   "workspaces": [
     "packages/*",
-    "config/*"
+    "config/*",
+    "example"
   ],
   "preconstruct": {
     "packages": [
-      "packages/*"
+      "packages/*",
+      "example"
     ]
   },
   "scripts": {
     "postinstall": "preconstruct dev && manypkg check && yarn compile",
-    "compile": "hardhat compile",
-    "coverage": "hardhat coverage",
+    "compile": "yarn manypkg run @enzymefinance/example compile",
     "dev": "preconstruct dev",
     "build": "preconstruct build",
     "watch": "preconstruct watch",
@@ -22,7 +23,7 @@
     "lint": "yarn lint:prettier && yarn lint:solhint",
     "lint:eslint": "eslint \"{*,**/*}.{js,jsx,ts,tsx}\"",
     "lint:prettier": "prettier --list-different \"{*,**/*}.{sol,json,js,jsx,ts,tsx}\"",
-    "lint:solhint": "solhint --max-warnings 0 \"packages/*/contracts/{*,**/*}.sol\"",
+    "lint:solhint": "solhint --max-warnings 0 \"example/contracts/{*,**/*}.sol\"",
     "format": "yarn format:prettier && yarn format:eslint",
     "format:prettier": "yarn lint:prettier --write",
     "format:eslint": "yarn lint:eslint --fix",
