@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`code generator generates code for solidity artifacts 1`] = `
+"/* eslint-disable */
+// @ts-nocheck
+import { BytesLike, BigNumber, BigNumberish } from 'ethers';
+import { contract, Call, Send, AddressLike, Contract } from '@enzymefinance/ethers';
+
+export type ERC20Args = [name: string, symbol: string];
+
+// prettier-ignore
+export interface ERC20 extends Contract<ERC20> {
+  allowance: Call<(owner: AddressLike, spender: AddressLike) => BigNumber, ERC20>
+  approve: Send<(spender: AddressLike, amount: BigNumberish) => boolean, ERC20>
+  balanceOf: Call<(account: AddressLike) => BigNumber, ERC20>
+  decimals: Call<() => BigNumber, ERC20>
+  decreaseAllowance: Send<(spender: AddressLike, subtractedValue: BigNumberish) => boolean, ERC20>
+  increaseAllowance: Send<(spender: AddressLike, addedValue: BigNumberish) => boolean, ERC20>
+  name: Call<() => string, ERC20>
+  symbol: Call<() => string, ERC20>
+  totalSupply: Call<() => BigNumber, ERC20>
+  transfer: Send<(recipient: AddressLike, amount: BigNumberish) => boolean, ERC20>
+  transferFrom: Send<(sender: AddressLike, recipient: AddressLike, amount: BigNumberish) => boolean, ERC20>
+}
+
+let ERC20Bytecode: string | undefined = undefined;
+if (typeof window === 'undefined') {
+  ERC20Bytecode = './__fixtures__/artifact.json';
+}
+
+// prettier-ignore
+export const ERC20 = contract<ERC20, ERC20Args>(ERC20Bytecode)\`
+  constructor(string name, string symbol)
+  event Approval(address indexed owner, address indexed spender, uint256 value)
+  event Transfer(address indexed from, address indexed to, uint256 value)
+  function allowance(address owner, address spender) view returns (uint256)
+  function approve(address spender, uint256 amount) returns (bool)
+  function balanceOf(address account) view returns (uint256)
+  function decimals() view returns (uint8)
+  function decreaseAllowance(address spender, uint256 subtractedValue) returns (bool)
+  function increaseAllowance(address spender, uint256 addedValue) returns (bool)
+  function name() view returns (string)
+  function symbol() view returns (string)
+  function totalSupply() view returns (uint256)
+  function transfer(address recipient, uint256 amount) returns (bool)
+  function transferFrom(address sender, address recipient, uint256 amount) returns (bool)
+\`;
+"
+`;

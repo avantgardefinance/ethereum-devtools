@@ -1,0 +1,28 @@
+{
+  "name": "@enzymefinance/prettier-config-solidity",
+  "version": "0.0.0",
+  "description": "Technology Regulated and Operated Investment Funds",
+  "author": "Enzyme Council DAO <council@enzyme.finance>",
+  "license": "MIT",
+  "homepage": "https://enzyme.finance",
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "scripts": {
+    "typecheck": "true"
+  },
+  "dependencies": {
+    "@enzymefinance/prettier-config": "^1.0.1",
+    "prettier-plugin-solidity": "^1.0.0-alpha.59"
+  },
+  "devDependencies": {
+    "prettier": "^2.1.2"
+  },
+  "peerDependencies": {
+    "prettier": "^2.1.2"
+  }
+}
