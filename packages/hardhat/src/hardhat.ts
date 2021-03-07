@@ -6,7 +6,7 @@ import { getEnvHardhatArguments } from 'hardhat/internal/core/params/env-variabl
 import { HARDHAT_PARAM_DEFINITIONS } from 'hardhat/internal/core/params/hardhat-params';
 import { Environment } from 'hardhat/internal/core/runtime-environment';
 import { loadTsNode, willRunWithTypescript } from 'hardhat/internal/core/typescript-support';
-import { HardhatArguments, HardhatConfig, HardhatNetworkConfig } from 'hardhat/types';
+import { HardhatArguments, HardhatConfig, HardhatNetworkConfig, HardhatRuntimeEnvironment } from 'hardhat/types';
 
 export async function hardhat(network: Partial<HardhatNetworkConfig> = {}) {
   if (!HardhatContext.isCreated()) {
@@ -33,5 +33,5 @@ export async function hardhat(network: Partial<HardhatNetworkConfig> = {}) {
 
   const extenders = context.extendersManager.getExtenders();
 
-  return new Environment(config, args, {}, extenders);
+  return (new Environment(config, args, {}, extenders) as unknown) as HardhatRuntimeEnvironment;
 }

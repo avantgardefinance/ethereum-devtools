@@ -2,7 +2,7 @@ import { createCoverageCollector } from '@enzymefinance/coverage';
 import { Config } from '@jest/types';
 import deepmerge from 'deepmerge';
 import fs from 'fs-extra';
-import { HardhatNetworkConfig } from 'hardhat/types';
+import type { HardhatNetworkConfig } from 'hardhat/types';
 import NodeEnvironment from 'jest-environment-node';
 import path from 'path';
 import { v4 as uuid } from 'uuid';
