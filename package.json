@@ -21,9 +21,9 @@
     "watch": "preconstruct watch",
     "release": "yarn compile && yarn build && changeset publish",
     "typecheck": "manypkg exec yarn typecheck",
-    "lint": "yarn lint:prettier && yarn lint:solhint",
+    "lint": "yarn lint:eslint && yarn lint:prettier && yarn lint:solhint",
     "lint:eslint": "eslint \"{*,**/*}.{js,jsx,ts,tsx}\"",
-    "lint:prettier": "prettier --list-different \"{*,**/*}.{sol,json,js,jsx,ts,tsx}\"",
+    "lint:prettier": "prettier --list-different \"{*,**/*}.{sol,json}\"",
     "lint:solhint": "solhint --max-warnings 0 \"example/contracts/{*,**/*}.sol\"",
     "format": "yarn format:prettier && yarn format:eslint",
     "format:prettier": "yarn lint:prettier --write",
@@ -40,8 +40,9 @@
     "eslint": "^7.21.0",
     "husky": "^4.3.8",
     "jest": "^26.6.1",
+    "lint-staged": "^10.5.4",
     "prettier": "^2.1.2",
-    "solhint": "^3.3.1",
+    "solhint": "^3.3.3",
     "ts-jest": "^26.4.4",
     "typescript": "^4.2.3"
   },
@@ -52,8 +53,8 @@
     }
   },
   "lint-staged": {
-    "*.{json,md,yml}": "prettier --write",
     "*.{js,jsx,ts,tsx}": "eslint --fix",
+    "*.json": "prettier --write",
     "*.sol": [
       "prettier --write",
       "solhint --fix"
