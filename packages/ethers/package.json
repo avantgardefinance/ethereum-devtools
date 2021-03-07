@@ -26,6 +26,6 @@
   "dependencies": {
     "@babel/runtime": "^7.12.5",
     "@ethersproject/abi": "^5.0.7",
-    "ethers": "^5.0.19"
+    "ethers": "^5.0.31"
   }
 }

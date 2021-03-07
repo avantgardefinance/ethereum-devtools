@@ -1,0 +1,8 @@
+# ignore build output
+dist/
+artifacts/
+cache/
+codegen/
+abi/
+bytecode/
+deployments/

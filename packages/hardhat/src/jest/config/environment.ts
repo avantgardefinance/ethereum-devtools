@@ -52,7 +52,10 @@ export default class EnzymeHardhatEnvironment extends NodeEnvironment {
     const config = env.config.codeCoverage;
 
     this.metadataFilePath = path.join(config.path, 'metadata.json');
-    this.testProvider = this.global.provider = new EthereumTestnetProvider(env);
+    this.testProvider = new EthereumTestnetProvider(env);
+
+    this.global.hre = env;
+    this.global.provider = this.testProvider;
     this.global.solidityCoverage = this.testOptions.coverage;
 
     // Re-route call history recording to whatever is the currently

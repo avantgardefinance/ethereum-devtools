@@ -1,7 +1,8 @@
-require('@enzymefinance/hardhat/plugin/compile');
-require('@enzymefinance/hardhat/plugin/coverage');
+import '@enzymefinance/hardhat/plugin';
 
-module.exports = {
+import type { HardhatUserConfig } from 'hardhat/types';
+
+const config: HardhatUserConfig = {
   codeCoverage: {
     path: './cache/coverage',
   },
@@ -24,11 +25,22 @@ module.exports = {
         count: 10,
         mnemonic: 'test test test test test test test test test test test junk',
       },
-      // loggingEnabled: true,
       gas: 9500000,
+      loggingEnabled: true,
     },
   },
   solidity: {
+    settings: {
+      optimizer: {
+        details: {
+          yul: false,
+        },
+        enabled: true,
+        runs: 200,
+      },
+    },
     version: '0.6.12',
   },
 };
+
+export default config;

@@ -3,7 +3,6 @@ const path = require('path');
 
 function common(package) {
   return {
-    displayName: package,
     displayName: package.split('/')[1],
     globals: {
       'ts-jest': {

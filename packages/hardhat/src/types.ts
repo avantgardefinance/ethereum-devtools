@@ -1,11 +1,17 @@
-import { AddressLike, CallFunction, SendFunction } from '@enzymefinance/ethers';
-import { BigNumberish, utils } from 'ethers';
+import '@nomiclabs/hardhat-ethers/dist/src/type-extensions';
+import 'hardhat-deploy/dist/src/type-extensions';
 
-import type { EthereumTestnetProvider } from '../provider';
+import type { AddressLike, CallFunction, SendFunction } from '@enzymefinance/ethers';
+import type { BigNumberish, utils } from 'ethers';
+import type { HardhatRuntimeEnvironment } from 'hardhat/types';
+
+import type { EthereumTestnetProvider } from './provider';
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace globalThis {
+    // eslint-disable-next-line no-var
+    var hre: HardhatRuntimeEnvironment;
     // eslint-disable-next-line no-var
     var provider: EthereumTestnetProvider;
     // eslint-disable-next-line no-var

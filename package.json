@@ -14,7 +14,8 @@
   },
   "scripts": {
     "postinstall": "preconstruct dev && manypkg check && yarn compile",
-    "compile": "yarn manypkg run @enzymefinance/example compile",
+    "example": "yarn manypkg run @enzymefinance/example",
+    "compile": "yarn example compile",
     "dev": "preconstruct dev",
     "build": "preconstruct build",
     "watch": "preconstruct watch",
@@ -27,7 +28,7 @@
     "format": "yarn format:prettier && yarn format:eslint",
     "format:prettier": "yarn lint:prettier --write",
     "format:eslint": "yarn lint:eslint --fix",
-    "test": "TS_JEST_DISABLE_VER_CHECKER=true jest"
+    "test": "TS_JEST_DISABLE_VER_CHECKER=true jest && yarn example test"
   },
   "dependencies": {
     "@changesets/cli": "^2.11.2",
@@ -35,7 +36,9 @@
     "@enzymefinance/eslint-config": "^1.0.1",
     "@manypkg/cli": "^0.17.0",
     "@preconstruct/cli": "^2.0.6",
+    "@types/jest": "^26.0.20",
     "eslint": "^7.21.0",
+    "husky": "^4.3.8",
     "jest": "^26.6.1",
     "prettier": "^2.1.2",
     "solhint": "^3.3.1",
