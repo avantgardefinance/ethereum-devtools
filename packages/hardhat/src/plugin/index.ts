@@ -1,4 +1,5 @@
 import 'hardhat-deploy';
-import '@nomiclabs/hardhat-ethers';
+import 'hardhat-deploy-ethers';
+import 'hardhat-contract-sizer';
 import './compile';
 import './coverage';

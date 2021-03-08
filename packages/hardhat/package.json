@@ -32,13 +32,14 @@
     "@enzymefinance/codegen": "0.0.0",
     "@enzymefinance/coverage": "0.0.0",
     "@enzymefinance/ethers": "0.0.1",
-    "@nomiclabs/hardhat-ethers": "^2.0.1",
     "deepmerge": "^4.2.2",
     "ethers": "^5.0.31",
     "fs-extra": "^9.0.1",
     "glob": "^7.1.6",
     "hardhat": "^2.1.1",
+    "hardhat-contract-sizer": "^2.0.3",
     "hardhat-deploy": "^0.7.0-beta.46",
+    "hardhat-deploy-ethers": "^0.3.0-beta.7",
     "istanbul-lib-report": "^3.0.0",
     "istanbul-reports": "^3.0.2",
     "jest-diff": "^26.6.2",
@@ -46,6 +47,7 @@
     "jest-matcher-utils": "^26.6.2",
     "jest-snapshot": "^26.6.2",
     "ts-jest": "^26.4.4",
+    "ts-node": "^9.1.1",
     "uuid": "^8.3.1"
   },
   "devDependencies": {

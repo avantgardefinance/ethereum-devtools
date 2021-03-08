@@ -1,1 +1,1 @@
-export { SignerWithAddress } from '@nomiclabs/hardhat-ethers/dist/src/signer-with-address';
+export { SignerWithAddress } from 'hardhat-deploy-ethers/dist/src/signer-with-address';

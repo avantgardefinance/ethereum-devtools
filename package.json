@@ -28,6 +28,7 @@
     "format": "yarn format:prettier && yarn format:eslint",
     "format:prettier": "yarn lint:prettier --write",
     "format:eslint": "yarn lint:eslint --fix",
+    "format:solhint": "yarn lint:solhint --fix",
     "test": "TS_JEST_DISABLE_VER_CHECKER=true jest && yarn example test"
   },
   "dependencies": {
