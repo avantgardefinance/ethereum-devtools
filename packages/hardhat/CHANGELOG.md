@@ -1,5 +1,11 @@
 # @enzymefinance/hardhat
 
+## 0.0.4
+
+### Patch Changes
+
+- [`959fe0d`](https://github.com/avantgardefinance/ethereum-devtools/commit/959fe0d77640f39a96995b9483a3b3da6a65cf60) Thanks [@fubhy](https://github.com/fubhy)! - Re-use the test environment.
+
 ## 0.0.3
 
 ### Patch Changes
