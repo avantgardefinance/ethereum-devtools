@@ -1,5 +1,14 @@
 # @enzymefinance/hardhat
 
+## 0.0.3
+
+### Patch Changes
+
+- [`0fe7540`](https://github.com/avantgardefinance/ethereum-devtools/commit/0fe7540cea734c39cc6f28f0e51948fec445fc01) Thanks [@fubhy](https://github.com/fubhy)! - Bump yarn.lock file.
+
+- Updated dependencies [[`0fe7540`](https://github.com/avantgardefinance/ethereum-devtools/commit/0fe7540cea734c39cc6f28f0e51948fec445fc01)]:
+  - @enzymefinance/ethers@0.0.3
+
 ## 0.0.2
 
 ### Patch Changes
