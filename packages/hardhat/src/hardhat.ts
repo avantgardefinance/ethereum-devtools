@@ -8,30 +8,52 @@ import { Environment } from 'hardhat/internal/core/runtime-environment';
 import { loadTsNode, willRunWithTypescript } from 'hardhat/internal/core/typescript-support';
 import { HardhatArguments, HardhatConfig, HardhatNetworkConfig, HardhatRuntimeEnvironment } from 'hardhat/types';
 
-export async function hardhat(network: Partial<HardhatNetworkConfig> = {}) {
-  if (!HardhatContext.isCreated()) {
-    HardhatContext.createHardhatContext();
+let args: HardhatArguments;
+let config: HardhatConfig;
+let environment: HardhatRuntimeEnvironment;
+
+export function hardhat(network: Partial<HardhatNetworkConfig> = {}) {
+  if (environment != null) {
+    return environment;
   }
 
-  const context = HardhatContext.getHardhatContext();
-  const args = deepmerge<HardhatArguments>(getEnvHardhatArguments(HARDHAT_PARAM_DEFINITIONS, process.env), {
-    emoji: false,
-    help: false,
-    network: HARDHAT_NETWORK_NAME,
-    version: false,
-  });
+  let context: HardhatContext;
+  if (HardhatContext.isCreated()) {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    context = HardhatContext.getHardhatContext();
+    environment = context?.getHardhatRuntimeEnvironment();
 
-  if (willRunWithTypescript(args.config)) {
-    loadTsNode();
+    if (environment) {
+      return environment;
+    }
   }
 
-  const config = deepmerge<HardhatConfig>(loadConfigAndTasks(), {
-    networks: {
-      [HARDHAT_NETWORK_NAME]: network,
-    } as any,
-  });
+  context = HardhatContext.createHardhatContext();
+
+  if (args == null) {
+    args = deepmerge<HardhatArguments>(getEnvHardhatArguments(HARDHAT_PARAM_DEFINITIONS, process.env), {
+      emoji: false,
+      help: false,
+      network: HARDHAT_NETWORK_NAME,
+      version: false,
+    });
+  }
+
+  if (config == null) {
+    if (willRunWithTypescript(args.config)) {
+      loadTsNode();
+    }
+
+    config = deepmerge<HardhatConfig>(loadConfigAndTasks(), {
+      networks: {
+        [HARDHAT_NETWORK_NAME]: network,
+      } as any,
+    });
+  }
 
   const extenders = context.extendersManager.getExtenders();
+  environment = (new Environment(config, args, {}, extenders) as unknown) as HardhatRuntimeEnvironment;
+  context.setHardhatRuntimeEnvironment(environment);
 
-  return (new Environment(config, args, {}, extenders) as unknown) as HardhatRuntimeEnvironment;
+  return environment;
 }

@@ -1,8 +1,7 @@
 import { createCoverageCollector } from '@enzymefinance/coverage';
-import { Config } from '@jest/types';
 import deepmerge from 'deepmerge';
 import fs from 'fs-extra';
-import type { HardhatNetworkConfig } from 'hardhat/types';
+import type { HardhatNetworkConfig, HardhatRuntimeEnvironment } from 'hardhat/types';
 import NodeEnvironment from 'jest-environment-node';
 import path from 'path';
 import { v4 as uuid } from 'uuid';
@@ -27,12 +26,13 @@ export default class EnzymeHardhatEnvironment extends NodeEnvironment {
   private metadataFilePath = '';
   private tempDir = '';
 
-  private testOptions: HardhatTestOptions;
+  private testEnvironment?: HardhatRuntimeEnvironment;
+  private testOptions?: HardhatTestOptions;
   private testProvider?: EthereumTestnetProvider;
   private runtimeRecording: Record<string, number> = {};
 
-  constructor(config: Config.ProjectConfig) {
-    super(config);
+  async setup() {
+    await super.setup();
 
     this.testOptions = deepmerge<HardhatTestOptions>(defaults, {
       ...(this.global.hardhatTestOptions as any),
@@ -43,15 +43,13 @@ export default class EnzymeHardhatEnvironment extends NodeEnvironment {
     if (this.testOptions.coverage && !this.tempDir) {
       throw new Error('Missing shared temporary directory for code coverage data collection');
     }
-  }
 
-  async setup() {
-    await super.setup();
+    this.testEnvironment = hardhat(this.testOptions.network);
 
-    const env = await hardhat(this.testOptions.network);
-    const config = env.config.codeCoverage;
+    const env = this.testEnvironment;
+    const coverage = this.testEnvironment.config.codeCoverage;
 
-    this.metadataFilePath = path.join(config.path, 'metadata.json');
+    this.metadataFilePath = path.join(coverage.path, 'metadata.json');
     this.testProvider = new EthereumTestnetProvider(env);
 
     this.global.hre = env;
@@ -74,7 +72,7 @@ export default class EnzymeHardhatEnvironment extends NodeEnvironment {
   }
 
   async teardown() {
-    if (this.testOptions.coverage && Object.keys(this.runtimeRecording).length) {
+    if (this.testOptions?.coverage && Object.keys(this.runtimeRecording).length) {
       const file = path.join(this.tempDir, `${uuid()}.json`);
       const output = {
         hits: this.runtimeRecording,
