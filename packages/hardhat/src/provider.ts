@@ -23,8 +23,8 @@ export class EthereumTestnetProvider extends providers.StaticJsonRpcProvider {
     }
   }
 
-  public async snapshot<TFixture>(create: FixtureCreator<TFixture, this>): Promise<TFixture> {
-    return this.snapshots.snapshot(create);
+  public async snapshot<TFixture>(create: FixtureCreator<TFixture, this>, id?: string): Promise<TFixture> {
+    return this.snapshots.snapshot(create, id);
   }
 
   public async getSignerWithAddress(addressOrIndex: string | number) {

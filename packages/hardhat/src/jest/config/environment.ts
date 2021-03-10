@@ -28,8 +28,10 @@ export default class EnzymeHardhatEnvironment extends NodeEnvironment {
 
   private testEnvironment?: HardhatRuntimeEnvironment;
   private testOptions?: HardhatTestOptions;
-  private testProvider?: EthereumTestnetProvider;
   private runtimeRecording: Record<string, number> = {};
+
+  private removeHistoryListener?: () => void;
+  private removeCoverageListener?: () => void;
 
   async setup() {
     await super.setup();
@@ -47,27 +49,28 @@ export default class EnzymeHardhatEnvironment extends NodeEnvironment {
     this.testEnvironment = hardhat(this.testOptions.network);
 
     const env = this.testEnvironment;
-    const coverage = this.testEnvironment.config.codeCoverage;
+    const provider = env.ethers.provider as EthereumTestnetProvider;
+    provider.history.clear();
 
-    this.metadataFilePath = path.join(coverage.path, 'metadata.json');
-    this.testProvider = new EthereumTestnetProvider(env);
+    this.metadataFilePath = path.join(env.config.codeCoverage.path, 'metadata.json');
 
     this.global.hre = env;
-    this.global.provider = this.testProvider;
+    this.global.provider = provider;
     this.global.solidityCoverage = this.testOptions.coverage;
 
     // Re-route call history recording to whatever is the currently
     // active history object. Required for making history and snapshoting
     // work nicely together.
     if (this.testOptions.history) {
-      addListener(env.network.provider, 'beforeMessage', (message) => {
-        this.testProvider?.history.record(message);
+      this.removeHistoryListener = addListener(env.network.provider, 'beforeMessage', (message) => {
+        provider.history.record(message);
       });
     }
 
     if (this.testOptions.coverage) {
       const metadata = await fs.readJson(this.metadataFilePath);
-      addListener(env.network.provider, 'step', createCoverageCollector(metadata, this.runtimeRecording));
+      const collector = createCoverageCollector(metadata, this.runtimeRecording);
+      this.removeCoverageListener = addListener(env.network.provider, 'step', collector);
     }
   }
 
@@ -83,6 +86,9 @@ export default class EnzymeHardhatEnvironment extends NodeEnvironment {
         spaces: 2,
       });
     }
+
+    this.removeCoverageListener?.();
+    this.removeHistoryListener?.();
 
     await super.teardown();
   }

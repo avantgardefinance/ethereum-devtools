@@ -8,6 +8,8 @@ import { Environment } from 'hardhat/internal/core/runtime-environment';
 import { loadTsNode, willRunWithTypescript } from 'hardhat/internal/core/typescript-support';
 import { HardhatArguments, HardhatConfig, HardhatNetworkConfig, HardhatRuntimeEnvironment } from 'hardhat/types';
 
+import { EthereumTestnetProvider } from './provider';
+
 let args: HardhatArguments;
 let config: HardhatConfig;
 let environment: HardhatRuntimeEnvironment;
@@ -53,6 +55,8 @@ export function hardhat(network: Partial<HardhatNetworkConfig> = {}) {
 
   const extenders = context.extendersManager.getExtenders();
   environment = (new Environment(config, args, {}, extenders) as unknown) as HardhatRuntimeEnvironment;
+  environment.ethers.provider = new EthereumTestnetProvider(environment);
+
   context.setHardhatRuntimeEnvironment(environment);
 
   return environment;
