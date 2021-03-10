@@ -25,7 +25,7 @@ export function isTransactionReceipt(value: any): value is providers.Transaction
       transactionHash: expect.any(String),
       transactionIndex: expect.any(Number),
     });
-  } catch (e) {
+  } catch {
     return false;
   }
 

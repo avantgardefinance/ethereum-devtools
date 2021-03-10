@@ -1,6 +1,5 @@
 import 'hardhat-deploy-ethers/dist/src/type-extensions';
 import 'hardhat-deploy/dist/src/type-extensions';
-import 'hardhat-deploy/dist/src/type-extensions';
 
 import type { AddressLike, CallFunction, SendFunction } from '@enzymefinance/ethers';
 import type { BigNumberish, utils } from 'ethers';
@@ -15,8 +14,6 @@ declare global {
     var hre: HardhatRuntimeEnvironment;
     // eslint-disable-next-line no-var
     var provider: EthereumTestnetProvider;
-    // eslint-disable-next-line no-var
-    var __COVERAGE__: boolean;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-namespace

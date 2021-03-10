@@ -1,81 +1,86 @@
 import { createCoverageCollector } from '@enzymefinance/coverage';
 import deepmerge from 'deepmerge';
+import type { EventEmitter } from 'events';
 import fs from 'fs-extra';
-import type { HardhatNetworkConfig, HardhatRuntimeEnvironment } from 'hardhat/types';
+import { HARDHAT_NETWORK_NAME } from 'hardhat/internal/constants';
+import { HardhatContext } from 'hardhat/internal/context';
+import { loadConfigAndTasks } from 'hardhat/internal/core/config/config-loading';
+import { getEnvHardhatArguments } from 'hardhat/internal/core/params/env-variables';
+import { HARDHAT_PARAM_DEFINITIONS } from 'hardhat/internal/core/params/hardhat-params';
+import { Environment } from 'hardhat/internal/core/runtime-environment';
+import { loadTsNode, willRunWithTypescript } from 'hardhat/internal/core/typescript-support';
+import type { EthereumProvider } from 'hardhat/types';
+import { HardhatArguments, HardhatRuntimeEnvironment } from 'hardhat/types';
 import NodeEnvironment from 'jest-environment-node';
 import path from 'path';
 import { v4 as uuid } from 'uuid';
 
-import { hardhat } from '../../hardhat';
-import { addListener } from '../../helpers';
 import { EthereumTestnetProvider } from '../../provider';
 
 export interface HardhatTestOptions {
   history: boolean;
   coverage: boolean;
-  network: Partial<HardhatNetworkConfig>;
 }
-
-const defaults = {
-  coverage: false,
-  history: true,
-  network: {},
-};
 
 export default class EnzymeHardhatEnvironment extends NodeEnvironment {
   private metadataFilePath = '';
   private tempDir = '';
+  private codeCoverageRuntimeRecording: Record<string, number> = {};
+  private recordCodeCoverage = false;
+  private recordCallHistory = true;
+  private runtimeEnvironment: HardhatRuntimeEnvironment;
 
-  private testEnvironment?: HardhatRuntimeEnvironment;
-  private testOptions?: HardhatTestOptions;
-  private testProvider?: EthereumTestnetProvider;
-  private runtimeRecording: Record<string, number> = {};
+  private removeCallHistoryListener?: () => void;
+  private removeCodeCoverageListener?: () => void;
+
+  constructor(config: any) {
+    super(config);
+
+    this.recordCodeCoverage = !!(config.coverage ?? false);
+    this.recordCallHistory = !!(config.history ?? true);
+
+    this.tempDir = process.env.__HARDHAT_COVERAGE_TEMPDIR__ ?? '';
+    if (this.recordCodeCoverage && !this.tempDir) {
+      throw new Error('Missing shared temporary directory for code coverage data collection');
+    }
+
+    this.runtimeEnvironment = getRuntimeEnvironment();
+    this.metadataFilePath = path.join(this.runtimeEnvironment.config.codeCoverage.path, 'metadata.json');
+  }
 
   async setup() {
     await super.setup();
 
-    this.testOptions = deepmerge<HardhatTestOptions>(defaults, {
-      ...(this.global.hardhatTestOptions as any),
-      network: (this.global.hardhatNetworkOptions as any) ?? {},
-    });
-
-    this.tempDir = process.env.__HARDHAT_COVERAGE_TEMPDIR__ ?? '';
-    if (this.testOptions.coverage && !this.tempDir) {
-      throw new Error('Missing shared temporary directory for code coverage data collection');
-    }
-
-    this.testEnvironment = hardhat(this.testOptions.network);
-
-    const env = this.testEnvironment;
-    const coverage = this.testEnvironment.config.codeCoverage;
-
-    this.metadataFilePath = path.join(coverage.path, 'metadata.json');
-    this.testProvider = new EthereumTestnetProvider(env);
+    const env = this.runtimeEnvironment;
+    const provider = new EthereumTestnetProvider(env);
 
     this.global.hre = env;
-    this.global.provider = this.testProvider;
-    this.global.solidityCoverage = this.testOptions.coverage;
+    this.global.provider = provider;
 
     // Re-route call history recording to whatever is the currently
     // active history object. Required for making history and snapshoting
     // work nicely together.
-    if (this.testOptions.history) {
-      addListener(env.network.provider, 'beforeMessage', (message) => {
-        this.testProvider?.history.record(message);
+    if (this.recordCallHistory) {
+      this.removeCallHistoryListener = addListener(env.network.provider, 'beforeMessage', (message) => {
+        provider.history.record(message);
       });
     }
 
-    if (this.testOptions.coverage) {
+    if (this.recordCodeCoverage) {
       const metadata = await fs.readJson(this.metadataFilePath);
-      addListener(env.network.provider, 'step', createCoverageCollector(metadata, this.runtimeRecording));
+      const collector = createCoverageCollector(metadata, this.codeCoverageRuntimeRecording);
+      this.removeCodeCoverageListener = addListener(env.network.provider, 'step', collector);
     }
   }
 
   async teardown() {
-    if (this.testOptions?.coverage && Object.keys(this.runtimeRecording).length) {
+    this.removeCodeCoverageListener?.();
+    this.removeCallHistoryListener?.();
+
+    if (this.recordCodeCoverage && Object.keys(this.codeCoverageRuntimeRecording).length) {
       const file = path.join(this.tempDir, `${uuid()}.json`);
       const output = {
-        hits: this.runtimeRecording,
+        hits: this.codeCoverageRuntimeRecording,
         metadata: this.metadataFilePath,
       };
 
@@ -86,4 +91,68 @@ export default class EnzymeHardhatEnvironment extends NodeEnvironment {
 
     await super.teardown();
   }
+}
+
+let environment: HardhatRuntimeEnvironment;
+export function getRuntimeEnvironment() {
+  if (environment != null) {
+    return environment;
+  }
+
+  if (HardhatContext.isCreated()) {
+    HardhatContext.deleteHardhatContext();
+  }
+
+  const context = HardhatContext.createHardhatContext();
+  const args = deepmerge<HardhatArguments>(getEnvHardhatArguments(HARDHAT_PARAM_DEFINITIONS, process.env), {
+    emoji: false,
+    help: false,
+    network: HARDHAT_NETWORK_NAME,
+    version: false,
+  });
+
+  if (willRunWithTypescript(args.config)) {
+    loadTsNode();
+  }
+
+  const config = loadConfigAndTasks();
+  const extenders = context.extendersManager.getExtenders();
+  environment = (new Environment(config, args, {}, extenders) as unknown) as HardhatRuntimeEnvironment;
+  context.setHardhatRuntimeEnvironment(environment);
+
+  return environment;
+}
+
+export function addListener(provider: EthereumProvider, event: string, handler: (...args: any) => void) {
+  let inner: any = (provider as any)._provider;
+  while (inner._wrapped) {
+    inner = (inner as any)._wrapped;
+  }
+
+  const init = inner._init.bind(inner);
+
+  let subscribed = false;
+  let removed = false;
+
+  inner._init = async () => {
+    await init();
+
+    if (!subscribed && !removed) {
+      subscribed = true;
+      const vm = inner._node._vm as EventEmitter;
+      vm.on(event, handler);
+    }
+  };
+
+  return () => {
+    if (removed) {
+      return;
+    }
+
+    removed = true;
+    const vm = (inner as any)._node?._vm as EventEmitter;
+    if (vm != null) {
+      vm.off(event, handler);
+    }
+  };
 }

@@ -10,15 +10,15 @@ export interface Snapshot<TFixture> {
 }
 
 export class Snapshots<TProvider extends EthereumTestnetProvider = EthereumTestnetProvider> {
-  private readonly snapshots = new Map<FixtureCreator<any, TProvider>, Snapshot<any>>();
+  private readonly snapshots = new Map<FixtureCreator<any, TProvider> | string, Snapshot<any>>();
 
   constructor(private readonly provider: TProvider) {}
 
-  public async snapshot<TFixture>(create: FixtureCreator<TFixture, TProvider>): Promise<TFixture> {
-    const revert = this.snapshots.get(create);
+  public async snapshot<TFixture>(create: FixtureCreator<TFixture, TProvider>, id?: string): Promise<TFixture> {
+    const revert = this.snapshots.get(id ?? create);
     const snapshot = revert ? await this.revert<TFixture>(revert, create) : await this.record<TFixture>(create);
 
-    this.snapshots.set(create, snapshot);
+    this.snapshots.set(id ?? create, snapshot);
     this.provider.history.clear();
 
     return snapshot.data;
