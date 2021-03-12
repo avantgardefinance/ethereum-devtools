@@ -1,5 +1,11 @@
 # @enzymefinance/hardhat
 
+## 0.0.6
+
+### Patch Changes
+
+- [`497f3c3`](https://github.com/avantgardefinance/ethereum-devtools/commit/497f3c3827d006c65159248f61784891d157f7cb) Thanks [@fubhy](https://github.com/fubhy)! - Bumping packages after force push.
+
 ## 0.0.5
 
 ### Patch Changes
