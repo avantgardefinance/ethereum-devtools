@@ -1,5 +1,11 @@
 # @enzymefinance/hardhat
 
+## 0.0.5
+
+### Patch Changes
+
+- [`ca3b12d`](https://github.com/avantgardefinance/ethereum-devtools/commit/ca3b12d069a6292be82162828e8b176310a40419) Thanks [@fubhy](https://github.com/fubhy)! - Remove listeners on teardown.
+
 ## 0.0.4
 
 ### Patch Changes
