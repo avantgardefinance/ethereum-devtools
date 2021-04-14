@@ -24,8 +24,8 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@babel/runtime": "^7.12.5",
-    "ethers": "^5.0.31"
+    "@babel/runtime": "^7.13.10",
+    "ethers": "^5.1.0"
   },
   "optionalDependencies": {
     "prettier": "^2.1.2"
