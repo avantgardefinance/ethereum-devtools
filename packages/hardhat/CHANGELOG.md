@@ -1,5 +1,16 @@
 # @enzymefinance/hardhat
 
+## 0.0.7
+
+### Patch Changes
+
+- [`32bcafa`](https://github.com/avantgardefinance/ethereum-devtools/commit/32bcafae585bf397c5b9d125bdb5eb0561675cdf) Thanks [@fubhy](https://github.com/fubhy)! - Update dependencies and add toBeAroundBigNumber assertion
+
+- Updated dependencies [[`32bcafa`](https://github.com/avantgardefinance/ethereum-devtools/commit/32bcafae585bf397c5b9d125bdb5eb0561675cdf)]:
+  - @enzymefinance/codegen@0.0.1
+  - @enzymefinance/coverage@0.0.1
+  - @enzymefinance/ethers@0.0.4
+
 ## 0.0.6
 
 ### Patch Changes
