@@ -10,7 +10,7 @@ export function setIgnoreGasMatchers(ignore: boolean) {
   ignoreGasMatchers = ignore;
 }
 
-let defaultTolerance = 0.1;
+let defaultTolerance = 0.1; // 10% tolerance
 export function setGasCostAssertionTolerance(tolerance: number) {
   defaultTolerance = tolerance;
 }
@@ -25,8 +25,8 @@ export function toCostLessThan(this: jest.MatcherContext, received: any, expecte
   }
 
   const toleranceBn = BigNumber.from((tolerance ?? defaultTolerance) * 100);
-  if (!toleranceBn.lt(100)) {
-    throw new Error('Tolerance must be below 100%');
+  if (!(toleranceBn.lt(100) && toleranceBn.gte(0))) {
+    throw new Error('Tolerance must be between 0% and 100%');
   }
 
   if (ignoreGasMatchers) {
