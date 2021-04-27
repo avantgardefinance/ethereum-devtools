@@ -1,5 +1,11 @@
 # @enzymefinance/hardhat
 
+## 0.0.8
+
+### Patch Changes
+
+- [#9](https://github.com/avantgardefinance/ethereum-devtools/pull/9) [`f178e42`](https://github.com/avantgardefinance/ethereum-devtools/commit/f178e42d1858daabaf64b1ee91624e568dcbd12e) Thanks [@fubhy](https://github.com/fubhy)! - Add types for toBeAroundBigNumber
+
 ## 0.0.7
 
 ### Patch Changes
