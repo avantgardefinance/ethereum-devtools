@@ -1,5 +1,11 @@
 # @enzymefinance/hardhat
 
+## 0.0.11
+
+### Patch Changes
+
+- [#15](https://github.com/avantgardefinance/ethereum-devtools/pull/15) [`7f009ce`](https://github.com/avantgardefinance/ethereum-devtools/commit/7f009ceac955a22351f774aaf9dba01eeb568fcf) Thanks [@fubhy](https://github.com/fubhy)! - Fix history recording for real
+
 ## 0.0.10
 
 ### Patch Changes
