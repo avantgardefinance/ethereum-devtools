@@ -1,5 +1,11 @@
 # @enzymefinance/ethers
 
+## 0.0.5
+
+### Patch Changes
+
+- [#11](https://github.com/avantgardefinance/ethereum-devtools/pull/11) [`29f4f32`](https://github.com/avantgardefinance/ethereum-devtools/commit/29f4f32de8122e98519be05a3638514c31622b59) Thanks [@fubhy](https://github.com/fubhy)! - Upgrade hardhat and ethers version
+
 ## 0.0.4
 
 ### Patch Changes
