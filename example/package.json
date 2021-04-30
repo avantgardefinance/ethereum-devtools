@@ -18,15 +18,15 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.14.0",
-    "@enzymefinance/ethers": "0.0.5",
+    "@enzymefinance/ethers": "0.0.6",
     "ethers": "^5.1.4"
   },
   "devDependencies": {
     "@enzymefinance/babel-config": "^1.0.10",
-    "@enzymefinance/codegen": "0.0.2",
+    "@enzymefinance/codegen": "0.0.3",
     "@enzymefinance/eslint-config": "^1.0.5",
-    "@enzymefinance/hardhat": "0.0.11",
-    "@enzymefinance/prettier-config-solidity": "0.0.1",
+    "@enzymefinance/hardhat": "0.0.12",
+    "@enzymefinance/prettier-config-solidity": "0.0.2",
     "@openzeppelin/contracts": "^3.4.1",
     "@types/jest": "^26.0.23",
     "eslint": "^7.25.0",
