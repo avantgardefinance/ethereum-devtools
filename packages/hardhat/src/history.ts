@@ -42,13 +42,13 @@ export class History {
   }
 
   public record(message: EvmMessage) {
-    const to = message.to ? utils.hexlify(message.to) : '0x';
+    const to = message.to ? utils.hexlify(`${message.to}`) : '0x';
     if (to === '0x') {
       return;
     }
 
     const checksum = utils.getAddress(to);
-    const data = message.data ? utils.hexlify(message.data) : '0x';
+    const data = message.data ? utils.hexlify(`${message.data}`) : '0x';
     this.history.set(checksum, this.calls(checksum).concat(data));
   }
 }
