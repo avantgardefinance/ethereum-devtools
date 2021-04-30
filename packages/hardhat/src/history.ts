@@ -48,7 +48,7 @@ export class History {
     }
 
     const checksum = utils.getAddress(to);
-    const data = message.data ? utils.hexlify(`${message.data}`) : '0x';
+    const data = message.data ? utils.hexlify(message.data) : '0x';
     this.history.set(checksum, this.calls(checksum).concat(data));
   }
 }
