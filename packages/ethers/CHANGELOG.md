@@ -1,5 +1,11 @@
 # @enzymefinance/ethers
 
+## 0.0.6
+
+### Patch Changes
+
+- [#17](https://github.com/avantgardefinance/ethereum-devtools/pull/17) [`eb9d7b3`](https://github.com/avantgardefinance/ethereum-devtools/commit/eb9d7b3311242a40148fdbd7841faec76d514791) Thanks [@fubhy](https://github.com/fubhy)! - Revert prettier-plugin-solidity update
+
 ## 0.0.5
 
 ### Patch Changes
