@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.14.0",
-    "ethers": "^5.1.4"
+    "ethers": "^5.3.0"
   },
   "optionalDependencies": {
     "prettier": "^2.1.2"

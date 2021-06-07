@@ -78,7 +78,7 @@ export function inject(parsed: ParseResult, path: string) {
     target: path,
   };
 
-  const points = ((Object.keys(state.injections) as any) as number[]).sort((a, b) => b - a);
+  const points = (Object.keys(state.injections) as any as number[]).sort((a, b) => b - a);
   points.forEach((point) => {
     state.injections[point].forEach((injection) => {
       switch (injection.type) {

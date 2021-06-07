@@ -36,11 +36,11 @@ function enhanceResponse<TFunction extends SendFunction<any, any> | ConstructorF
   response: EthersContractTransaction,
 ): ContractTransaction<TFunction> {
   const wait = response.wait.bind(response);
-  const enhanced = (response as any) as ContractTransaction<TFunction>;
+  const enhanced = response as any as ContractTransaction<TFunction>;
   enhanced.function = fn;
   enhanced.wait = async (confirmations?: number) => {
     const receipt = await wait(confirmations);
-    const enhanced = (receipt as any) as ContractReceipt<TFunction>;
+    const enhanced = receipt as any as ContractReceipt<TFunction>;
     enhanced.function = fn;
     return enhanced;
   };
@@ -101,7 +101,7 @@ export function resolveFunctionOptions<TArgs extends any[] = []>(
 export class ContractFunction<
   TArgs extends any[] = [],
   TFragment extends Fragment = Fragment,
-  TContract extends Contract = Contract
+  TContract extends Contract = Contract,
 > {
   public readonly __TYPE__?: string = 'FUNCTION';
   public static isContractFunction(fn: any): fn is ContractFunction<any, any, any> {
@@ -111,13 +111,13 @@ export class ContractFunction<
   public static create<
     TArgs extends any[] = [],
     TFragment extends Fragment = Fragment,
-    TContract extends Contract = Contract
+    TContract extends Contract = Contract,
   >(contract: TContract, fragment: TFragment, ...args: TArgs): ContractFunction<TArgs, TFragment, TContract>;
 
   public static create<
     TArgs extends any[] = [],
     TFragment extends Fragment = Fragment,
-    TContract extends Contract = Contract
+    TContract extends Contract = Contract,
   >(
     contract: TContract,
     fragment: TFragment,
@@ -127,7 +127,7 @@ export class ContractFunction<
   public static create<
     TArgs extends any[] = [],
     TFragment extends Fragment = Fragment,
-    TContract extends Contract = Contract
+    TContract extends Contract = Contract,
   >(contract: TContract, fragment: TFragment, ...args: [FunctionOptions<TArgs>] | TArgs) {
     const options = resolveFunctionOptions(...args) as FunctionOptions<TArgs>;
     if (FunctionFragment.isFunctionFragment(fragment)) {
@@ -209,7 +209,7 @@ export class ContractFunction<
 export class CallFunction<
   TArgs extends any[] = [],
   TReturn extends any = unknown,
-  TContract extends Contract = Contract
+  TContract extends Contract = Contract,
 > extends ContractFunction<TArgs, FunctionFragment, TContract> {
   public readonly __TYPE__?: string = 'FUNCTION:CALL';
   public static isCallFunction(fn: any): fn is CallFunction<any, any, any> {
@@ -231,7 +231,7 @@ export class CallFunction<
       return result[0];
     }
 
-    return (result as any) as TReturn;
+    return result as any as TReturn;
   }
 
   public attach(contract: TContract): this {
@@ -289,7 +289,7 @@ export class CallFunction<
 export class SendFunction<
   TArgs extends any[] = [],
   TReturn extends any = void,
-  TContract extends Contract = Contract
+  TContract extends Contract = Contract,
 > extends CallFunction<TArgs, TReturn, TContract> {
   public readonly __TYPE__?: string = 'FUNCTION:SEND';
   public static isSendFunction(fn: any): fn is SendFunction<any, any, any> {
@@ -331,7 +331,7 @@ export class SendFunction<
 
 export class ConstructorFunction<
   TArgs extends any[] = [],
-  TContract extends Contract = Contract
+  TContract extends Contract = Contract,
 > extends ContractFunction<TArgs, ConstructorFragment, TContract> {
   public readonly __TYPE__?: string = 'FUNCTION:CONSTRUCTOR';
   public static isConstructorFunction(fn: any): fn is ConstructorFunction<any, any> {

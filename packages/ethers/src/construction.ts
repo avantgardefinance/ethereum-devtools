@@ -70,6 +70,6 @@ export function contract<TContract extends Contract = Contract, TConstructorArgs
       }
     }
 
-    return (SpecializedContract as any) as ContractFactory<TContract, TConstructorArgs>;
+    return SpecializedContract as any as ContractFactory<TContract, TConstructorArgs>;
   };
 }

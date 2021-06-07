@@ -8,7 +8,6 @@ module.exports = {
       files: '*.sol',
       options: {
         bracketSpacing: false,
-        explicitTypes: 'always',
         printWidth: 99,
         singleQuote: false,
         tabWidth: 4,

@@ -13,7 +13,7 @@ export type MatcherCallback<TReturn extends jest.CustomMatcherResult | Promise<j
 
 export function ensureParameters<
   TSubject extends Contract | ContractFunction<any> = any,
-  TReturn extends jest.CustomMatcherResult | Promise<jest.CustomMatcherResult> = jest.CustomMatcherResult
+  TReturn extends jest.CustomMatcherResult | Promise<jest.CustomMatcherResult> = jest.CustomMatcherResult,
 >(subject: TSubject, invert: boolean, callback: MatcherCallback<TReturn>): TReturn {
   const fn = ContractFunction.isContractFunction(subject)
     ? subject
