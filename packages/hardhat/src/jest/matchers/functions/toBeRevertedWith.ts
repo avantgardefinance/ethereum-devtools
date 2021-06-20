@@ -8,9 +8,7 @@ export function toBeRevertedWith(this: jest.MatcherContext, received: Error, mat
   const isMatch = error?.match(match) != null;
 
   const pass = (isReverted || isThrown || isError) && isMatch;
-  const message = pass
-    ? () => matcherHint('.toBeRevertedWith', error, `${match}`, this)
-    : () => matcherHint('.toBeRevertedWith', error, `${match}`, this);
+  const message = () => matcherHint('.toBeRevertedWith', error, `${match}`, this);
 
   return { message, pass };
 }

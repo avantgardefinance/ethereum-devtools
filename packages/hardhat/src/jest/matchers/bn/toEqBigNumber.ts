@@ -4,7 +4,7 @@ import { matcherHint } from 'jest-matcher-utils';
 import { ensureBigNumbers } from './utils';
 
 export function toEqBigNumber(this: jest.MatcherContext, received: BigNumberish, expected: BigNumberish) {
-  return ensureBigNumbers(received, expected, this.isNot, (received, expected) => {
+  return ensureBigNumbers([received, expected], this.isNot, ([received, expected]) => {
     const pass = received.eq(expected);
     const message = () => matcherHint('.toEqBigNumber', `${received}`, `${expected}`, this);
     return { message, pass };

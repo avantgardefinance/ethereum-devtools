@@ -29,7 +29,9 @@
     "format:prettier": "yarn lint:prettier --write",
     "format:eslint": "yarn lint:eslint --fix",
     "format:solhint": "yarn lint:solhint --fix",
-    "test": "TS_JEST_DISABLE_VER_CHECKER=true jest && yarn example test"
+    "test": "yarn test:packages && yarn test:example",
+    "test:packages": "TS_JEST_DISABLE_VER_CHECKER=true HARDHAT_CONFIG=example/hardhat.config.ts jest",
+    "test:example": "yarn example test"
   },
   "dependencies": {
     "@changesets/changelog-github": "^0.4.0",

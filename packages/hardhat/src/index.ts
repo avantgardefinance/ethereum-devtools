@@ -3,5 +3,6 @@ export * from './history';
 export * from './snapshots';
 export * from './signer';
 
-export { setGasCostAssertionTolerance, setIgnoreGasMatchers } from './jest/matchers/functions/toCostLessThan';
-export { setBeAroundBigNumberAssertionTolerance } from './jest/matchers/bn/toBeAroundBigNumber';
+export { setIgnoreGasMatchers } from './jest/matchers/functions/common/ignoreGasMatchers';
+export { setToCostLessThanTolerance } from './jest/matchers/functions/toCostLessThan';
+export { setToBeAroundBigNumberTolerance } from './jest/matchers/bn/toBeAroundBigNumber';

@@ -115,7 +115,7 @@ export function getRuntimeEnvironment() {
     loadTsNode();
   }
 
-  const config = loadConfigAndTasks();
+  const config = loadConfigAndTasks(args);
   const extenders = context.extendersManager.getExtenders();
   environment = new Environment(config, args, {}, extenders) as unknown as HardhatRuntimeEnvironment;
   context.setHardhatRuntimeEnvironment(environment);

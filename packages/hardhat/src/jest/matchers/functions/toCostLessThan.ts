@@ -3,15 +3,10 @@ import { matcherHint } from 'jest-matcher-utils';
 
 import { forcePass, isTransactionReceipt } from '../../utils';
 import { ensureBigNumbers } from '../bn/utils';
-
-// Ensure that global variables are initialized.
-let ignoreGasMatchers = false;
-export function setIgnoreGasMatchers(ignore: boolean) {
-  ignoreGasMatchers = ignore;
-}
+import { ignoreGasMatchers } from './common/ignoreGasMatchers';
 
 let defaultTolerance = 0.1; // 10% tolerance
-export function setGasCostAssertionTolerance(tolerance: number) {
+export function setToCostLessThanTolerance(tolerance: number) {
   defaultTolerance = tolerance;
 }
 
@@ -33,11 +28,10 @@ export function toCostLessThan(this: jest.MatcherContext, received: any, expecte
     return forcePass(this.isNot);
   }
 
-  return ensureBigNumbers(received.gasUsed, expected, this.isNot, (received, expected) => {
-    const pass = received.lt(expected) && received.gt(expected.sub(expected.mul(toleranceBn).div(100)));
-    const message = pass
-      ? () => matcherHint('.toCostLessThan', `${received}`, `${expected} [${toleranceBn}% tolerance]`, this)
-      : () => matcherHint('.toCostLessThan', `${received}`, `${expected} [${toleranceBn}% tolerance]`, this);
+  return ensureBigNumbers([received.gasUsed, expected], this.isNot, ([received, expected]) => {
+    const pass = received.lte(expected) && received.gte(expected.sub(expected.mul(toleranceBn).div(100)));
+    const message = () =>
+      matcherHint('.toCostLessThan', `${received}`, `${expected} [tolerance: ${toleranceBn}%]`, this);
 
     return { message, pass };
   });

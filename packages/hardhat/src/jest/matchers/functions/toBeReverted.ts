@@ -7,9 +7,7 @@ export function toBeReverted(this: jest.MatcherContext, received: any) {
   const isError = error?.search('code=') >= 0;
 
   const pass = isReverted || isThrown || isError;
-  const message = pass
-    ? () => matcherHint('.toBeReverted', undefined, error, this)
-    : () => matcherHint('.toBeReverted', undefined, error, this);
+  const message = () => matcherHint('.toBeReverted', undefined, error, this);
 
   return { message, pass };
 }

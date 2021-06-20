@@ -5,7 +5,7 @@ import { ensureBigNumbers } from './utils';
 
 // Ensure that global variables are initialized.
 let defaultTolerance = 0.1; // 10% tolerance
-export function setBeAroundBigNumberAssertionTolerance(tolerance: number) {
+export function setToBeAroundBigNumberTolerance(tolerance: number) {
   defaultTolerance = tolerance;
 }
 
@@ -15,7 +15,7 @@ export function toBeAroundBigNumber(
   expected: BigNumberish,
   tolerance?: number,
 ) {
-  return ensureBigNumbers(received, expected, this.isNot, (received, expected) => {
+  return ensureBigNumbers([received, expected], this.isNot, ([received, expected]) => {
     const toleranceBn = BigNumber.from((tolerance ?? defaultTolerance) * 100);
     if (!(toleranceBn.lt(100) && toleranceBn.gt(0))) {
       throw new Error('Tolerance must be between 0% and 100%');

@@ -23,22 +23,22 @@ module.exports = {
       ...common('@enzymefinance/codegen'),
       preset: 'ts-jest',
     },
-    // {
-    //   ...common('@enzymefinance/ethers'),
-    //   preset: '@enzymefinance/hardhat',
-    // },
-    // {
-    //   ...common('@enzymefinance/hardhat'),
-    //   preset: '@enzymefinance/hardhat',
-    //   testEnvironmentOptions: {
-    //     hardhatNetworkOptions: {
-    //       allowUnlimitedContractSize: true,
-    //     },
-    //     hardhatTestOptions: {
-    //       coverage: true,
-    //     },
-    //   },
-    // },
+    {
+      ...common('@enzymefinance/ethers'),
+      preset: '@enzymefinance/hardhat',
+    },
+    {
+      ...common('@enzymefinance/hardhat'),
+      preset: '@enzymefinance/hardhat',
+      testEnvironmentOptions: {
+        hardhatNetworkOptions: {
+          allowUnlimitedContractSize: true,
+        },
+        hardhatTestOptions: {
+          coverage: true,
+        },
+      },
+    },
   ],
   testTimeout: 60000,
 };
