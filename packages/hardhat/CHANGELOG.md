@@ -1,5 +1,16 @@
 # @enzymefinance/hardhat
 
+## 0.0.14
+
+### Patch Changes
+
+- [`25cacdd`](https://github.com/avantgardefinance/ethereum-devtools/commit/25cacddf5ec361ac0e6a8a68b0964ebfd14df47f) Thanks [@fubhy](https://github.com/fubhy)! - Adding new bignumber and gas assertion
+
+- Updated dependencies [[`25cacdd`](https://github.com/avantgardefinance/ethereum-devtools/commit/25cacddf5ec361ac0e6a8a68b0964ebfd14df47f)]:
+  - @enzymefinance/codegen@0.0.5
+  - @enzymefinance/coverage@0.0.5
+  - @enzymefinance/ethers@0.0.8
+
 ## 0.0.13
 
 ### Patch Changes
