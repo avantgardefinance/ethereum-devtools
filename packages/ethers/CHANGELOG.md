@@ -1,5 +1,11 @@
 # @enzymefinance/ethers
 
+## 0.0.8
+
+### Patch Changes
+
+- [`25cacdd`](https://github.com/avantgardefinance/ethereum-devtools/commit/25cacddf5ec361ac0e6a8a68b0964ebfd14df47f) Thanks [@fubhy](https://github.com/fubhy)! - Adding new bignumber and gas assertion
+
 ## 0.0.7
 
 ### Patch Changes
