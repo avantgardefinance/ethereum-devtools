@@ -3,9 +3,8 @@ import { matcherHint } from 'jest-matcher-utils';
 
 import { ensureBigNumbers } from './utils';
 
-// Ensure that global variables are initialized.
-let defaultTolerance = 0.1; // 10% tolerance
-export function setToBeAroundBigNumberTolerance(tolerance: number) {
+let defaultTolerance: BigNumberish = 0.1; // 10% tolerance
+export function setToBeAroundBigNumberTolerance(tolerance: BigNumberish) {
   defaultTolerance = tolerance;
 }
 
@@ -13,19 +12,58 @@ export function toBeAroundBigNumber(
   this: jest.MatcherContext,
   received: BigNumberish,
   expected: BigNumberish,
-  tolerance?: number,
+  tolerance: BigNumberish,
 ) {
   return ensureBigNumbers([received, expected], this.isNot, ([received, expected]) => {
-    const toleranceBn = BigNumber.from((tolerance ?? defaultTolerance) * 100);
-    if (!(toleranceBn.lt(100) && toleranceBn.gt(0))) {
-      throw new Error('Tolerance must be between 0% and 100%');
+    const givenOrDefault = tolerance ?? defaultTolerance;
+
+    if (BigNumber.isBigNumber(givenOrDefault) || Number.isInteger(givenOrDefault)) {
+      return toBeAroundBigNumberAbsolute.call(this, received, expected, BigNumber.from(givenOrDefault));
     }
 
-    const min = expected.mul(BigNumber.from(100).sub(toleranceBn)).div(BigNumber.from(100));
-    const max = expected.mul(BigNumber.from(100).add(toleranceBn)).div(BigNumber.from(100));
+    const relativeTolerance = parseInt(`${parseFloat(`${givenOrDefault}`) * 100}`, 10);
+    if (isNaN(relativeTolerance)) {
+      throw new Error('Invalid relative tolerance value');
+    }
 
-    const pass = received.gte(min) && received.lte(max);
-    const message = () => matcherHint('.toBeAroundBigNumber', `${received}`, `${expected}`, this);
-    return { message, pass };
+    const relativeToleranceBn = BigNumber.from(relativeTolerance);
+    if (!(relativeToleranceBn.lt(100) && relativeToleranceBn.gte(0))) {
+      throw new Error('Invalid relative tolerance value');
+    }
+
+    return toBeAroundBigNumberRelative.call(this, received, expected, relativeToleranceBn);
   });
+}
+
+function toBeAroundBigNumberRelative(
+  this: jest.MatcherContext,
+  received: BigNumber,
+  expected: BigNumber,
+  tolerance: BigNumber,
+) {
+  const buffer = expected.mul(tolerance).div(100);
+  const min = expected.sub(buffer);
+  const max = expected.add(buffer);
+
+  const pass = received.lte(max) && received.gte(min);
+  const message = () =>
+    matcherHint('.toBeAroundBigNumber', `${received}`, `${expected} [tolerance: ${tolerance}%]`, this);
+
+  return { message, pass };
+}
+
+function toBeAroundBigNumberAbsolute(
+  this: jest.MatcherContext,
+  received: BigNumber,
+  expected: BigNumber,
+  tolerance: BigNumber,
+) {
+  const min = expected.sub(tolerance);
+  const max = expected.add(tolerance);
+
+  const pass = received.lte(max) && received.gte(min);
+  const message = () =>
+    matcherHint('.toBeAroundBigNumber', `${received}`, `${expected} [tolerance: ${tolerance}]`, this);
+
+  return { message, pass };
 }

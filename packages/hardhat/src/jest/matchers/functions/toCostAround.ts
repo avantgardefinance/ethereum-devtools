@@ -6,15 +6,11 @@ import { ensureBigNumbers } from '../bn/utils';
 import { ignoreGasMatchers } from './common/ignoreGasMatchers';
 
 let defaultTolerance: BigNumberish = 0.1; // 10% tolerance
-export function setToCostLessThanTolerance(tolerance: BigNumberish) {
+export function setToCostAroundTolerance(tolerance: BigNumberish) {
   defaultTolerance = tolerance;
 }
 
-// NOTE: The tolerance only applies to cost decrease, not increase. The reason for
-// that is that in case of big cost improvements (reductions) you should get notified
-// so that you can further restrict the gas cost assertion so that future degradations
-// can be caught.
-export function toCostLessThan(this: jest.MatcherContext, received: any, expected: any, tolerance: BigNumberish) {
+export function toCostAround(this: jest.MatcherContext, received: any, expected: any, tolerance: BigNumberish) {
   if (ignoreGasMatchers) {
     return forcePass(this.isNot);
   }
@@ -27,7 +23,7 @@ export function toCostLessThan(this: jest.MatcherContext, received: any, expecte
     const givenOrDefault = tolerance ?? defaultTolerance;
 
     if (BigNumber.isBigNumber(givenOrDefault) || Number.isInteger(givenOrDefault)) {
-      return toCostLessThanAbsolute.call(this, received, expected, BigNumber.from(givenOrDefault));
+      return toCostAroundAbsolute.call(this, received, expected, BigNumber.from(givenOrDefault));
     }
 
     const relativeTolerance = parseInt(`${parseFloat(`${givenOrDefault}`) * 100}`, 10);
@@ -40,30 +36,37 @@ export function toCostLessThan(this: jest.MatcherContext, received: any, expecte
       throw new Error('Invalid relative tolerance value');
     }
 
-    return toCostLessThanRelative.call(this, received, expected, relativeToleranceBn);
+    return toCostAroundRelative.call(this, received, expected, relativeToleranceBn);
   });
 }
 
-function toCostLessThanRelative(
+function toCostAroundRelative(
   this: jest.MatcherContext,
   received: BigNumber,
   expected: BigNumber,
   tolerance: BigNumber,
 ) {
-  const pass = received.lte(expected) && received.gte(expected.sub(expected.mul(tolerance).div(100)));
-  const message = () => matcherHint('.toCostLessThan', `${received}`, `${expected} [tolerance: ${tolerance}%]`, this);
+  const buffer = expected.mul(tolerance).div(100);
+  const min = expected.sub(buffer);
+  const max = expected.add(buffer);
+
+  const pass = received.lte(max) && received.gte(min);
+  const message = () => matcherHint('.toCostAround', `${received}`, `${expected} [tolerance: ${tolerance}%]`, this);
 
   return { message, pass };
 }
 
-function toCostLessThanAbsolute(
+function toCostAroundAbsolute(
   this: jest.MatcherContext,
   received: BigNumber,
   expected: BigNumber,
   tolerance: BigNumber,
 ) {
-  const pass = received.lte(expected) && received.gte(expected.sub(tolerance));
-  const message = () => matcherHint('.toCostLessThan', `${received}`, `${expected} [tolerance: ${tolerance}]`, this);
+  const min = expected.sub(tolerance);
+  const max = expected.add(tolerance);
+
+  const pass = received.lte(max) && received.gte(min);
+  const message = () => matcherHint('.toCostAround', `${received}`, `${expected} [tolerance: ${tolerance}]`, this);
 
   return { message, pass };
 }

@@ -16,7 +16,7 @@ async function snapshot(provider: EthereumTestnetProvider) {
   };
 }
 
-describe('functions', () => {
+fdescribe('functions', () => {
   it('toCostLessThan', async () => {
     const { token, someone } = await provider.snapshot(snapshot);
 
@@ -29,6 +29,13 @@ describe('functions', () => {
 
     const receipt = await token.transfer(someone, '456');
     expect(receipt).toCostBetween('51600', '51700');
+  });
+
+  fit('toCostAround', async () => {
+    const { token, someone } = await provider.snapshot(snapshot);
+
+    const receipt = await token.transfer(someone, '456');
+    expect(receipt).toCostAround('51600', 100);
   });
 
   it('toMatchFunctionOutput', async () => {

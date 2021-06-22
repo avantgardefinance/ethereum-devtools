@@ -34,12 +34,13 @@ declare global {
       toBeGteBigNumber(expected: BigNumberish): R;
       toBeLteBigNumber(expected: BigNumberish): R;
       toEqBigNumber(expected: BigNumberish): R;
-      toBeAroundBigNumber(expected: BigNumberish, tolerance?: number): R;
+      toBeAroundBigNumber(expected: BigNumberish, tolerance?: BigNumberish): R;
       toBeBetweenBigNumber(min: BigNumberish, max: BigNumberish): R;
       toBeReverted(): R;
       toBeRevertedWith(message: string): R;
       toBeReceipt(): R;
-      toCostLessThan(expected: BigNumberish, tolerance?: number): R;
+      toCostLessThan(expected: BigNumberish, tolerance?: BigNumberish): R;
+      toCostAround(expected: BigNumberish, tolerance?: BigNumberish): R;
       toCostBetween(min: BigNumberish, max: BigNumberish): R;
       toHaveEmitted(event: string | utils.EventFragment): R;
       toHaveEmittedWith(event: string | utils.EventFragment, expected: any): R;
