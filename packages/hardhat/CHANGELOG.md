@@ -1,5 +1,11 @@
 # @enzymefinance/hardhat
 
+## 0.0.15
+
+### Patch Changes
+
+- [`433b03b`](https://github.com/avantgardefinance/ethereum-devtools/commit/433b03b035234d29cd63719c0b9ced57692e77d3) Thanks [@fubhy](https://github.com/fubhy)! - Adding toCostAround assertion and enabling bignumberish input for toCostAround and toBeAroundBigNumber assertions
+
 ## 0.0.14
 
 ### Patch Changes
