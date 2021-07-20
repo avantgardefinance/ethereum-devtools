@@ -1,5 +1,11 @@
 # @enzymefinance/hardhat
 
+## 0.0.20
+
+### Patch Changes
+
+- [`0d33a49`](https://github.com/avantgardefinance/ethereum-devtools/commit/0d33a49c94bbca41c003df63bdb503c63f46720e) Thanks [@fubhy](https://github.com/fubhy)! - Fix merging of test environment options.
+
 ## 0.0.19
 
 ### Patch Changes
