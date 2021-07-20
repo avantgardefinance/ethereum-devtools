@@ -285,11 +285,11 @@ export class CallFunction<
             ...(this.options.gas && {
               gasLimit: BigNumber.from(this.options.gas),
             }),
-            ...(this.options.maxPriorityFeePerGas && {
-              maxPriorityFeePerGas: BigNumber.from(this.options.maxPriorityFeePerGas),
-            }),
             ...(this.options.maxFeePerGas && {
               maxFeePerGas: BigNumber.from(this.options.maxFeePerGas),
+            }),
+            ...(this.options.maxPriorityFeePerGas && {
+              maxPriorityFeePerGas: BigNumber.from(this.options.maxPriorityFeePerGas),
             }),
           });
         } catch (error) {
@@ -429,11 +429,11 @@ export class ConstructorFunction<
             ...(this.options.gas && {
               gasLimit: BigNumber.from(this.options.gas),
             }),
-            ...(this.options.maxPriorityFeePerGas && {
-              maxPriorityFeePerGas: BigNumber.from(this.options.maxPriorityFeePerGas),
-            }),
             ...(this.options.maxFeePerGas && {
               maxFeePerGas: BigNumber.from(this.options.maxFeePerGas),
+            }),
+            ...(this.options.maxPriorityFeePerGas && {
+              maxPriorityFeePerGas: BigNumber.from(this.options.maxPriorityFeePerGas),
             }),
           });
         } catch (error) {
