@@ -22,6 +22,11 @@ export interface EnzymeHardhatEnvironmentOptions {
   coverage: boolean;
 }
 
+const defaults = {
+  coverage: false,
+  history: true,
+};
+
 export default class EnzymeHardhatEnvironment extends NodeEnvironment {
   private metadataFilePath = '';
   private tempDir = '';
@@ -36,10 +41,7 @@ export default class EnzymeHardhatEnvironment extends NodeEnvironment {
   constructor(config: any) {
     super(config);
 
-    const options: EnzymeHardhatEnvironmentOptions = deepmerge(config.testEnvironmentOptions, {
-      coverage: false,
-      history: true,
-    });
+    const options: EnzymeHardhatEnvironmentOptions = deepmerge(defaults, config.testEnvironmentOptions);
 
     this.recordCodeCoverage = options.coverage;
     this.recordCallHistory = options.history;
