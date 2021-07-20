@@ -1,5 +1,11 @@
 # @enzymefinance/hardhat
 
+## 0.0.17
+
+### Patch Changes
+
+- [`5028b22`](https://github.com/avantgardefinance/ethereum-devtools/commit/5028b221508c45e2fead3a9834e5eb763c2a64d1) Thanks [@fubhy](https://github.com/fubhy)! - Add hardhat as hard dependency
+
 ## 0.0.16
 
 ### Patch Changes
