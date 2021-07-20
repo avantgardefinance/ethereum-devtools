@@ -30,14 +30,6 @@ module.exports = {
     {
       ...common('@enzymefinance/hardhat'),
       preset: '@enzymefinance/hardhat',
-      testEnvironmentOptions: {
-        hardhatNetworkOptions: {
-          allowUnlimitedContractSize: true,
-        },
-        hardhatTestOptions: {
-          coverage: true,
-        },
-      },
     },
   ],
   testTimeout: 60000,

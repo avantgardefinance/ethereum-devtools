@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 
-import SolidityParser from '@solidity-parser/parser';
+import { parse as parseSolidity } from '@solidity-parser/parser';
 import {
   ASTNode,
   BinaryOperation,
@@ -54,7 +54,7 @@ export interface ParseResult {
 }
 
 export function parse(source: string): ParseResult {
-  const ast = SolidityParser.parse(source, { loc: true, range: true });
+  const ast = parseSolidity(source, { loc: true, range: true });
   const state: ParseState = {
     branch: undefined,
     branches: [],

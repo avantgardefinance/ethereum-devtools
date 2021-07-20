@@ -2,6 +2,7 @@ import '@enzymefinance/hardhat/plugin';
 
 import type { HardhatUserConfig } from 'hardhat/types';
 
+const coverage = JSON.parse(process.env.COVERAGE || 'false');
 const config: HardhatUserConfig = {
   codeCoverage: {
     path: './cache/coverage',
@@ -25,6 +26,7 @@ const config: HardhatUserConfig = {
         count: 10,
         mnemonic: 'test test test test test test test test test test test junk',
       },
+      allowUnlimitedContractSize: coverage,
       gas: 9500000,
       loggingEnabled: true,
     },

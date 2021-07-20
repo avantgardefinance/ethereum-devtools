@@ -17,7 +17,7 @@ import { v4 as uuid } from 'uuid';
 
 import { EthereumTestnetProvider } from '../../provider';
 
-export interface HardhatTestOptions {
+export interface EnzymeHardhatEnvironmentOptions {
   history: boolean;
   coverage: boolean;
 }
@@ -36,8 +36,13 @@ export default class EnzymeHardhatEnvironment extends NodeEnvironment {
   constructor(config: any) {
     super(config);
 
-    this.recordCodeCoverage = !!(config.coverage ?? false);
-    this.recordCallHistory = !!(config.history ?? true);
+    const options: EnzymeHardhatEnvironmentOptions = deepmerge(config.testEnvironmentOptions, {
+      coverage: false,
+      history: true,
+    });
+
+    this.recordCodeCoverage = options.coverage;
+    this.recordCallHistory = options.history;
 
     this.tempDir = process.env.__HARDHAT_COVERAGE_TEMPDIR__ ?? '';
     if (this.recordCodeCoverage && !this.tempDir) {

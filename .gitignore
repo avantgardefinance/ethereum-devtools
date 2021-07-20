@@ -19,3 +19,7 @@ node_modules/
 dist/
 artifacts/
 cache/
+coverage/
+
+# do not ignore the coverage package
+!packages/coverage/
