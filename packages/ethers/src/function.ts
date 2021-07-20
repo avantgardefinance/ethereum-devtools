@@ -188,8 +188,13 @@ export class ContractFunction<
     return this.refine({ block });
   }
 
-  public gas(limit?: BigNumberish, price?: BigNumberish) {
-    return this.refine({ gas: limit, price });
+  public gas(
+    limit?: BigNumberish,
+    maxFeePerGas?: BigNumberish,
+    maxPriorityFeePerGas?: BigNumberish,
+    price?: BigNumberish,
+  ) {
+    return this.refine({ gas: limit, maxFeePerGas, maxPriorityFeePerGas, price });
   }
 
   public from(from?: AddressLike) {
