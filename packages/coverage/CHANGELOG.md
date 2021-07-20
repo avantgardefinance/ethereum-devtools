@@ -1,5 +1,11 @@
 # @enzymefinance/coverage
 
+## 0.0.7
+
+### Patch Changes
+
+- [`6bbb430`](https://github.com/avantgardefinance/ethereum-devtools/commit/6bbb430588e410cf5af90089acc06f2bf0cb97e8) Thanks [@fubhy](https://github.com/fubhy)! - Adjust imports for solidity parser.
+
 ## 0.0.6
 
 ### Patch Changes
