@@ -54,6 +54,8 @@ export interface FunctionOptions<TArgs extends any[] = []> {
   nonce?: BigNumberish;
   gas?: BigNumberish;
   price?: BigNumberish;
+  maxFeePerGas?: BigNumberish;
+  maxPriorityFeePerGas?: BigNumberish;
   block?: providers.BlockTag;
   from?: AddressLike;
   bytecode?: BytesLike;
@@ -188,6 +190,8 @@ export class ContractFunction<
     const value = propertyOf('value', [options, this.options]);
     const gas = propertyOf('gas', [options, this.options]);
     const price = propertyOf('price', [options, this.options]);
+    const maxFeePerGas = propertyOf('maxFeePerGas', [options, this.options]);
+    const maxPriorityFeePerGas = propertyOf('maxPriorityFeePerGas', [options, this.options]);
     const nonce = propertyOf('nonce', [options, this.options]);
     const block = propertyOf('block', [options, this.options]);
     const bytecode = propertyOf('bytecode', [options, this.options]);
@@ -199,6 +203,8 @@ export class ContractFunction<
       bytecode,
       from,
       gas,
+      maxFeePerGas,
+      maxPriorityFeePerGas,
       nonce,
       price,
       value,
@@ -278,6 +284,12 @@ export class CallFunction<
             }),
             ...(this.options.gas && {
               gasLimit: BigNumber.from(this.options.gas),
+            }),
+            ...(this.options.maxPriorityFeePerGas && {
+              maxPriorityFeePerGas: BigNumber.from(this.options.maxPriorityFeePerGas),
+            }),
+            ...(this.options.maxFeePerGas && {
+              maxFeePerGas: BigNumber.from(this.options.maxFeePerGas),
             }),
           });
         } catch (error) {
@@ -416,6 +428,12 @@ export class ConstructorFunction<
             }),
             ...(this.options.gas && {
               gasLimit: BigNumber.from(this.options.gas),
+            }),
+            ...(this.options.maxPriorityFeePerGas && {
+              maxPriorityFeePerGas: BigNumber.from(this.options.maxPriorityFeePerGas),
+            }),
+            ...(this.options.maxFeePerGas && {
+              maxFeePerGas: BigNumber.from(this.options.maxFeePerGas),
             }),
           });
         } catch (error) {
