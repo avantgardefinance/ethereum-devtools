@@ -77,7 +77,18 @@ export function isFunctionOptions<TArgs extends any[] = []>(value: any): value i
     }
 
     const keys = Object.keys(value);
-    const allowed = ['args', 'value', 'nonce', 'gas', 'price', 'block', 'from', 'bytecode'];
+    const allowed = [
+      'args',
+      'value',
+      'nonce',
+      'gas',
+      'maxFeePerGas',
+      'maxPriorityFeePerGas',
+      'price',
+      'block',
+      'from',
+      'bytecode',
+    ];
 
     if (!keys.every((key) => allowed.includes(key))) {
       throw new Error('Invalid options');
