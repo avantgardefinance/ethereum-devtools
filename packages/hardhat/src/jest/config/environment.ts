@@ -49,7 +49,7 @@ export default class EnzymeHardhatEnvironment extends NodeEnvironment {
       throw new Error('Missing shared temporary directory for code coverage data collection');
     }
 
-    this.runtimeEnvironment = getRuntimeEnvironment();
+    this.runtimeEnvironment = getRuntimeEnvironment(this.recordCodeCoverage);
     this.metadataFilePath = path.join(this.runtimeEnvironment.config.codeCoverage.path, 'metadata.json');
   }
 
@@ -61,6 +61,7 @@ export default class EnzymeHardhatEnvironment extends NodeEnvironment {
 
     this.global.hre = env;
     this.global.provider = provider;
+    this.global.coverage = !!this.recordCodeCoverage;
 
     // Re-route call history recording to whatever is the currently
     // active history object. Required for making history and snapshoting
@@ -99,7 +100,7 @@ export default class EnzymeHardhatEnvironment extends NodeEnvironment {
 }
 
 let environment: HardhatRuntimeEnvironment;
-export function getRuntimeEnvironment() {
+export function getRuntimeEnvironment(coverage = false) {
   if (environment != null) {
     return environment;
   }
@@ -121,6 +122,12 @@ export function getRuntimeEnvironment() {
   }
 
   const config = loadConfigAndTasks(args);
+
+  if (coverage) {
+    // Allow contracts of any size during code coverage reporting.
+    config.networks[HARDHAT_NETWORK_NAME].allowUnlimitedContractSize = true;
+  }
+
   const extenders = context.extendersManager.getExtenders();
   environment = new Environment(config, args, {}, extenders) as unknown as HardhatRuntimeEnvironment;
   context.setHardhatRuntimeEnvironment(environment);

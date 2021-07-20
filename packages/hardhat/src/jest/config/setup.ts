@@ -1,6 +1,11 @@
 import { BigNumber } from 'ethers';
 
 import * as matchers from '../matchers';
+import { setIgnoreGasMatchers } from '../matchers/functions/common/ignoreGasMatchers';
+
+if (global.coverage) {
+  setIgnoreGasMatchers(true);
+}
 
 // Extend jest / jasmine with ethereum / hardhat specific matchers.
 expect.extend(matchers);
