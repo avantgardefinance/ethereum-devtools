@@ -204,6 +204,10 @@ export class ContractFunction<
       value,
     });
   }
+
+  public toJSON() {
+    return `<Function ${this.fragment.format('full')}>`;
+  }
 }
 
 export class CallFunction<

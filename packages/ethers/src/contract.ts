@@ -137,4 +137,8 @@ export class Contract<TContract extends Contract = any> {
   public connect(provider: Signer | providers.Provider) {
     return this.clone(this.address, provider);
   }
+
+  public toJSON() {
+    return `<Contract ${this.address}>`;
+  }
 }
