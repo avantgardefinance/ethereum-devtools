@@ -28,32 +28,39 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@babel/runtime": "^7.14.0",
+    "@babel/runtime": "^7.14.6",
     "@enzymefinance/codegen": "0.0.5",
     "@enzymefinance/coverage": "0.0.5",
     "@enzymefinance/ethers": "0.0.8",
     "deepmerge": "^4.2.2",
-    "ethers": "^5.3.0",
     "fs-extra": "^10.0.0",
     "glob": "^7.1.7",
-    "hardhat": "^2.3.0",
-    "hardhat-contract-sizer": "^2.0.3",
-    "hardhat-deploy": "^0.7.10",
-    "hardhat-deploy-ethers": "^0.3.0-beta.8",
     "istanbul-lib-report": "^3.0.0",
     "istanbul-reports": "^3.0.2",
-    "jest-diff": "^27.0.2",
-    "jest-environment-node": "^27.0.3",
-    "jest-matcher-utils": "^27.0.2",
-    "jest-snapshot": "^27.0.4",
+    "jest-diff": "^27.0.6",
+    "jest-environment-node": "^27.0.6",
+    "jest-matcher-utils": "^27.0.6",
+    "jest-snapshot": "^27.0.6",
     "ts-jest": "^27.0.3",
-    "ts-node": "^10.0.0",
+    "ts-node": "^10.1.0",
     "uuid": "^8.3.1"
   },
   "devDependencies": {
-    "@types/fs-extra": "^9.0.11",
+    "@types/fs-extra": "^9.0.12",
     "@types/istanbul-reports": "^3.0.0",
-    "@types/uuid": "^8.3.0"
+    "@types/uuid": "^8.3.1",
+    "ethers": "^5.4.1",
+    "hardhat": "^2.4.3",
+    "hardhat-contract-sizer": "^2.0.3",
+    "hardhat-deploy": "^0.8.11",
+    "hardhat-deploy-ethers": "^0.3.0-beta.10"
+  },
+  "peerDependencies": {
+    "ethers": "^5.4.1",
+    "hardhat": "^2.4.3",
+    "hardhat-contract-sizer": "^2.0.3",
+    "hardhat-deploy": "^0.8.11",
+    "hardhat-deploy-ethers": "^0.3.0-beta.10"
   },
   "preconstruct": {
     "entrypoints": [

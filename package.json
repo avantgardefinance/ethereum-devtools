@@ -40,16 +40,16 @@
     "@enzymefinance/eslint-config": "^1.0.9",
     "@manypkg/cli": "^0.18.0",
     "@preconstruct/cli": "^2.1.0",
-    "@types/jest": "^26.0.23",
-    "babel-jest": "^27.0.2",
-    "eslint": "^7.28.0",
+    "@types/jest": "^26.0.24",
+    "babel-jest": "^27.0.6",
+    "eslint": "^7.31.0",
     "husky": "^4.3.8",
-    "jest": "^27.0.4",
-    "lint-staged": "^11.0.0",
-    "prettier": "^2.1.2",
+    "jest": "^27.0.6",
+    "lint-staged": "^11.0.1",
+    "prettier": "^2.3.2",
     "solhint": "^3.3.4",
     "ts-jest": "^27.0.3",
-    "typescript": "^4.3.2"
+    "typescript": "^4.3.5"
   },
   "prettier": "@enzymefinance/prettier-config-solidity",
   "husky": {

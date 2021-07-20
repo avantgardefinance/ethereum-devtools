@@ -24,10 +24,15 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@babel/runtime": "^7.14.0",
-    "ethers": "^5.3.0"
+    "@babel/runtime": "^7.14.6"
+  },
+  "devDependencies": {
+    "ethers": "^5.4.1"
   },
   "optionalDependencies": {
-    "prettier": "^2.1.2"
+    "prettier": "^2.3.2"
+  },
+  "peerDependencies": {
+    "ethers": "^5.4.1"
   }
 }
