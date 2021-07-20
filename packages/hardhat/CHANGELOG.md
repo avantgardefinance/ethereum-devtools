@@ -1,5 +1,11 @@
 # @enzymefinance/hardhat
 
+## 0.0.19
+
+### Patch Changes
+
+- [`dfd15e9`](https://github.com/avantgardefinance/ethereum-devtools/commit/dfd15e9dfac2a22d97148c0ed92d58739a9df572) Thanks [@fubhy](https://github.com/fubhy)! - Skip gas cost assertionsin code coverage mode.
+
 ## 0.0.18
 
 ### Patch Changes
