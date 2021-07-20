@@ -1,5 +1,11 @@
 # @enzymefinance/ethers
 
+## 0.0.10
+
+### Patch Changes
+
+- [`f53f370`](https://github.com/avantgardefinance/ethereum-devtools/commit/f53f370cd62db5478fd1889e33fba02318c0b1e9) Thanks [@fubhy](https://github.com/fubhy)! - Add serialization capabilities.
+
 ## 0.0.9
 
 ### Patch Changes
