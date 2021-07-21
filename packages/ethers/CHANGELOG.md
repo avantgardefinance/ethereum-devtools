@@ -1,5 +1,11 @@
 # @enzymefinance/ethers
 
+## 0.0.11
+
+### Patch Changes
+
+- [#28](https://github.com/avantgardefinance/ethereum-devtools/pull/28) [`e0aee76`](https://github.com/avantgardefinance/ethereum-devtools/commit/e0aee762bdb77a02eca617ec0c314b2aa5d25c7d) Thanks [@gabrocheleau](https://github.com/gabrocheleau)! - Add EIP-1559 gas variables to FunctionOptions
+
 ## 0.0.10
 
 ### Patch Changes
