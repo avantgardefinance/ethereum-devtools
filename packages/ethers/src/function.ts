@@ -188,11 +188,12 @@ export class ContractFunction<
     return this.refine({ block });
   }
 
+  // TODO: Rethink this api.
   public gas(
     limit?: BigNumberish,
+    price?: BigNumberish,
     maxFeePerGas?: BigNumberish,
     maxPriorityFeePerGas?: BigNumberish,
-    price?: BigNumberish,
   ) {
     return this.refine({ gas: limit, maxFeePerGas, maxPriorityFeePerGas, price });
   }
