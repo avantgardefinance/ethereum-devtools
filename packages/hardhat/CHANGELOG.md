@@ -1,5 +1,11 @@
 # @enzymefinance/hardhat
 
+## 0.0.24
+
+### Patch Changes
+
+- [`0571395`](https://github.com/avantgardefinance/ethereum-devtools/commit/05713956c5e3e98e6a1217be46e570d294385c58) Thanks [@fubhy](https://github.com/fubhy)! - Replace hardhat-deploy-ethers with @nomiclabs/hardhat-ethers
+
 ## 0.0.23
 
 ### Patch Changes

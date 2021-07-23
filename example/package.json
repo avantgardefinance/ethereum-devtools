@@ -25,7 +25,7 @@
     "@enzymefinance/babel-config": "^1.0.13",
     "@enzymefinance/codegen": "0.0.6",
     "@enzymefinance/eslint-config": "^1.0.9",
-    "@enzymefinance/hardhat": "0.0.23",
+    "@enzymefinance/hardhat": "0.0.24",
     "@enzymefinance/prettier-config-solidity": "0.0.4",
     "@openzeppelin/contracts": "^3.4.1",
     "@types/jest": "^26.0.24",
