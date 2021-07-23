@@ -1,4 +1,4 @@
-import 'hardhat-deploy-ethers/dist/src/type-extensions';
+import '@nomiclabs/hardhat-ethers/internal/type-extensions';
 import 'hardhat-deploy/dist/src/type-extensions';
 
 import type { AddressLike, CallFunction, SendFunction } from '@enzymefinance/ethers';
