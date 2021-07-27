@@ -1,5 +1,11 @@
 # @enzymefinance/coverage
 
+## 0.0.8
+
+### Patch Changes
+
+- [`59b66ae`](https://github.com/avantgardefinance/ethereum-devtools/commit/59b66aeb2180eab6dd1689cdf8d33ae04dd78f8e) Thanks [@fubhy](https://github.com/fubhy)! - Fix instrumentation for virtual functions
+
 ## 0.0.7
 
 ### Patch Changes
