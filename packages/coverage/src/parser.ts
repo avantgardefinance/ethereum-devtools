@@ -207,6 +207,11 @@ function parseContractDefinition(state: ParseState, expression: ContractDefiniti
 }
 
 function parseFunctionDefinition(state: ParseState, expression: FunctionDefinition) {
+  // Skip virtual (abstract) definitions.
+  if (expression.isVirtual) {
+    return;
+  }
+
   if (expression.modifiers) {
     expression.modifiers.forEach((modifier) => parseExpression(state, modifier));
   }
@@ -246,6 +251,11 @@ function parseIfStatement(state: ParseState, expression: IfStatement) {
 }
 
 function parseModifierDefinition(state: ParseState, expression: ModifierDefinition) {
+  // Skip virtual (abstract) definitions.
+  if (expression.isVirtual) {
+    return;
+  }
+
   registerFunction(state, expression);
   parseExpression(state, expression.body);
 }

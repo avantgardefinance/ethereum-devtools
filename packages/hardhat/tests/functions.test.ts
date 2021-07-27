@@ -31,7 +31,7 @@ fdescribe('functions', () => {
     expect(receipt).toCostBetween('51600', '51700');
   });
 
-  fit('toCostAround', async () => {
+  it('toCostAround', async () => {
     const { token, someone } = await provider.snapshot(snapshot);
 
     const receipt = await token.transfer(someone, '456');
