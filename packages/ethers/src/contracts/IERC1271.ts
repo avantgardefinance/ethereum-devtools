@@ -1,6 +1,8 @@
-import type { Call, Contract } from '@enzymefinance/ethers';
-import { contract } from '@enzymefinance/ethers';
 import type { BytesLike } from 'ethers';
+
+import { contract } from '../construction';
+import { Contract } from '../contract';
+import { Call } from '../types';
 
 // prettier-ignore
 interface IERC1271 extends Contract<IERC1271> {
