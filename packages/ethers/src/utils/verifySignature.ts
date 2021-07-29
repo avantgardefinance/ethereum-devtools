@@ -20,11 +20,11 @@ export async function verifySignature({
     const bytecode = await provider.getCode(walletAddress);
     const isSmartContract = bytecode && utils.hexStripZeros(bytecode) !== '0x';
     if (isSmartContract) {
-      const hash = utils.keccak256(message);
+      const hash = utils.hashMessage(message);
       const contract = new IERC1271(walletAddress, provider);
       const result = await contract.isValidSignature(hash, signature);
       // Per https://eips.ethereum.org/EIPS/eip-1271
-      return result.eq(0x1626ba7e);
+      return result === '0x1626ba7e';
     } else {
       const recoveredAddress = utils.verifyMessage(message, signature);
       return sameAddress(recoveredAddress, walletAddress);
