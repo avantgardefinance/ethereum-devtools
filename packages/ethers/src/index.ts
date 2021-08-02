@@ -10,4 +10,5 @@ export * from './utils/resolveArguments';
 export * from './utils/ensureEvent';
 export * from './utils/ensureInterface';
 export * from './utils/extractEvent';
+export * from './utils/verifySignature';
 export * from './utils/typedDataSigner';
