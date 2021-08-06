@@ -1,5 +1,11 @@
 # @enzymefinance/ethers
 
+## 0.0.14
+
+### Patch Changes
+
+- [#36](https://github.com/avantgardefinance/ethereum-devtools/pull/36) [`763c8d8`](https://github.com/avantgardefinance/ethereum-devtools/commit/763c8d88c863f88fed79fe44494aec04ff4285a8) Thanks [@gabrocheleau](https://github.com/gabrocheleau)! - Add typed data verification in verifySignature util
+
 ## 0.0.13
 
 ### Patch Changes
