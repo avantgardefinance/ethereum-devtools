@@ -1,5 +1,4 @@
 import { providers, utils } from 'ethers';
-import { _TypedDataEncoder } from 'ethers/lib/utils';
 
 import { IERC1271 } from '../contracts/IERC1271';
 import { sameAddress } from './sameAddress';
@@ -25,7 +24,7 @@ export async function verifySignature({
       const hash =
         typeof message === 'string'
           ? utils.hashMessage(message)
-          : _TypedDataEncoder.hash(message.domain, message.types, message.data);
+          : utils._TypedDataEncoder.hash(message.domain, message.types, message.data);
       const contract = new IERC1271(walletAddress, provider);
       const result = await contract.isValidSignature(hash, signature);
       // Per https://eips.ethereum.org/EIPS/eip-1271

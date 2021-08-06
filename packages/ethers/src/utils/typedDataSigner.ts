@@ -9,6 +9,6 @@ export function isTypedDataSigner(signer: Signer): signer is SignerWithTypedData
 
 export interface TypedData {
   domain: TypedDataDomain;
-  types: { [key: string]: TypedDataField[] };
+  types: Record<string, TypedDataField[]>;
   data: Record<string, any>;
 }
