@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 
-import {
+import type {
   Expression,
   FunctionDefinition,
   IfStatement,
   ModifierDefinition,
   Statement,
-} from '@solidity-parser/parser/dist/ast-types';
+} from '@solidity-parser/parser/dist/src/ast-types';
 
-import { Injection } from './injector';
-import { ParseState } from './parser';
+import type { Injection } from './injector';
+import type { ParseState } from './parser';
 
 /**
  * Adds injection point to injection points map
@@ -106,7 +106,7 @@ export function registerBranch(state: ParseState, expression: IfStatement) {
   const id =
     state.branches.push({
       line: startline,
-      loc: loc,
+      loc,
       locations: [],
       type: 'if',
     }) - 1;

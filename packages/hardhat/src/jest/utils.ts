@@ -1,4 +1,4 @@
-import { providers } from 'ethers';
+import type { providers } from 'ethers';
 
 export function forceFail(error: string | (() => string), invert: boolean): jest.CustomMatcherResult {
   const pass = invert ? true : false;

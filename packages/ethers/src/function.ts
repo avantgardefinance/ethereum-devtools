@@ -1,18 +1,17 @@
-import { ConstructorFragment, Fragment, FunctionFragment } from '@ethersproject/abi';
-import {
-  BigNumber,
+import type { ConstructorFragment, Fragment } from '@ethersproject/abi';
+import { FunctionFragment } from '@ethersproject/abi';
+import type {
   BigNumberish,
   BytesLike,
   ContractReceipt as EthersContractReceipt,
   ContractTransaction as EthersContractTransaction,
   PopulatedTransaction,
   providers,
-  Signer,
-  utils,
 } from 'ethers';
+import { BigNumber, Signer, utils } from 'ethers';
 
 import { Contract } from './contract';
-import { AddressLike } from './types';
+import type { AddressLike } from './types';
 import { resolveAddress } from './utils/resolveAddress';
 import { resolveArguments } from './utils/resolveArguments';
 

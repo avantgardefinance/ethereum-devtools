@@ -1,4 +1,5 @@
-import { ContractReceipt, extractEvent } from '@enzymefinance/ethers';
+import type { ContractReceipt } from '@enzymefinance/ethers';
+import { extractEvent } from '@enzymefinance/ethers';
 import { utils } from 'ethers';
 import { matcherHint, printExpected, printReceived } from 'jest-matcher-utils';
 

@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity 0.6.12;
+pragma solidity 0.8.0;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 contract BasicToken is ERC20 {
-    constructor(uint256 initialBalance) public ERC20("Basic", "BSC") {
+    constructor(uint256 initialBalance) ERC20("Basic", "BSC") {
         _mint(msg.sender, initialBalance);
     }
 }
@@ -14,7 +14,7 @@ contract AmIRichAlready {
 
     uint256 private constant RICHNESS = 1000000 * 10**18;
 
-    constructor(BasicToken _tokenContract) public {
+    constructor(BasicToken _tokenContract) {
         tokenContract = _tokenContract;
     }
 

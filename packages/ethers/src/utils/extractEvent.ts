@@ -1,6 +1,6 @@
 import { utils } from 'ethers';
 
-import { ContractReceipt, SendFunction } from '../function';
+import type { ContractReceipt, SendFunction } from '../function';
 import { ensureEvent } from './ensureEvent';
 
 // TODO: Add proper return type based on the event fragment's underlying type.

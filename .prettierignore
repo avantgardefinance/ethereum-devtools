@@ -1,7 +1,8 @@
-# ignore build output
+# ignore build and test output
 artifacts/
 cache/
 dist/
+coverage/
 
 # ignore generated code
 src/codegen/

@@ -1,7 +1,8 @@
-import { Signer, utils, Wallet } from 'ethers';
+import type { Wallet } from 'ethers';
+import { Signer, utils } from 'ethers';
 
 import { Contract } from '../contract';
-import { AddressLike } from '../types';
+import type { AddressLike } from '../types';
 
 export function resolveAddress(value: AddressLike): string {
   if (typeof value === 'string') {

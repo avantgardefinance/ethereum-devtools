@@ -3,7 +3,7 @@ import deepmerge from 'deepmerge';
 import { utils } from 'ethers';
 import fs from 'fs-extra';
 import { extendConfig, task } from 'hardhat/config';
-import { Artifact } from 'hardhat/types';
+import type { Artifact } from 'hardhat/types';
 import path from 'path';
 
 import { clearDirectory, createDirectory, regexOrString, validateDir } from '../utils';

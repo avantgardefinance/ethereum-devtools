@@ -1,8 +1,8 @@
 import { Contract, ContractFunction } from '@enzymefinance/ethers';
-import { utils } from 'ethers';
+import type { utils } from 'ethers';
 
-import { History } from '../../../history';
-import { EthereumTestnetProvider } from '../../../provider';
+import type { History } from '../../../history';
+import type { EthereumTestnetProvider } from '../../../provider';
 import { forceFail } from '../../utils';
 
 export type MatcherCallback<TReturn extends jest.CustomMatcherResult | Promise<jest.CustomMatcherResult>> = (

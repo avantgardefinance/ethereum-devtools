@@ -1,8 +1,8 @@
 import type { BytesLike } from 'ethers';
 
 import { contract } from '../construction';
-import { Contract } from '../contract';
-import { Call } from '../types';
+import type { Contract } from '../contract';
+import type { Call } from '../types';
 
 // prettier-ignore
 interface IERC1271 extends Contract<IERC1271> {

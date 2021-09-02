@@ -3,7 +3,7 @@
 import { utils } from 'ethers';
 import { v4 as uuid } from 'uuid';
 
-import { ParseResult } from './parser';
+import type { ParseResult } from './parser';
 
 export interface InstrumentationBase {
   type: string;
@@ -130,10 +130,10 @@ function getInjectionComponents(state: InstrumentationTarget, point: number, id:
   const injectable = getInjectable(id, hash, type);
 
   return {
-    end: end,
-    hash: hash,
-    injectable: injectable,
-    start: start,
+    end,
+    hash,
+    injectable,
+    start,
   };
 }
 

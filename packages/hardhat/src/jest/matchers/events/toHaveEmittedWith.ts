@@ -1,5 +1,6 @@
-import { ContractReceipt, extractEvent, resolveArguments } from '@enzymefinance/ethers';
-import { utils } from 'ethers';
+import type { ContractReceipt } from '@enzymefinance/ethers';
+import { extractEvent, resolveArguments } from '@enzymefinance/ethers';
+import type { utils } from 'ethers';
 import { diff } from 'jest-diff';
 import { matcherHint } from 'jest-matcher-utils';
 

@@ -1,4 +1,5 @@
-import { BigNumber, utils } from 'ethers';
+import type { utils } from 'ethers';
+import { BigNumber } from 'ethers';
 
 import { resolveAddress } from './resolveAddress';
 

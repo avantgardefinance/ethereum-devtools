@@ -1,6 +1,8 @@
-import { Call, CallFunction, Contract, contract, randomAddress, Send, SendFunction } from '@enzymefinance/ethers';
+import type { Call, Contract, Send } from '@enzymefinance/ethers';
+import { CallFunction, contract, randomAddress, SendFunction } from '@enzymefinance/ethers';
 import { BasicToken } from '@enzymefinance/example';
-import { BigNumber, BigNumberish, constants, utils } from 'ethers';
+import type { BigNumber, BigNumberish } from 'ethers';
+import { constants, utils } from 'ethers';
 
 // prettier-ignore
 interface Token extends Contract<Token> {

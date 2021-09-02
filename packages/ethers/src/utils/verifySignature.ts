@@ -1,8 +1,9 @@
-import { providers, utils } from 'ethers';
+import type { providers } from 'ethers';
+import { utils } from 'ethers';
 
 import { IERC1271 } from '../contracts/IERC1271';
 import { sameAddress } from './sameAddress';
-import { TypedData } from './typedDataSigner';
+import type { TypedData } from './typedDataSigner';
 
 interface VerifySignatureProps {
   walletAddress: string;

@@ -1,9 +1,11 @@
-import { ContractReceipt as EthersContractReceipt, utils } from 'ethers';
+import type { ContractReceipt as EthersContractReceipt } from 'ethers';
+import { utils } from 'ethers';
 
-import { Contract } from './contract';
+import type { Contract } from './contract';
 import { Doppelganger } from './doppelganger';
-import { CallFunction, ConstructorFunction, ContractFunction, ContractReceipt, SendFunction } from './function';
-import { ProxiedFunction } from './types';
+import type { CallFunction, ContractReceipt } from './function';
+import { ConstructorFunction, ContractFunction, SendFunction } from './function';
+import type { ProxiedFunction } from './types';
 import { resolveArguments } from './utils/resolveArguments';
 
 function stub<TContract extends Contract = Contract>(
@@ -145,11 +147,11 @@ export type MockContract<TContract extends Contract = Contract> = {
   ): Promise<TReturn>;
 };
 
-export type Stub<TOutput extends any[] = any[]> = {
+export interface Stub<TOutput extends any[] = any[]> {
   returns(...args: TOutput): Promise<EthersContractReceipt>;
   reverts(reason: string): Promise<EthersContractReceipt>;
   reset(): Promise<EthersContractReceipt>;
-};
+}
 
 export type RefinableStub<TInput extends any[] = any[], TOutput extends any[] = any[]> = Stub<TOutput> & {
   given(...args: TInput): Stub<TOutput>;

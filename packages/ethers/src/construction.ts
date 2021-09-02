@@ -1,10 +1,12 @@
-import { JsonFragment } from '@ethersproject/abi';
-import { constants, providers, Signer, utils } from 'ethers';
+import type { JsonFragment } from '@ethersproject/abi';
+import type { providers, Signer, utils } from 'ethers';
+import { constants } from 'ethers';
 
 import { Contract, deploy } from './contract';
-import { FunctionOptions } from './function';
-import { mock, MockContract } from './mock';
-import { AddressLike } from './types';
+import type { FunctionOptions } from './function';
+import type { MockContract } from './mock';
+import { mock } from './mock';
+import type { AddressLike } from './types';
 import { ensureInterface } from './utils/ensureInterface';
 
 export interface SolidityCompilerOutput {

@@ -14,27 +14,28 @@
     "format": "yarn format:prettier && yarn format:eslint",
     "format:prettier": "yarn lint:prettier --write",
     "format:eslint": "yarn lint:eslint --fix",
-    "test": "TS_JEST_DISABLE_VER_CHECKER=true jest"
+    "test": "TS_JEST_DISABLE_VER_CHECKER=true jest",
+    "prepare": "husky install"
   },
   "dependencies": {
-    "@babel/runtime": "^7.14.6",
+    "@babel/runtime": "^7.15.3",
     "@enzymefinance/ethers": "0.0.14",
-    "ethers": "^5.4.1"
+    "ethers": "^5.4.6"
   },
   "devDependencies": {
-    "@enzymefinance/babel-config": "^1.0.13",
-    "@enzymefinance/codegen": "0.0.6",
-    "@enzymefinance/eslint-config": "^1.0.9",
-    "@enzymefinance/hardhat": "0.0.27",
-    "@enzymefinance/prettier-config-solidity": "0.0.4",
-    "@openzeppelin/contracts": "^3.4.1",
-    "@types/jest": "^26.0.24",
-    "eslint": "^7.31.0",
-    "husky": "^4.3.8",
-    "jest": "^27.0.6",
+    "@enzymefinance/babel-config": "^1.0.14",
+    "@enzymefinance/codegen": "^0.0.6",
+    "@enzymefinance/eslint-config": "^1.0.11",
+    "@enzymefinance/hardhat": "^0.0.27",
+    "@enzymefinance/prettier-config-solidity": "^0.0.4",
+    "@openzeppelin/contracts": "^4.3.1",
+    "@types/jest": "^27.0.1",
+    "eslint": "^7.32.0",
+    "husky": "^7.0.2",
+    "jest": "^27.1.0",
     "prettier": "^2.3.2",
     "solhint": "^3.3.4",
-    "typescript": "^4.3.5"
+    "typescript": "^4.4.2"
   },
   "prettier": "@enzymefinance/prettier-config-solidity",
   "husky": {

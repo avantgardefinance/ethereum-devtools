@@ -1,6 +1,7 @@
-import { BranchMapping, FunctionMapping, Range } from 'istanbul-lib-coverage';
+import type { BranchMapping, FunctionMapping, Range } from 'istanbul-lib-coverage';
 
-import { inject, Instrumentation, InstrumentationTarget } from './injector';
+import type { Instrumentation, InstrumentationTarget } from './injector';
+import { inject } from './injector';
 import { parse } from './parser';
 
 export interface InstrumentationMetadata {

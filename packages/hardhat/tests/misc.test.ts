@@ -1,6 +1,6 @@
 import { randomAddress } from '@enzymefinance/ethers';
 import { BasicToken } from '@enzymefinance/example';
-import { EthereumTestnetProvider } from '@enzymefinance/hardhat';
+import type { EthereumTestnetProvider } from '@enzymefinance/hardhat';
 import { utils } from 'ethers';
 
 async function snapshot(provider: EthereumTestnetProvider) {

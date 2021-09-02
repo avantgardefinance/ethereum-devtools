@@ -1,6 +1,6 @@
 import { createCoverageMap, createFileCoverage } from 'istanbul-lib-coverage';
 
-import { InstrumentationMetadata } from './instrument';
+import type { InstrumentationMetadata } from './instrument';
 
 export function createCoverageCollector(metadata: InstrumentationMetadata, recording: Record<string, number>) {
   const instrumentation = metadata.instrumentations ?? {};

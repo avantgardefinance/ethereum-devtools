@@ -1,4 +1,4 @@
-import { ConstructorFragment } from '@ethersproject/abi';
+import type { ConstructorFragment } from '@ethersproject/abi';
 import { utils } from 'ethers';
 
 export function getInput(fragment: ConstructorFragment) {

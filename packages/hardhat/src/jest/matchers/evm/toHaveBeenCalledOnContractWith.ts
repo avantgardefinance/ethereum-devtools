@@ -1,4 +1,5 @@
-import { Contract, ContractFunction, resolveArguments } from '@enzymefinance/ethers';
+import type { Contract, ContractFunction } from '@enzymefinance/ethers';
+import { resolveArguments } from '@enzymefinance/ethers';
 import { utils } from 'ethers';
 import { matcherHint, printExpected, printReceived } from 'jest-matcher-utils';
 

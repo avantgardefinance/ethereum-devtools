@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 
 import { parse as parseSolidity } from '@solidity-parser/parser';
-import {
+import type {
   ASTNode,
   BinaryOperation,
   Block,
@@ -23,10 +23,11 @@ import {
   UnaryOperation,
   VariableDeclarationStatement,
   WhileStatement,
-} from '@solidity-parser/parser/dist/ast-types';
-import { BranchMapping, FunctionMapping, Range } from 'istanbul-lib-coverage';
+} from '@solidity-parser/parser/dist/src/ast-types';
+import type { BranchMapping, FunctionMapping, Range } from 'istanbul-lib-coverage';
 
-import { BlockDelimiter, Injection } from './injector';
+import type { Injection } from './injector';
+import { BlockDelimiter } from './injector';
 import {
   createInjection,
   registerBranch,
@@ -61,7 +62,7 @@ export function parse(source: string): ParseResult {
     contract: '',
     functions: [],
     injections: {},
-    source: source,
+    source,
     statements: [],
   };
 
@@ -71,7 +72,7 @@ export function parse(source: string): ParseResult {
     branches: state.branches,
     functions: state.functions,
     injections: state.injections,
-    source: source,
+    source,
     statements: state.statements,
   };
 }
@@ -143,7 +144,7 @@ function parseExpression(state: ParseState, expression: ASTNode) {
 
 function parseBlock(state: ParseState, expression: Block) {
   for (let x = 0; x < expression.statements.length; x++) {
-    parseExpression(state, expression.statements[x]);
+    parseExpression(state, expression.statements[x] as ASTNode);
   }
 }
 
@@ -201,7 +202,7 @@ function parseContractDefinition(state: ParseState, expression: ContractDefiniti
 
   if (expression.subNodes) {
     expression.subNodes.forEach((construct) => {
-      parseExpression(state, construct);
+      parseExpression(state, construct as ASTNode);
     });
   }
 }
@@ -319,7 +320,9 @@ function parseEmitStatement(state: ParseState, expression: EmitStatement) {
 }
 
 function parseExpressionStatement(state: ParseState, expression: ExpressionStatement) {
-  parseExpression(state, expression.expression);
+  if (expression.expression) {
+    parseExpression(state, expression.expression);
+  }
 }
 
 function parseForStatement(state: ParseState, expression: ForStatement) {

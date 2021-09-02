@@ -1,16 +1,11 @@
-import { FunctionFragment, Interface } from '@ethersproject/abi';
+import type { FunctionFragment, Interface } from '@ethersproject/abi';
 import { providers, Signer, utils } from 'ethers';
 
-import {
-  CallFunction,
-  ConstructorFunction,
-  ContractFunction,
-  ContractReceipt,
-  resolveFunctionOptions,
-  SendFunction,
-} from './function';
-import { AddressLike } from './types';
-import { ensureInterface, PossibleInterface } from './utils/ensureInterface';
+import type { ContractReceipt } from './function';
+import { CallFunction, ConstructorFunction, ContractFunction, resolveFunctionOptions, SendFunction } from './function';
+import type { AddressLike } from './types';
+import type { PossibleInterface } from './utils/ensureInterface';
+import { ensureInterface } from './utils/ensureInterface';
 import { resolveAddress } from './utils/resolveAddress';
 
 export function deploy<TContract extends Contract = Contract, TArgs extends any[] = any>(

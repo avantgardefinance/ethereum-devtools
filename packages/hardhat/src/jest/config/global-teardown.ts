@@ -1,5 +1,5 @@
 import { mergeCoverageReports } from '@enzymefinance/coverage';
-import { Config } from '@jest/types';
+import type { Config } from '@jest/types';
 import fs from 'fs-extra';
 import glob from 'glob';
 import Reporter from 'istanbul-lib-report';

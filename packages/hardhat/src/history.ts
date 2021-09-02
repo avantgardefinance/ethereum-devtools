@@ -1,4 +1,4 @@
-import { Contract } from '@enzymefinance/ethers';
+import type { Contract } from '@enzymefinance/ethers';
 import { utils } from 'ethers';
 
 export interface EvmMessage {

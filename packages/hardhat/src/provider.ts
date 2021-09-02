@@ -3,7 +3,8 @@ import type { HardhatRuntimeEnvironment } from 'hardhat/types';
 
 import { History } from './history';
 import { SignerWithAddress } from './signer';
-import { FixtureCreator, Snapshots } from './snapshots';
+import type { FixtureCreator } from './snapshots';
+import { Snapshots } from './snapshots';
 
 export class EthereumTestnetProvider extends providers.StaticJsonRpcProvider {
   public readonly snapshots = new Snapshots(this);

@@ -1,5 +1,5 @@
 import { BasicToken } from '@enzymefinance/example';
-import { EthereumTestnetProvider } from '@enzymefinance/hardhat';
+import type { EthereumTestnetProvider } from '@enzymefinance/hardhat';
 import { utils } from 'ethers';
 
 async function snapshot(provider: EthereumTestnetProvider) {
@@ -21,21 +21,21 @@ fdescribe('functions', () => {
     const { token, someone } = await provider.snapshot(snapshot);
 
     const receipt = await token.transfer(someone, '456');
-    expect(receipt).toCostLessThan('51651');
+    expect(receipt).toCostLessThan('52200');
   });
 
   it('toCostBetween', async () => {
     const { token, someone } = await provider.snapshot(snapshot);
 
     const receipt = await token.transfer(someone, '456');
-    expect(receipt).toCostBetween('51600', '51700');
+    expect(receipt).toCostBetween('52100', '521300');
   });
 
   it('toCostAround', async () => {
     const { token, someone } = await provider.snapshot(snapshot);
 
     const receipt = await token.transfer(someone, '456');
-    expect(receipt).toCostAround('51600', 100);
+    expect(receipt).toCostAround('52100', 100);
   });
 
   it('toMatchFunctionOutput', async () => {

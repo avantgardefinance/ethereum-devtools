@@ -9,8 +9,7 @@ import { getEnvHardhatArguments } from 'hardhat/internal/core/params/env-variabl
 import { HARDHAT_PARAM_DEFINITIONS } from 'hardhat/internal/core/params/hardhat-params';
 import { Environment } from 'hardhat/internal/core/runtime-environment';
 import { loadTsNode, willRunWithTypescript } from 'hardhat/internal/core/typescript-support';
-import type { EthereumProvider } from 'hardhat/types';
-import { HardhatArguments, HardhatRuntimeEnvironment } from 'hardhat/types';
+import type { EthereumProvider, HardhatArguments, HardhatRuntimeEnvironment } from 'hardhat/types';
 import NodeEnvironment from 'jest-environment-node';
 import path from 'path';
 import { v4 as uuid } from 'uuid';
@@ -52,7 +51,7 @@ export default class EnzymeHardhatEnvironment extends NodeEnvironment {
     }
 
     this.runtimeEnvironment = getRuntimeEnvironment(this.recordCodeCoverage);
-    this.metadataFilePath = path.join(this.runtimeEnvironment.config.codeCoverage.path, 'metadata.json');
+    this.metadataFilePath = path.join((this.runtimeEnvironment.config as any).codeCoverage.path, 'metadata.json');
   }
 
   async setup() {

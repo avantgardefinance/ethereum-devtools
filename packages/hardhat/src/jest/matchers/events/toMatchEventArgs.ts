@@ -1,5 +1,5 @@
 import { resolveArguments } from '@enzymefinance/ethers';
-import { utils } from 'ethers';
+import type { utils } from 'ethers';
 import { diff } from 'jest-diff';
 import { matcherHint } from 'jest-matcher-utils';
 

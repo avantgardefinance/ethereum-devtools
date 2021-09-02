@@ -1,4 +1,4 @@
-import { EthereumTestnetProvider } from './provider';
+import type { EthereumTestnetProvider } from './provider';
 
 export type FixtureCreator<TFixture, TProvider extends EthereumTestnetProvider = any> = (
   provider: TProvider,

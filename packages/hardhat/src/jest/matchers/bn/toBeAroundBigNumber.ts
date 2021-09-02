@@ -1,4 +1,5 @@
-import { BigNumber, BigNumberish } from 'ethers';
+import type { BigNumberish } from 'ethers';
+import { BigNumber } from 'ethers';
 import { matcherHint } from 'jest-matcher-utils';
 
 import { ensureBigNumbers } from './utils';

@@ -1,4 +1,4 @@
-# ignore build output
+# ignore build and test output
 dist/
 artifacts/
 cache/
@@ -6,3 +6,4 @@ codegen/
 abi/
 bytecode/
 deployments/
+coverage/

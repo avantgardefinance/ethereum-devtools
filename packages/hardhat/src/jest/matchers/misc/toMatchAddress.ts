@@ -1,4 +1,5 @@
-import { AddressLike, resolveAddress } from '@enzymefinance/ethers';
+import type { AddressLike } from '@enzymefinance/ethers';
+import { resolveAddress } from '@enzymefinance/ethers';
 import { matcherHint } from 'jest-matcher-utils';
 
 import { forceFail } from '../../utils';

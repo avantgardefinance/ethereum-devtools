@@ -1,7 +1,7 @@
-import { Wallet } from 'ethers';
+import type { Wallet } from 'ethers';
 
-import { Contract } from './contract';
-import { CallFunction, ContractReceipt, FunctionOptions, SendFunction } from './function';
+import type { Contract } from './contract';
+import type { CallFunction, ContractReceipt, FunctionOptions, SendFunction } from './function';
 
 export type AddressLike =
   | Contract
@@ -31,21 +31,21 @@ export interface FunctionDefinition {
   output: any;
 }
 
-type CallDefinition<TSignature extends AnyFunction = AnyFunction, TContract extends Contract = Contract> = {
+interface CallDefinition<TSignature extends AnyFunction = AnyFunction, TContract extends Contract = Contract> {
   type: 'call';
   signature: TSignature;
   contract: TContract;
   input: Parameters<TSignature>;
   output: ReturnType<TSignature>;
-};
+}
 
-type SendDefinition<TSignature extends AnyFunction = AnyFunction, TContract extends Contract = Contract> = {
+interface SendDefinition<TSignature extends AnyFunction = AnyFunction, TContract extends Contract = Contract> {
   type: 'send';
   signature: TSignature;
   contract: TContract;
   input: Parameters<TSignature>;
   output: ReturnType<TSignature>;
-};
+}
 
 type DerivedFunction<TFunction extends FunctionDefinition> = TFunction extends CallDefinition
   ? DerivedCallFunction<TFunction>
@@ -65,10 +65,10 @@ type DerivedCallFunction<TFunction extends CallDefinition> = CallFunction<
   TFunction['contract']
 >;
 
-type ShortcutFunction<TFunction extends FunctionDefinition> = {
+interface ShortcutFunction<TFunction extends FunctionDefinition> {
   (...args: TFunction['input']): ShortcutFunctionOutput<TFunction>;
   (options: FunctionOptions<TFunction['input']>): ShortcutFunctionOutput<TFunction>;
-};
+}
 
 type ShortcutFunctionOutput<TFunction extends FunctionDefinition> = TFunction extends CallDefinition
   ? Promise<TFunction['output']>
