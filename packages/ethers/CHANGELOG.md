@@ -1,5 +1,11 @@
 # @enzymefinance/ethers
 
+## 1.0.1
+
+### Patch Changes
+
+- [#39](https://github.com/avantgardefinance/ethereum-devtools/pull/39) [`1b9ea81`](https://github.com/avantgardefinance/ethereum-devtools/commit/1b9ea816554b4af5c87b1e2d0d579d6d62efc2e3) Thanks [@gabrocheleau](https://github.com/gabrocheleau)! - Remove gasprice params from function.ts transaction building"
+
 ## 1.0.0
 
 ### Major Changes
