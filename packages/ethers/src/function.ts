@@ -405,7 +405,6 @@ export class ConstructorFunction<
             ...(this.options.nonce && {
               nonce: BigNumber.from(this.options.nonce).toNumber(),
             }),
-
             ...(this.options.gasLimit && {
               gasLimit: BigNumber.from(this.options.gasLimit),
             }),
