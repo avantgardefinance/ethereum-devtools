@@ -173,7 +173,6 @@ export class ContractFunction<
     return this.refine({ block });
   }
 
-  // TODO: Rethink this api.
   public gasLimit(gasLimit?: BigNumberish) {
     return this.refine({ gasLimit });
   }
