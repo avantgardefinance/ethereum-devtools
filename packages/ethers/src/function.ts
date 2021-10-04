@@ -51,7 +51,7 @@ export interface FunctionOptions<TArgs extends any[] = []> {
   args?: TArgs;
   value?: BigNumberish;
   nonce?: BigNumberish;
-  gasLimit?: BigNumberish;
+  gas?: BigNumberish;
   block?: providers.BlockTag;
   from?: AddressLike;
   bytecode?: BytesLike;
@@ -73,7 +73,7 @@ export function isFunctionOptions<TArgs extends any[] = []>(value: any): value i
     }
 
     const keys = Object.keys(value);
-    const allowed = ['args', 'value', 'nonce', 'gasLimit', 'block', 'from', 'bytecode'];
+    const allowed = ['args', 'value', 'nonce', 'gas', 'block', 'from', 'bytecode'];
 
     if (!keys.every((key) => allowed.includes(key))) {
       throw new Error('Invalid options');
@@ -173,8 +173,8 @@ export class ContractFunction<
     return this.refine({ block });
   }
 
-  public gasLimit(gasLimit?: BigNumberish) {
-    return this.refine({ gasLimit });
+  public gas(gasLimit?: BigNumberish) {
+    return this.refine({ gas: gasLimit });
   }
 
   public from(from?: AddressLike) {
@@ -184,7 +184,7 @@ export class ContractFunction<
   public refine(options: FunctionOptions<TArgs> = {}): this {
     const args = propertyOf('args', [options, this.options]);
     const value = propertyOf('value', [options, this.options]);
-    const gasLimit = propertyOf('gasLimit', [options, this.options]);
+    const gas = propertyOf('gas', [options, this.options]);
     const nonce = propertyOf('nonce', [options, this.options]);
     const block = propertyOf('block', [options, this.options]);
     const bytecode = propertyOf('bytecode', [options, this.options]);
@@ -195,7 +195,7 @@ export class ContractFunction<
       block,
       bytecode,
       from,
-      gasLimit,
+      gas,
       nonce,
       value,
     });
@@ -269,8 +269,8 @@ export class CallFunction<
             ...(this.options.value && {
               value: BigNumber.from(this.options.value),
             }),
-            ...(this.options.gasLimit && {
-              gasLimit: BigNumber.from(this.options.gasLimit),
+            ...(this.options.gas && {
+              gasLimit: BigNumber.from(this.options.gas),
             }),
           });
         } catch (error) {
@@ -404,8 +404,8 @@ export class ConstructorFunction<
             ...(this.options.nonce && {
               nonce: BigNumber.from(this.options.nonce).toNumber(),
             }),
-            ...(this.options.gasLimit && {
-              gasLimit: BigNumber.from(this.options.gasLimit),
+            ...(this.options.gas && {
+              gasLimit: BigNumber.from(this.options.gas),
             }),
           });
         } catch (error) {
