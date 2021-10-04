@@ -270,7 +270,6 @@ export class CallFunction<
             ...(this.options.value && {
               value: BigNumber.from(this.options.value),
             }),
-
             ...(this.options.gasLimit && {
               gasLimit: BigNumber.from(this.options.gasLimit),
             }),
