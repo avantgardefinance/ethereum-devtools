@@ -52,9 +52,6 @@ export interface FunctionOptions<TArgs extends any[] = []> {
   value?: BigNumberish;
   nonce?: BigNumberish;
   gas?: BigNumberish;
-  price?: BigNumberish;
-  maxFeePerGas?: BigNumberish;
-  maxPriorityFeePerGas?: BigNumberish;
   block?: providers.BlockTag;
   from?: AddressLike;
   bytecode?: BytesLike;
@@ -76,18 +73,7 @@ export function isFunctionOptions<TArgs extends any[] = []>(value: any): value i
     }
 
     const keys = Object.keys(value);
-    const allowed = [
-      'args',
-      'value',
-      'nonce',
-      'gas',
-      'maxFeePerGas',
-      'maxPriorityFeePerGas',
-      'price',
-      'block',
-      'from',
-      'bytecode',
-    ];
+    const allowed = ['args', 'value', 'nonce', 'gas', 'block', 'from', 'bytecode'];
 
     if (!keys.every((key) => allowed.includes(key))) {
       throw new Error('Invalid options');
@@ -187,14 +173,8 @@ export class ContractFunction<
     return this.refine({ block });
   }
 
-  // TODO: Rethink this api.
-  public gas(
-    limit?: BigNumberish,
-    price?: BigNumberish,
-    maxFeePerGas?: BigNumberish,
-    maxPriorityFeePerGas?: BigNumberish,
-  ) {
-    return this.refine({ gas: limit, maxFeePerGas, maxPriorityFeePerGas, price });
+  public gas(gasLimit?: BigNumberish) {
+    return this.refine({ gas: gasLimit });
   }
 
   public from(from?: AddressLike) {
@@ -205,9 +185,6 @@ export class ContractFunction<
     const args = propertyOf('args', [options, this.options]);
     const value = propertyOf('value', [options, this.options]);
     const gas = propertyOf('gas', [options, this.options]);
-    const price = propertyOf('price', [options, this.options]);
-    const maxFeePerGas = propertyOf('maxFeePerGas', [options, this.options]);
-    const maxPriorityFeePerGas = propertyOf('maxPriorityFeePerGas', [options, this.options]);
     const nonce = propertyOf('nonce', [options, this.options]);
     const block = propertyOf('block', [options, this.options]);
     const bytecode = propertyOf('bytecode', [options, this.options]);
@@ -219,10 +196,7 @@ export class ContractFunction<
       bytecode,
       from,
       gas,
-      maxFeePerGas,
-      maxPriorityFeePerGas,
       nonce,
-      price,
       value,
     });
   }
@@ -295,17 +269,8 @@ export class CallFunction<
             ...(this.options.value && {
               value: BigNumber.from(this.options.value),
             }),
-            ...(this.options.price && {
-              gasPrice: BigNumber.from(this.options.price),
-            }),
             ...(this.options.gas && {
               gasLimit: BigNumber.from(this.options.gas),
-            }),
-            ...(this.options.maxFeePerGas && {
-              maxFeePerGas: BigNumber.from(this.options.maxFeePerGas),
-            }),
-            ...(this.options.maxPriorityFeePerGas && {
-              maxPriorityFeePerGas: BigNumber.from(this.options.maxPriorityFeePerGas),
             }),
           });
         } catch (error) {
@@ -439,17 +404,8 @@ export class ConstructorFunction<
             ...(this.options.nonce && {
               nonce: BigNumber.from(this.options.nonce).toNumber(),
             }),
-            ...(this.options.price && {
-              gasPrice: BigNumber.from(this.options.price),
-            }),
             ...(this.options.gas && {
               gasLimit: BigNumber.from(this.options.gas),
-            }),
-            ...(this.options.maxFeePerGas && {
-              maxFeePerGas: BigNumber.from(this.options.maxFeePerGas),
-            }),
-            ...(this.options.maxPriorityFeePerGas && {
-              maxPriorityFeePerGas: BigNumber.from(this.options.maxPriorityFeePerGas),
             }),
           });
         } catch (error) {
