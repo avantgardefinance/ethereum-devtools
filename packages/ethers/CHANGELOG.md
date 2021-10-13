@@ -1,5 +1,11 @@
 # @enzymefinance/ethers
 
+## 1.0.4
+
+### Patch Changes
+
+- [#45](https://github.com/avantgardefinance/ethereum-devtools/pull/45) [`9642fca`](https://github.com/avantgardefinance/ethereum-devtools/commit/9642fca554f0ba32b8f1476bd5dce59e4bb88e2b) Thanks [@iherger](https://github.com/iherger)! - Handle signature cancellations
+
 ## 1.0.3
 
 ### Patch Changes
