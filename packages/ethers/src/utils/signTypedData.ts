@@ -1,6 +1,5 @@
 import type { TypedDataDomain, TypedDataField } from '@ethersproject/abstract-signer';
 import type { providers } from 'ethers';
-import { utils } from 'ethers';
 import { typedDataPayload } from './typedDataPayload';
 
 export async function signTypedData(
@@ -11,9 +10,6 @@ export async function signTypedData(
   value: Record<string, any>,
 ): Promise<{ signature: string; method: string }> {
   const payload = await typedDataPayload(provider, domain, types, value);
-
-  console.log(payload);
-  console.log('hashedMessage', utils.hashMessage(payload));
 
   // WalletConnect needs to use `eth_signTypedData`.
   // WalletConnect wallets may not know about `eth_signTypedData_v4`.
