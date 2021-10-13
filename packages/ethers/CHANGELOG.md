@@ -1,5 +1,13 @@
 # @enzymefinance/ethers
 
+## 1.0.3
+
+### Patch Changes
+
+- [#43](https://github.com/avantgardefinance/ethereum-devtools/pull/43) [`8564707`](https://github.com/avantgardefinance/ethereum-devtools/commit/85647073c5832919fea83a4f2406006ff565eec2) Thanks [@iherger](https://github.com/iherger)! - Typed Data Signing
+
+* [#43](https://github.com/avantgardefinance/ethereum-devtools/pull/43) [`8564707`](https://github.com/avantgardefinance/ethereum-devtools/commit/85647073c5832919fea83a4f2406006ff565eec2) Thanks [@iherger](https://github.com/iherger)! - Export utils
+
 ## 1.0.2
 
 ### Patch Changes
