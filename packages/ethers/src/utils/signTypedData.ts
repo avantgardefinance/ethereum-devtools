@@ -20,7 +20,7 @@ export async function signTypedData(
     return { method, signature };
   } catch (error) {}
 
-  // MetaMask needs tos use `eth_signTypedData_v4`.
+  // MetaMask needs to use `eth_signTypedData_v4`.
   // MetaMask has implemented `eth_signTypedData` as `eth_signTypedData_v1`.
   try {
     const method = 'eth_signTypedData_v4';
