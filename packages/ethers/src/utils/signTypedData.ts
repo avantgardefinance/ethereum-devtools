@@ -1,6 +1,5 @@
 import type { TypedDataDomain, TypedDataField } from '@ethersproject/abstract-signer';
 import type { providers } from 'ethers';
-import { utils } from 'ethers';
 
 import { typedDataPayload } from './typedDataPayload';
 
@@ -10,7 +9,7 @@ export async function signTypedData(
   domain: TypedDataDomain,
   types: Record<string, Array<TypedDataField>>,
   value: Record<string, any>,
-): Promise<{ signature?: string; method?: string; cancelled?: boolean }> {
+): Promise<{ signature: string; method: string }> {
   const payload = await typedDataPayload(provider, domain, types, value);
 
   // WalletConnect needs to use `eth_signTypedData`.
@@ -20,11 +19,7 @@ export async function signTypedData(
     const signature = await provider.send(method, [address.toLowerCase(), payload]);
 
     return { method, signature };
-  } catch (error) {
-    if (typeof error === 'string' && error.endsWith('User denied message signature.')) {
-      return { cancelled: true };
-    }
-  }
+  } catch (error) {}
 
   // MetaMask needs to use `eth_signTypedData_v4`.
   // MetaMask has implemented `eth_signTypedData` as `eth_signTypedData_v1`.
@@ -33,23 +28,9 @@ export async function signTypedData(
     const signature = await provider.send(method, [address.toLowerCase(), payload]);
 
     return { method, signature };
-  } catch (error) {
-    if (typeof error === 'object' && (error as any)?.code === 4001) {
-      return { cancelled: true };
-    }
-  }
+  } catch (error) {}
 
   // Gnosis Safe doesn't support `eth_signTypedData_v4` or `eth_signTypedData` yet
-  try {
-    const method = 'eth_sign';
-    const signature = await provider.send(method, [address.toLowerCase(), utils.hexlify(utils.toUtf8Bytes(payload))]);
 
-    return { method, signature };
-  } catch (error) {
-    if (typeof error === 'string' && error.startsWith('Error: Transaction was rejected')) {
-      return { cancelled: true };
-    }
-  }
-
-  return {};
+  throw new Error('Unable to sign typed data');
 }
