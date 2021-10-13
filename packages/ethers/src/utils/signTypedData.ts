@@ -1,5 +1,6 @@
 import type { TypedDataDomain, TypedDataField } from '@ethersproject/abstract-signer';
 import type { providers } from 'ethers';
+
 import { typedDataPayload } from './typedDataPayload';
 
 export async function signTypedData(
