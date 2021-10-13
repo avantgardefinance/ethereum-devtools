@@ -2,6 +2,7 @@ import type { providers } from 'ethers';
 import { utils } from 'ethers';
 
 import { IERC1271 } from '../contracts/IERC1271';
+import { isContract } from './isContract';
 import { sameAddress } from './sameAddress';
 import type { TypedData } from './typedDataSigner';
 
@@ -19,9 +20,8 @@ export async function verifySignature({
   provider,
 }: VerifySignatureProps): Promise<boolean> {
   try {
-    const bytecode = await provider.getCode(walletAddress);
-    const isSmartContract = bytecode && utils.hexStripZeros(bytecode) !== '0x';
-    if (isSmartContract) {
+    const isSmartContractWallet = await isContract(provider, walletAddress);
+    if (isSmartContractWallet) {
       const hash =
         typeof message === 'string'
           ? utils.hashMessage(message)
