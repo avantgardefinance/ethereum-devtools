@@ -2,7 +2,7 @@ import type { TypedDataDomain, TypedDataField } from '@ethersproject/abstract-si
 import type { providers } from 'ethers';
 import { utils } from 'ethers';
 
-import { getTypedDataMessage } from '..';
+import { getTypedDataMessage } from './typedData';
 
 export async function signTypedData(
   provider: providers.JsonRpcProvider,
