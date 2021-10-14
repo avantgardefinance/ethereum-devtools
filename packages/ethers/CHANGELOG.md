@@ -1,5 +1,11 @@
 # @enzymefinance/ethers
 
+## 1.0.5
+
+### Patch Changes
+
+- [#47](https://github.com/avantgardefinance/ethereum-devtools/pull/47) [`8f69769`](https://github.com/avantgardefinance/ethereum-devtools/commit/8f697690ae46de637db4402da65cb8951e996825) Thanks [@iherger](https://github.com/iherger)! - Cleanup typed data signing
+
 ## 1.0.4
 
 ### Patch Changes
