@@ -2,6 +2,12 @@ import type { TypedDataDomain, TypedDataField } from '@ethersproject/abstract-si
 import type { providers } from 'ethers';
 import { utils } from 'ethers';
 
+export interface TypedData {
+  domain: TypedDataDomain;
+  types: Record<string, Array<TypedDataField>>;
+  value: Record<string, any>;
+}
+
 export interface TypedDataPayload {
   types: Record<string, TypedDataField[]>;
   domain: TypedDataDomain;

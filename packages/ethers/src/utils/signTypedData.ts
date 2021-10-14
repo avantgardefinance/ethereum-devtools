@@ -1,17 +1,15 @@
-import type { TypedDataDomain, TypedDataField } from '@ethersproject/abstract-signer';
 import type { providers } from 'ethers';
 import { utils } from 'ethers';
 
+import type { TypedData } from './typedData';
 import { getTypedDataMessage } from './typedData';
 
 export async function signTypedData(
   provider: providers.JsonRpcProvider,
   address: string,
-  domain: TypedDataDomain,
-  types: Record<string, Array<TypedDataField>>,
-  value: Record<string, any>,
+  data: TypedData,
 ): Promise<{ signature?: string; method?: string; cancelled?: boolean }> {
-  const message = await getTypedDataMessage(provider, domain, types, value);
+  const message = await getTypedDataMessage(provider, data.domain, data.types, data.value);
 
   // WalletConnect needs to use `eth_signTypedData`.
   // WalletConnect wallets may not know about `eth_signTypedData_v4`.
