@@ -4,9 +4,8 @@ import { contract } from '../construction';
 import type { Contract } from '../contract';
 import type { Call } from '../types';
 
-// prettier-ignore
 interface IERC1271 extends Contract<IERC1271> {
-  isValidSignature: Call<(_hash: BytesLike, _signature: BytesLike) => BytesLike, IERC1271>
+  isValidSignature: Call<(_hash: BytesLike, _signature: BytesLike) => BytesLike, IERC1271>;
 }
 
 export const IERC1271 = contract<IERC1271>()`

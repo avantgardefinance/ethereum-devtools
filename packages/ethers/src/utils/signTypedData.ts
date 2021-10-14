@@ -2,7 +2,7 @@ import type { TypedDataDomain, TypedDataField } from '@ethersproject/abstract-si
 import type { providers } from 'ethers';
 import { utils } from 'ethers';
 
-import { typedDataPayload } from './typedDataPayload';
+import { getTypedDataMessage } from '..';
 
 export async function signTypedData(
   provider: providers.JsonRpcProvider,
@@ -11,13 +11,13 @@ export async function signTypedData(
   types: Record<string, Array<TypedDataField>>,
   value: Record<string, any>,
 ): Promise<{ signature?: string; method?: string; cancelled?: boolean }> {
-  const payload = await typedDataPayload(provider, domain, types, value);
+  const message = await getTypedDataMessage(provider, domain, types, value);
 
   // WalletConnect needs to use `eth_signTypedData`.
   // WalletConnect wallets may not know about `eth_signTypedData_v4`.
   try {
     const method = 'eth_signTypedData';
-    const signature = await provider.send(method, [address.toLowerCase(), payload]);
+    const signature = await provider.send(method, [address.toLowerCase(), message]);
 
     return { method, signature };
   } catch (error) {
@@ -30,7 +30,7 @@ export async function signTypedData(
   // MetaMask has implemented `eth_signTypedData` as `eth_signTypedData_v1`.
   try {
     const method = 'eth_signTypedData_v4';
-    const signature = await provider.send(method, [address.toLowerCase(), payload]);
+    const signature = await provider.send(method, [address.toLowerCase(), message]);
 
     return { method, signature };
   } catch (error) {
@@ -42,7 +42,7 @@ export async function signTypedData(
   // Gnosis Safe doesn't support `eth_signTypedData_v4` or `eth_signTypedData` yet
   try {
     const method = 'eth_sign';
-    const signature = await provider.send(method, [address.toLowerCase(), utils.hexlify(utils.toUtf8Bytes(payload))]);
+    const signature = await provider.send(method, [address.toLowerCase(), utils.hexlify(utils.toUtf8Bytes(message))]);
 
     return { method, signature };
   } catch (error) {
