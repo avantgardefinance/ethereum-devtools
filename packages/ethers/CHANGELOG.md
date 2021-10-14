@@ -1,5 +1,11 @@
 # @enzymefinance/ethers
 
+## 1.0.6
+
+### Patch Changes
+
+- [#49](https://github.com/avantgardefinance/ethereum-devtools/pull/49) [`2643aca`](https://github.com/avantgardefinance/ethereum-devtools/commit/2643aca470b60c8e2da157da65c57f02919f31ae) Thanks [@iherger](https://github.com/iherger)! - Cleanup TypedData types
+
 ## 1.0.5
 
 ### Patch Changes
