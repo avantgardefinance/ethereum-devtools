@@ -3,11 +3,11 @@ import { utils } from 'ethers';
 
 import { IERC1271 } from '../contracts/IERC1271';
 import { sameAddress } from './sameAddress';
-import type { TypedDataPayload } from './typedData';
+import type { TypedData } from './typedData';
 
 interface VerifySignatureProps {
   walletAddress: string;
-  message: string | TypedDataPayload;
+  message: string | TypedData;
   signature: string;
   provider: providers.StaticJsonRpcProvider;
 }
@@ -25,7 +25,7 @@ export async function verifySignature({
       const hash =
         typeof message === 'string'
           ? utils.hashMessage(message)
-          : utils._TypedDataEncoder.hash(message.domain, message.types, message.message);
+          : utils._TypedDataEncoder.hash(message.domain, message.types, message.value);
       const contract = new IERC1271(walletAddress, provider);
       const result = await contract.isValidSignature(hash, signature);
       // Per https://eips.ethereum.org/EIPS/eip-1271
@@ -34,7 +34,7 @@ export async function verifySignature({
       const recoveredAddress =
         typeof message === 'string'
           ? utils.verifyMessage(message, signature)
-          : utils.verifyTypedData(message.domain, message.types, message.message, signature);
+          : utils.verifyTypedData(message.domain, message.types, message.value, signature);
       return sameAddress(recoveredAddress, walletAddress);
     }
   } catch {
