@@ -1,5 +1,12 @@
 # @enzymefinance/hardhat
 
+## 1.0.8
+
+### Patch Changes
+
+- Updated dependencies [[`7487c9b`](https://github.com/avantgardefinance/ethereum-devtools/commit/7487c9b81ca5b6f962fdd90ef809e8e560660208)]:
+  - @enzymefinance/ethers@1.0.8
+
 ## 1.0.7
 
 ### Patch Changes
