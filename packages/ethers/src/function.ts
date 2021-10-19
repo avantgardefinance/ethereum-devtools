@@ -53,6 +53,7 @@ export interface FunctionOptions<TArgs extends any[] = []> {
   nonce?: BigNumberish;
   gas?: BigNumberish;
   price?: BigNumberish;
+  type?: number;
   block?: providers.BlockTag;
   from?: AddressLike;
   bytecode?: BytesLike;
@@ -74,7 +75,7 @@ export function isFunctionOptions<TArgs extends any[] = []>(value: any): value i
     }
 
     const keys = Object.keys(value);
-    const allowed = ['args', 'value', 'nonce', 'gas', 'block', 'from', 'price', 'bytecode'];
+    const allowed = ['args', 'value', 'nonce', 'gas', 'block', 'from', 'price', 'type', 'bytecode'];
 
     if (!keys.every((key) => allowed.includes(key))) {
       throw new Error('Invalid options');
@@ -166,6 +167,10 @@ export class ContractFunction<
     return this.refine({ bytecode });
   }
 
+  public type(type?: number) {
+    return this.refine({ type });
+  }
+
   public nonce(nonce?: number) {
     return this.refine({ nonce });
   }
@@ -190,6 +195,7 @@ export class ContractFunction<
     const nonce = propertyOf('nonce', [options, this.options]);
     const block = propertyOf('block', [options, this.options]);
     const bytecode = propertyOf('bytecode', [options, this.options]);
+    const type = propertyOf('type', [options, this.options]);
     const from = propertyOf('from', [options, this.options]);
 
     return new (this.constructor as any)(this.contract, this.fragment, {
@@ -200,6 +206,7 @@ export class ContractFunction<
       gas,
       nonce,
       price,
+      type,
       value,
     });
   }
@@ -265,6 +272,9 @@ export class CallFunction<
             to: this.contract.address,
             ...(from && {
               from: resolveAddress(from),
+            }),
+            ...(this.options.type && {
+              type: this.options.type,
             }),
             ...(this.options.nonce && {
               nonce: BigNumber.from(this.options.nonce).toNumber(),
@@ -406,6 +416,9 @@ export class ConstructorFunction<
             data,
             ...(from && {
               from: resolveAddress(from),
+            }),
+            ...(this.options.type && {
+              type: this.options.type,
             }),
             ...(this.options.nonce && {
               nonce: BigNumber.from(this.options.nonce).toNumber(),
