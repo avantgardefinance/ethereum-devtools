@@ -19,14 +19,14 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.15.3",
-    "@enzymefinance/ethers": "1.0.6",
+    "@enzymefinance/ethers": "1.0.7",
     "ethers": "^5.4.6"
   },
   "devDependencies": {
     "@enzymefinance/babel-config": "^1.0.14",
     "@enzymefinance/codegen": "^1.0.0",
     "@enzymefinance/eslint-config": "^1.0.11",
-    "@enzymefinance/hardhat": "^1.0.6",
+    "@enzymefinance/hardhat": "^1.0.7",
     "@enzymefinance/prettier-config-solidity": "^1.0.0",
     "@openzeppelin/contracts": "^4.3.1",
     "@types/jest": "^27.0.1",
