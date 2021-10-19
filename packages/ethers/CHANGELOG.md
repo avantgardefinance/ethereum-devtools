@@ -1,5 +1,11 @@
 # @enzymefinance/ethers
 
+## 1.0.7
+
+### Patch Changes
+
+- [#51](https://github.com/avantgardefinance/ethereum-devtools/pull/51) [`a20da95`](https://github.com/avantgardefinance/ethereum-devtools/commit/a20da95f84b511cbfdffc429ef60dcda415a1536) Thanks [@gabrocheleau](https://github.com/gabrocheleau)! - Reimplement gasPrice optional param to support the gas relayer
+
 ## 1.0.6
 
 ### Patch Changes
