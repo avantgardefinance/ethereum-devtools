@@ -273,7 +273,7 @@ export class CallFunction<
             ...(from && {
               from: resolveAddress(from),
             }),
-            ...(this.options.type && {
+            ...(this.options.type != undefined && {
               type: this.options.type,
             }),
             ...(this.options.nonce && {
@@ -417,7 +417,7 @@ export class ConstructorFunction<
             ...(from && {
               from: resolveAddress(from),
             }),
-            ...(this.options.type && {
+            ...(this.options.type != undefined && {
               type: this.options.type,
             }),
             ...(this.options.nonce && {
