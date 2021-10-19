@@ -52,6 +52,7 @@ export interface FunctionOptions<TArgs extends any[] = []> {
   value?: BigNumberish;
   nonce?: BigNumberish;
   gas?: BigNumberish;
+  price?: BigNumberish;
   block?: providers.BlockTag;
   from?: AddressLike;
   bytecode?: BytesLike;
@@ -73,7 +74,7 @@ export function isFunctionOptions<TArgs extends any[] = []>(value: any): value i
     }
 
     const keys = Object.keys(value);
-    const allowed = ['args', 'value', 'nonce', 'gas', 'block', 'from', 'bytecode'];
+    const allowed = ['args', 'value', 'nonce', 'gas', 'block', 'from', 'price', 'bytecode'];
 
     if (!keys.every((key) => allowed.includes(key))) {
       throw new Error('Invalid options');
@@ -173,8 +174,8 @@ export class ContractFunction<
     return this.refine({ block });
   }
 
-  public gas(gasLimit?: BigNumberish) {
-    return this.refine({ gas: gasLimit });
+  public gas(gasLimit?: BigNumberish, price?: BigNumberish) {
+    return this.refine({ gas: gasLimit, price });
   }
 
   public from(from?: AddressLike) {
@@ -185,6 +186,7 @@ export class ContractFunction<
     const args = propertyOf('args', [options, this.options]);
     const value = propertyOf('value', [options, this.options]);
     const gas = propertyOf('gas', [options, this.options]);
+    const price = propertyOf('price', [options, this.options]);
     const nonce = propertyOf('nonce', [options, this.options]);
     const block = propertyOf('block', [options, this.options]);
     const bytecode = propertyOf('bytecode', [options, this.options]);
@@ -197,6 +199,7 @@ export class ContractFunction<
       from,
       gas,
       nonce,
+      price,
       value,
     });
   }
@@ -271,6 +274,9 @@ export class CallFunction<
             }),
             ...(this.options.gas && {
               gasLimit: BigNumber.from(this.options.gas),
+            }),
+            ...(this.options.price && {
+              gasPrice: BigNumber.from(this.options.price),
             }),
           });
         } catch (error) {
@@ -406,6 +412,9 @@ export class ConstructorFunction<
             }),
             ...(this.options.gas && {
               gasLimit: BigNumber.from(this.options.gas),
+            }),
+            ...(this.options.price && {
+              gasPrice: BigNumber.from(this.options.price),
             }),
           });
         } catch (error) {
