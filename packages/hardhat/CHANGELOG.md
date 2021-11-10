@@ -1,5 +1,11 @@
 # @enzymefinance/hardhat
 
+## 1.0.10
+
+### Patch Changes
+
+- [`8d0f94b`](https://github.com/avantgardefinance/ethereum-devtools/commit/8d0f94bcdb7465ac23f7b4ec0b2f09eb92c9d57c) Thanks [@fubhy](https://github.com/fubhy)! - Fix code generation for contracts with naming conflicts
+
 ## 1.0.9
 
 ### Patch Changes
