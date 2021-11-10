@@ -83,33 +83,24 @@ task<Arguments>('compile', async (args, env, parent) => {
 
   await Promise.all(dirs.map(async (dir) => createDirectory(dir)));
 
-  // Flatten the artifacts array (thus remove duplicates). This might eliminate
-  // artifacts for identically named contracts that are actually different. For
-  // simplicity, we simply don't support that *shrug*.
-  const paths = (await env.artifacts.getArtifactPaths())
-    .map((artifact) => ({
-      name: path.basename(artifact, '.json'),
-      path: artifact,
-    }))
-    .filter((outer, index, array) => {
-      return array.findIndex((inner) => inner.name === outer.name) === index;
-    });
+  const names = await env.artifacts.getAllFullyQualifiedNames();
 
   let artifacts = await Promise.all(
-    paths.map(async (item) => {
-      const artifact = await env.artifacts.readArtifact(item.name);
+    names.map(async (item) => {
+      const artifact = await env.artifacts.readArtifact(item);
       const source = path.join(env.config.paths.root, artifact.sourceName);
       const external = !(await fs.pathExists(source));
+      const name = item.split(':')[1];
 
       const included = config.include.some((rule) =>
-        typeof rule === 'string' ? item.name === rule : item.name.match(rule) != null,
+        typeof rule === 'string' ? name === rule : name.match(rule) != null,
       );
 
       const excluded = config.exclude.some((rule) =>
-        typeof rule === 'string' ? item.name === rule : item.name.match(rule) != null,
+        typeof rule === 'string' ? name === rule : name.match(rule) != null,
       );
 
-      return { ...item, artifact, excluded, external, included };
+      return { artifact, excluded, external, included, name, path: item };
     }),
   );
 
