@@ -7,6 +7,7 @@ export function resolveArguments(params: utils.ParamType | utils.ParamType[], va
   if (Array.isArray(params)) {
     return params.map((type, index) => {
       const inner = Array.isArray(value) ? value[index] : value[type.name];
+
       return resolveArguments(type, inner);
     });
   }

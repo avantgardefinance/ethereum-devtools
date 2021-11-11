@@ -7,6 +7,7 @@ export function toBeLtBigNumber(this: jest.MatcherContext, received: BigNumberis
   return ensureBigNumbers([received, expected], this.isNot, ([received, expected]) => {
     const pass = received.lt(expected);
     const message = () => matcherHint('.toBeLtBigNumber', `${received}`, `${expected}`, this);
+
     return { message, pass };
   });
 }

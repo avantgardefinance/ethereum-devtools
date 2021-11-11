@@ -16,6 +16,7 @@ export function toHaveBeenCalledOnContractWith<TArgs extends any[] = []>(
   return ensureParameters(subject, invert, (history, contract, fragment) => {
     if (!utils.FunctionFragment.isFunctionFragment(fragment)) {
       const error = 'Missing or invalid function fragment for call history assertion';
+
       return forceFail(error, invert);
     }
 

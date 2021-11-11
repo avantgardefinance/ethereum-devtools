@@ -21,8 +21,13 @@ export async function getTypedDataPayload(
   types: Record<string, Array<TypedDataField>>,
   value: Record<string, any>,
 ): Promise<TypedDataPayload> {
-  const populated = await utils._TypedDataEncoder.resolveNames(domain, types, value, (name: string) => {
-    return provider.resolveName(name);
+  const populated = await utils._TypedDataEncoder.resolveNames(domain, types, value, async (name: string) => {
+    const resolved = await provider.resolveName(name);
+    if (resolved == null) {
+      throw new Error(`Failed to resolve name ${name}`);
+    }
+
+    return resolved;
   });
 
   return utils._TypedDataEncoder.getPayload(populated.domain, types, populated.value);

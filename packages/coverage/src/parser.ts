@@ -258,7 +258,9 @@ function parseModifierDefinition(state: ParseState, expression: ModifierDefiniti
   }
 
   registerFunction(state, expression);
-  parseExpression(state, expression.body);
+  if (expression.body) {
+    parseExpression(state, expression.body);
+  }
 }
 
 function parseSourceUnit(state: ParseState, expression: SourceUnit) {

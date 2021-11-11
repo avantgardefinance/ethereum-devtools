@@ -27,6 +27,7 @@ export interface ContractTransaction<TFunction extends SendFunction<any, any> | 
 
 function propertyOf<TOr = any>(property: string, candidates: object[] = []): TOr {
   const obj = candidates.find((obj) => obj.hasOwnProperty(property));
+
   return (obj as any)?.[property] ?? undefined;
 }
 
@@ -41,6 +42,7 @@ function enhanceResponse<TFunction extends SendFunction<any, any> | ConstructorF
     const receipt = await wait(confirmations);
     const enhanced = receipt as any as ContractReceipt<TFunction>;
     enhanced.function = fn;
+
     return enhanced;
   };
 
@@ -218,7 +220,7 @@ export class ContractFunction<
 
 export class CallFunction<
   TArgs extends any[] = [],
-  TReturn extends any = unknown,
+  TReturn = unknown,
   TContract extends Contract = Contract,
 > extends ContractFunction<TArgs, FunctionFragment, TContract> {
   public readonly __TYPE__?: string = 'FUNCTION:CALL';
@@ -301,7 +303,7 @@ export class CallFunction<
 
 export class SendFunction<
   TArgs extends any[] = [],
-  TReturn extends any = void,
+  TReturn = void,
   TContract extends Contract = Contract,
 > extends CallFunction<TArgs, TReturn, TContract> {
   public readonly __TYPE__?: string = 'FUNCTION:SEND';

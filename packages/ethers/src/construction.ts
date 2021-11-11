@@ -54,12 +54,14 @@ export function contract<TContract extends Contract = Contract, TConstructorArgs
         const receipt = await deploy(contract, bytecode ?? '0x', ...args);
         const instance = contract.attach(receipt.contractAddress);
         instance.deployment = receipt;
+
         return instance;
       }
 
       public static mock(signer: Signer) {
         const address = constants.AddressZero;
         const contract = new SpecializedContract(address, signer) as TContract;
+
         return mock(contract);
       }
 

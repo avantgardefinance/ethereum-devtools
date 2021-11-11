@@ -126,6 +126,7 @@ export class Contract<TContract extends Contract = any> {
 
   public attach(address: AddressLike) {
     const provider = this.signer ?? this.provider;
+
     return this.clone(address, provider);
   }
 

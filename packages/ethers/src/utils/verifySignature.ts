@@ -28,6 +28,7 @@ export async function verifySignature({
           : utils._TypedDataEncoder.hash(message.domain, message.types, message.value);
       const contract = new IERC1271(walletAddress, provider);
       const result = await contract.isValidSignature(hash, signature);
+
       // Per https://eips.ethereum.org/EIPS/eip-1271
       return result === '0x1626ba7e';
     } else {
@@ -35,6 +36,7 @@ export async function verifySignature({
         typeof message === 'string'
           ? utils.verifyMessage(message, signature)
           : utils.verifyTypedData(message.domain, message.types, message.value, signature);
+
       return sameAddress(recoveredAddress, walletAddress);
     }
   } catch {

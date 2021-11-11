@@ -17,6 +17,7 @@ export function toCostBetween(this: jest.MatcherContext, received: any, min: Big
   return ensureBigNumbers([received.gasUsed, min, max], this.isNot, ([received, min, max]) => {
     const pass = received.gte(min) && received.lte(max);
     const message = () => matcherHint('.toCostBetween', `${received}`, `>= ${min} && <= ${max}`, this);
+
     return { message, pass };
   });
 }

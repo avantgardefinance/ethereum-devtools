@@ -23,12 +23,14 @@ export interface InstrumentedSources {
 
 export function instrumentSource(source: string, file: string) {
   const parsed = parse(source);
+
   return inject(parsed, file);
 }
 
 export function instrumentSources(sources: Record<string, string>) {
   const instrumented = Object.entries(sources).reduce((carry, [path, source]) => {
     const instrumented = instrumentSource(source, path);
+
     return { ...carry, [path]: instrumented };
   }, {} as Record<string, InstrumentationTarget>);
 

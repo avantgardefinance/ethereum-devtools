@@ -27,6 +27,7 @@ export class Snapshots<TProvider extends EthereumTestnetProvider = EthereumTestn
   private async record<TFixture>(create: FixtureCreator<TFixture, TProvider>): Promise<Snapshot<TFixture>> {
     const data = await create(this.provider);
     const id = await this.provider.send('evm_snapshot', []);
+
     return { data, id };
   }
 
@@ -60,6 +61,7 @@ We are going to restore the snapshot state by re-running the provided function. 
     }
 
     const id = await this.provider.send('evm_snapshot', []);
+
     return { ...snapshot, id };
   }
 

@@ -120,6 +120,7 @@ task<Arguments>('compile', async (args, env, parent) => {
 
   if (!artifacts.length) {
     console.error(`None of the compiled contract artifacts matched your include/exclude rules for code generation.`);
+
     return;
   }
 
@@ -140,6 +141,7 @@ async function generateAbiFiles(dir: string, artifacts: ArtifactDescriptor[]): P
   await Promise.all(
     artifacts.map(async (artifact) => {
       const destination = path.resolve(dir, `${artifact.name}.json`);
+
       return await fs.writeJson(destination, artifact.artifact.abi, {
         spaces: 2,
       });
@@ -152,6 +154,7 @@ async function generateBytecodeFiles(dir: string, artifacts: ArtifactDescriptor[
     artifacts.map(async (artifact) => {
       const destination = path.resolve(dir, `${artifact.name}.bin.json`);
       const content = { bytecode: artifact.artifact.bytecode };
+
       return await fs.writeJson(destination, content, {
         spaces: 2,
       });
@@ -166,6 +169,7 @@ async function generateTypeScriptFiles(dir: string, artifacts: ArtifactDescripto
       const content = generateContract(artifact.name, artifact.artifact.bytecode, abi);
       const formatted = formatOutput(content);
       const destination = path.join(dir, `${artifact.name}.ts`);
+
       return await fs.writeFile(destination, formatted);
     }),
   );

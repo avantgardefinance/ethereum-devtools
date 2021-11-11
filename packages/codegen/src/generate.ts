@@ -5,6 +5,7 @@ export function getInput(fragment: ConstructorFragment) {
   const inputs = fragment.inputs.map((input, index) => {
     const name = input.name || `arg${index}`;
     const type = getType(input, true);
+
     return `${name}: ${type}`;
   });
 
@@ -27,6 +28,7 @@ export function getOutput(fragment: ConstructorFragment) {
 
   const struct = outputs.map((param, index) => {
     const name = param.name || `'${index}'`;
+
     return `${name}: ${getType(param, false)}`;
   });
 
@@ -41,6 +43,7 @@ export function getType(param: utils.ParamType, flexible?: boolean): string {
     if (matches?.[1]) {
       // This is a fixed length array.
       const range = Array.from(Array(parseInt(matches[1], 10)).keys());
+
       return `[${range.map(() => type).join(', ')}]`;
     }
 
@@ -51,6 +54,7 @@ export function getType(param: utils.ParamType, flexible?: boolean): string {
   if (param.type === 'tuple') {
     const struct = param.components.map((param, index) => {
       const name = param.name || `'${index}'`;
+
       return `${name}: ${getType(param, flexible)}`;
     });
 
@@ -88,6 +92,7 @@ export function generateFunction(contract: string, fragment: utils.FunctionFragm
   const type = fragment.constant ? 'Call' : 'Send';
   const input = getInput(fragment);
   const output = getOutput(fragment);
+
   return `${type}<(${input}) => ${output}, ${contract}>`;
 }
 
@@ -112,6 +117,7 @@ export function generateFunctions(contract: string, fragments: utils.FunctionFra
 
 export function generateConstructorArgs(fragment: ConstructorFragment) {
   const input = getInput(fragment);
+
   return input ? `[${input}]` : '';
 }
 

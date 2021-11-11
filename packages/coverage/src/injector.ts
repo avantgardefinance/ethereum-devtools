@@ -117,6 +117,7 @@ function getMethodIdentifier(id: string) {
 function getHashMethodDefinition(id: string) {
   const hash = utils.id(id).slice(0, 10);
   const method = getMethodIdentifier(id);
+
   return `function ${method}(bytes32 c__${hash}) private pure {} /* hash method */`;
 }
 

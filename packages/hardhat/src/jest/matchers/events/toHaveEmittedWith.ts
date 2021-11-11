@@ -43,6 +43,7 @@ export function toHaveEmittedWith(
     ? () => matcherHint('.toHaveEmittedWith', signature, undefined, this)
     : () => {
         const suffix = diff(args[args.length - 1], expectedMatchers);
+
         return matcherHint('.toHaveEmittedWith', signature, undefined, this) + `\n\n${suffix}`;
       };
 

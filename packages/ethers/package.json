@@ -24,14 +24,14 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@babel/runtime": "^7.15.3"
+    "@babel/runtime": "^7.16.3"
   },
   "devDependencies": {
-    "@ethersproject/abi": "^5.4.1",
-    "ethers": "^5.4.6"
+    "@ethersproject/abi": "^5.5.0",
+    "ethers": "^5.5.1"
   },
   "peerDependencies": {
-    "@ethersproject/abi": "^5.4.0",
-    "ethers": "^5.4.1"
+    "@ethersproject/abi": "^5.5.0",
+    "ethers": "^5.5.1"
   }
 }

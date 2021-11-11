@@ -3,11 +3,13 @@ import type { providers } from 'ethers';
 export function forceFail(error: string | (() => string), invert: boolean): jest.CustomMatcherResult {
   const pass = invert ? true : false;
   const message = typeof error === 'function' ? error : () => error;
+
   return { message, pass };
 }
 
 export function forcePass(invert: boolean): jest.CustomMatcherResult {
   const pass = invert ? false : true;
+
   return { message: () => '', pass };
 }
 

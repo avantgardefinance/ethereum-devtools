@@ -12,6 +12,7 @@ export function toBeBetweenBigNumber(
   return ensureBigNumbers([received, min, max], this.isNot, ([received, min, max]) => {
     const pass = received.gte(min) && received.lte(max);
     const message = () => matcherHint('.toBeBetweenBigNumber', `${received}`, `>= ${min} && <= ${max}`, this);
+
     return { message, pass };
   });
 }

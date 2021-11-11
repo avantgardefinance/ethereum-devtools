@@ -29,12 +29,14 @@ export function ensureParameters<
 
   if (!contract) {
     const error = 'Missing contract instance for contract call history assertion';
+
     return forceFail(error, invert) as TReturn;
   }
 
   const history = (contract?.provider as EthereumTestnetProvider)?.history;
   if (!history) {
     const error = 'Invalid or unsupported provider for contract call history assertion';
+
     return forceFail(error, invert) as TReturn;
   }
 

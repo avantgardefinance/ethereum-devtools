@@ -4,6 +4,7 @@ import type { InstrumentationMetadata } from './instrument';
 
 export function createCoverageCollector(metadata: InstrumentationMetadata, recording: Record<string, number>) {
   const instrumentation = metadata.instrumentations ?? {};
+
   return (info: any) => {
     if (info.opcode.name === 'PUSH1' && info.stack.length > 0) {
       const hash = toHex(info.stack[info.stack.length - 1].toString(16));
@@ -51,17 +52,20 @@ export function mergeCoverageReports(recording: Record<string, number>, metadata
     switch (instrumentation.type) {
       case 'function': {
         file.f[instrumentation.id] += hits;
+
         return;
       }
 
       case 'statement': {
         file.s[instrumentation.id] += hits;
+
         return;
       }
 
       case 'branch': {
         const before = file.b[instrumentation.id][instrumentation.branch] ?? 0;
         file.b[instrumentation.id][instrumentation.branch] = before + hits;
+
         return;
       }
     }

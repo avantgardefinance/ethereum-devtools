@@ -90,6 +90,7 @@ task<Arguments>('coverage', description, async (args, env) => {
   await Promise.all(
     sources.map((file) => {
       const output = instrumentation.instrumented[file.origin]?.instrumented ?? file.source;
+
       return fs.outputFile(file.destination, output, 'utf8');
     }),
   );

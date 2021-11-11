@@ -39,6 +39,7 @@ function stub<TContract extends Contract = Contract>(
       const resolved = output?.length ? resolveArguments(func.outputs ?? [], output) : undefined;
 
       const encoded = encoder.encode(func.outputs ?? [], resolved);
+
       return doppelganger.__doppelganger__mockReturns(data, encoded);
     },
     reverts: async (reason: string) => {
@@ -93,6 +94,7 @@ export async function mock<TContract extends Contract = Contract>(
       const receipt = (await forward.send()) as any;
       const refined: ContractReceipt<SendFunction<TArgs, TReturn, TContract>> = receipt;
       refined.function = fn;
+
       return refined;
     }
 
@@ -117,6 +119,7 @@ export async function mock<TContract extends Contract = Contract>(
       }
 
       const extend = stub(doppelganger, mocked, fn.fragment);
+
       return new Proxy(value, {
         get: (target, prop, receiver) => {
           if (Reflect.has(target, prop)) {

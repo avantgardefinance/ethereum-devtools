@@ -9,6 +9,7 @@ export function regexOrString(matcher: string | RegExp) {
 
     if ((matcher.startsWith('/') && matcher.endsWith('/')) || matcher.endsWith('/i')) {
       const [, regex, flags] = matcher.split('/');
+
       return new RegExp(regex, flags);
     }
 

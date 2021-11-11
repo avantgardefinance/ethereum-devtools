@@ -29,6 +29,7 @@ export function toMatchFunctionOutput(
 
   if (!resolvedFragment.outputs) {
     const formatted = resolvedFragment.format('full');
+
     return forceFail(`The function fragment does not have any output signature: ${formatted}`, invert);
   }
 
@@ -53,6 +54,7 @@ export function toMatchFunctionOutput(
     ? () => matcherHint('.toMatchFunctionOutput', undefined, undefined, this)
     : () => {
         const suffix = diff(receivedParams, expectedMatchers);
+
         return matcherHint('.toMatchFunctionOutput', undefined, undefined, this) + `\n\n${suffix}`;
       };
 
