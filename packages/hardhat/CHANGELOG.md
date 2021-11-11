@@ -1,5 +1,16 @@
 # @enzymefinance/hardhat
 
+## 1.0.11
+
+### Patch Changes
+
+- [`b0c3251`](https://github.com/avantgardefinance/ethereum-devtools/commit/b0c3251c812749cc8f8b81dfa26835ad4fa79a89) Thanks [@fubhy](https://github.com/fubhy)! - Updating dependencies
+
+- Updated dependencies [[`b0c3251`](https://github.com/avantgardefinance/ethereum-devtools/commit/b0c3251c812749cc8f8b81dfa26835ad4fa79a89)]:
+  - @enzymefinance/codegen@1.0.1
+  - @enzymefinance/coverage@1.0.1
+  - @enzymefinance/ethers@1.0.10
+
 ## 1.0.10
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @enzymefinance/ethers
 
+## 1.0.10
+
+### Patch Changes
+
+- [`b0c3251`](https://github.com/avantgardefinance/ethereum-devtools/commit/b0c3251c812749cc8f8b81dfa26835ad4fa79a89) Thanks [@fubhy](https://github.com/fubhy)! - Updating dependencies
+
 ## 1.0.9
 
 ### Patch Changes
