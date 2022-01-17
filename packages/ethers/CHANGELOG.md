@@ -1,5 +1,11 @@
 # @enzymefinance/ethers
 
+## 1.0.11
+
+### Patch Changes
+
+- [#60](https://github.com/avantgardefinance/ethereum-devtools/pull/60) [`8f7f7d4`](https://github.com/avantgardefinance/ethereum-devtools/commit/8f7f7d46575ce9b693259b5c476cb5b20626fd14) Thanks [@gabrocheleau](https://github.com/gabrocheleau)! - Add safeSameAddress util
+
 ## 1.0.10
 
 ### Patch Changes
