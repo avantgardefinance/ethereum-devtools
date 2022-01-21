@@ -12,6 +12,7 @@ describe('code generator', () => {
     const destination = path.resolve(__dirname, 'ERC20.ts');
 
     let relative = path.relative(path.dirname(destination), source);
+
     if (!relative.startsWith('.')) {
       relative = `./${relative}`;
     }

@@ -97,7 +97,7 @@
   "scripts": {
     "build": "tsup src/index.ts src/types.ts src/jest/config/*.ts src/plugin/index.ts src/plugin/compile/index.ts src/plugin/coverage/index.ts --format esm,cjs --dts",
     "clean": "rimraf .turbo .eslintcache node_modules dist",
-    "lint": "TIMING=1 eslint \"src/**/*.{js,ts}\" --cache",
+    "lint": "TIMING=1 eslint \"{src,tests}/**/*.{js,ts}\" --cache",
     "format": "yarn lint --fix",
     "typecheck": "tsc --noEmit"
   },
