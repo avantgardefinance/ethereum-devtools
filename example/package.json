@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "compile": "hardhat compile",
+    "build": "hardhat compile",
     "clean": "rimraf .turbo .eslintcache node_modules dist",
     "lint": "TIMING=1 eslint \"**/*.{js,ts}\" --cache",
     "format": "yarn lint --fix",

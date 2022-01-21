@@ -9,20 +9,15 @@
   "turbo": {
     "baseBranch": "origin/main",
     "pipeline": {
-      "compile": {
+      "build": {
         "outputs": [
+          "dist/**",
           "artifacts/**",
           "cache/**"
         ]
       },
-      "build": {
-        "outputs": [
-          "dist/**"
-        ]
-      },
       "test": {
         "dependsOn": [
-          "compile",
           "build"
         ],
         "outputs": []
