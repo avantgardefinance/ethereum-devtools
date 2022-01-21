@@ -1,3 +1,3 @@
 module.exports = {
-  extends: '@enzymefinance/babel-config',
+  presets: [require.resolve('@enzymefinance/babel-config')],
 };
