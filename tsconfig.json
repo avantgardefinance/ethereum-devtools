@@ -50,7 +50,7 @@
     "esModuleInterop": true /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */,
     // "preserveSymlinks": true,              /* Do not resolve the real path of symlinks. */
     // "allowUmdGlobalAccess": true,          /* Allow accessing UMD globals from modules. */
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
 
     /* Source Map Options */
     // "sourceRoot": "",                      /* Specify the location where debugger should locate TypeScript files instead of source locations. */
@@ -61,6 +61,17 @@
     /* Experimental Options */
     // "experimentalDecorators": true,        /* Enables experimental support for ES7 decorators. */
     // "emitDecoratorMetadata": true,         /* Enables experimental support for emitting type metadata for decorators. */
+
+    // NOTE: These aliases are required for the IDE to properly link to the source files when navigating imports.
+    "baseUrl": ".",
+    "paths": {
+      "@enzymefinance/ethers": ["packages/ethers/src"],
+      "@enzymefinance/codegen": ["packages/codegen/src"],
+      "@enzymefinance/coverage": ["packages/coverage/src"],
+      "@enzymefinance/hardhat": ["packages/hardhat/src"],
+      "@enzymefinance/hardhat/types": ["../hardhat/src/types.ts"],
+      "@enzymefinance/hardhat/plugin": ["../hardhat/src/plugin/index.ts"]
+    }
   },
   "exclude": ["node_modules"]
 }

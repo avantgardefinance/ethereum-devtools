@@ -1,8 +1,8 @@
-import type { Call, Contract, Send } from '@enzymefinance/ethers';
-import { CallFunction, contract, randomAddress, SendFunction } from '@enzymefinance/ethers';
-import { BasicToken } from '@enzymefinance/example';
 import type { BigNumber, BigNumberish } from 'ethers';
-import { constants, utils } from 'ethers';
+import { constants } from 'ethers';
+
+import type { Call, Contract, Send } from '../src';
+import { CallFunction, contract, randomAddress, SendFunction } from '../src';
 
 // prettier-ignore
 interface Token extends Contract<Token> {
@@ -24,7 +24,7 @@ interface Token extends Contract<Token> {
 }
 
 // prettier-ignore
-const Token = contract<Token>()`
+export const Token = contract<Token>()`
   function allowance(address owner, address spender) view returns (uint256)
   function allowance(address owner, uint how) view returns (uint256)
   function approve(address spender, uint256 amount) returns (bool)
@@ -39,6 +39,7 @@ describe('construction', () => {
   it('factory creates a contract instance', async () => {
     const signer = await provider.getSignerWithAddress(0);
     const token = new Token(constants.AddressZero, signer);
+
     expect(token).toBeInstanceOf(Token);
   });
 
@@ -46,6 +47,7 @@ describe('construction', () => {
     const signer = await provider.getSignerWithAddress(0);
     const token = new Token(constants.AddressZero, signer);
     const call = token.allowance(randomAddress(), randomAddress());
+
     expect(call).toBeInstanceOf(Promise);
     await expect(call).rejects.toThrowError();
   });
@@ -54,6 +56,7 @@ describe('construction', () => {
     const signer = await provider.getSignerWithAddress(0);
     const token = new Token(constants.AddressZero, signer);
     const call = token.transfer(randomAddress(), 123);
+
     expect(call).toBeInstanceOf(Promise);
     await expect(call).resolves.toMatchObject({});
   });
@@ -61,6 +64,7 @@ describe('construction', () => {
   it('shortcut syntax allows chaining methods', async () => {
     const signer = await provider.getSignerWithAddress(0);
     const token = new Token(constants.AddressZero, signer);
+
     expect(token.transfer.args(randomAddress(), 123)).toBeInstanceOf(SendFunction);
   });
 
@@ -69,9 +73,11 @@ describe('construction', () => {
     const token = new Token(constants.AddressZero, signer);
     const actual = token.allowance.fragment.format();
     const expected = token['allowance(address,address)'].fragment.format();
+
     expect(actual).toEqual(expected);
 
     const not = token['allowance(address,uint)'].fragment.format();
+
     expect(actual).not.toEqual(not);
   });
 
@@ -84,6 +90,7 @@ describe('construction', () => {
 
     const incompatible = new IncompatibleContract(randomAddress(), provider);
     const allowance = token.allowance;
+
     expect(() => allowance.attach(incompatible as any)).toThrow('Failed to attach function to incompatible contract');
   });
 
@@ -96,16 +103,8 @@ describe('construction', () => {
 
     const compatible = new CompatibleContract(randomAddress(), provider);
     const allowance = token.allowance;
+
     expect(() => allowance.attach(compatible as any)).not.toThrow();
     expect(allowance.attach(compatible as any)).toBeInstanceOf(CallFunction);
-  });
-
-  it('can access receipt of deployment', async () => {
-    const signer = await provider.getSignerWithAddress(0);
-    const token = BasicToken.deploy(signer, utils.parseEther('100'));
-
-    await expect(token.then((contract: BasicToken) => contract.deployment)).resolves.toMatchObject({
-      contractAddress: expect.stringMatching(/^0x/),
-    });
   });
 });

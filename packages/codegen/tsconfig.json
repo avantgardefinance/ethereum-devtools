@@ -1,4 +1,12 @@
 {
   "extends": "../../tsconfig.json",
-  "include": ["src"]
+  "include": ["src"],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@enzymefinance/ethers": ["../ethers/src"],
+      "@enzymefinance/hardhat": ["../hardhat/src"],
+      "@enzymefinance/coverage": ["../coverage/src"]
+    }
+  }
 }

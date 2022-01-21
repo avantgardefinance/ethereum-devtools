@@ -16,9 +16,6 @@
         ]
       },
       "build": {
-        "dependsOn": [
-          "^build"
-        ],
         "outputs": [
           "dist/**"
         ]
@@ -30,15 +27,9 @@
         "outputs": []
       },
       "typecheck": {
-        "dependsOn": [
-          "build"
-        ],
         "outputs": []
       },
       "lint": {
-        "dependsOn": [
-          "build"
-        ],
         "outputs": []
       },
       "format": {
@@ -56,7 +47,7 @@
     "compile": "turbo run compile --cache-dir=.turbo/cache",
     "build": "turbo run build --cache-dir=.turbo/cache",
     "test": "turbo run test --cache-dir=.turbo/cache",
-    "clean": "turbo run clean --no-cache && rimraf -rf node_modules",
+    "clean": "turbo run clean --no-cache && rimraf -rf node_modules .turbo",
     "prettier": "prettier --list-different --ignore-path .gitignore \"**/*.{js,ts,json,md,yml,sol}\"",
     "format": "yarn prettier --write && turbo run format --cache-dir=.turbo/cache",
     "lint": "manypkg check && yarn prettier && turbo run lint --cache-dir=.turbo/cache",
