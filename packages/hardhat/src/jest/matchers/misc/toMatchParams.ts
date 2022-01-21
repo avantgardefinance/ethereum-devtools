@@ -33,7 +33,7 @@ export function toMatchParams(
   const pass = this.equals(receivedParams, expectedMatchers);
   const message = pass
     ? () => matcherHint('.toMatchParams', printed, undefined, this)
-    : () => matcherHint('.toMatchParams', printed, undefined, this) + `\n\n${diff(receivedParams, expectedMatchers)}`;
+    : () => `${matcherHint('.toMatchParams', printed, undefined, this)}\n\n${diff(receivedParams, expectedMatchers)}`;
 
   return { message, pass };
 }

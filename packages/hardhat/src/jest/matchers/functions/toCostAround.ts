@@ -7,6 +7,7 @@ import { ensureBigNumbers } from '../bn/utils';
 import { ignoreGasMatchers } from './common/ignoreGasMatchers';
 
 let defaultTolerance: BigNumberish = 0.1; // 10% tolerance
+
 export function setToCostAroundTolerance(tolerance: BigNumberish) {
   defaultTolerance = tolerance;
 }
@@ -21,6 +22,7 @@ export function toCostAround(this: jest.MatcherContext, received: any, expected:
   }
 
   return ensureBigNumbers([received.gasUsed, expected], this.isNot, ([received, expected]) => {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     const givenOrDefault = tolerance ?? defaultTolerance;
 
     if (BigNumber.isBigNumber(givenOrDefault) || Number.isInteger(givenOrDefault)) {
@@ -28,11 +30,13 @@ export function toCostAround(this: jest.MatcherContext, received: any, expected:
     }
 
     const relativeTolerance = parseInt(`${parseFloat(`${givenOrDefault}`) * 100}`, 10);
+
     if (isNaN(relativeTolerance)) {
       throw new Error('Invalid relative tolerance value');
     }
 
     const relativeToleranceBn = BigNumber.from(relativeTolerance);
+
     if (!(relativeToleranceBn.lt(100) && relativeToleranceBn.gte(0))) {
       throw new Error('Invalid relative tolerance value');
     }

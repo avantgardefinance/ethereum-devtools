@@ -4,7 +4,7 @@ import { utils } from 'ethers';
 
 export interface TypedData {
   domain: TypedDataDomain;
-  types: Record<string, Array<TypedDataField>>;
+  types: Record<string, TypedDataField[]>;
   value: Record<string, any>;
 }
 
@@ -18,11 +18,13 @@ export interface TypedDataPayload {
 export async function getTypedDataPayload(
   provider: providers.JsonRpcProvider,
   domain: TypedDataDomain,
-  types: Record<string, Array<TypedDataField>>,
+  types: Record<string, TypedDataField[]>,
   value: Record<string, any>,
 ): Promise<TypedDataPayload> {
   const populated = await utils._TypedDataEncoder.resolveNames(domain, types, value, async (name: string) => {
     const resolved = await provider.resolveName(name);
+
+    // eslint-disable-next-line eqeqeq
     if (resolved == null) {
       throw new Error(`Failed to resolve name ${name}`);
     }
@@ -36,7 +38,7 @@ export async function getTypedDataPayload(
 export async function getTypedDataMessage(
   provider: providers.JsonRpcProvider,
   domain: TypedDataDomain,
-  types: Record<string, Array<TypedDataField>>,
+  types: Record<string, TypedDataField[]>,
   value: Record<string, any>,
 ) {
   const payload = await getTypedDataPayload(provider, domain, types, value);

@@ -16,10 +16,10 @@ export interface SolidityCompilerOutput {
 
 export interface ContractFactory<TContract extends Contract = Contract, TConstructorArgs extends any[] = []> {
   abi: utils.Interface;
-  mock(signer: Signer): Promise<MockContract<TContract>>;
-  deploy(signer: Signer, ...args: TConstructorArgs): Promise<TContract>;
-  deploy(signer: Signer, options: FunctionOptions<TConstructorArgs>): Promise<TContract>;
-  new (address: AddressLike, provider: Signer | providers.Provider): TContract;
+  mock: (signer: Signer) => Promise<MockContract<TContract>>;
+  deploy: ((signer: Signer, ...args: TConstructorArgs) => Promise<TContract>) &
+    ((signer: Signer, options: FunctionOptions<TConstructorArgs>) => Promise<TContract>);
+  new (address: AddressLike, provider: providers.Provider | Signer): TContract;
 }
 
 // Expose a default contract factory for convenience.
@@ -35,6 +35,7 @@ export function contract<TContract extends Contract = Contract, TConstructorArgs
       }
 
       public static get abi() {
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition,eqeqeq
         if (resolved == null) {
           const abi = signatures
             .join('')
@@ -53,6 +54,7 @@ export function contract<TContract extends Contract = Contract, TConstructorArgs
         const contract = new SpecializedContract(address, signer) as TContract;
         const receipt = await deploy(contract, bytecode ?? '0x', ...args);
         const instance = contract.attach(receipt.contractAddress);
+
         instance.deployment = receipt;
 
         return instance;
@@ -65,11 +67,11 @@ export function contract<TContract extends Contract = Contract, TConstructorArgs
         return mock(contract);
       }
 
-      constructor(address: AddressLike, provider: Signer | providers.Provider) {
+      constructor(address: AddressLike, provider: providers.Provider | Signer) {
         super(SpecializedContract.abi, address, provider);
       }
 
-      public clone(address: AddressLike, provider: Signer | providers.Provider): TContract {
+      public clone(address: AddressLike, provider: providers.Provider | Signer): TContract {
         return new SpecializedContract(address, provider) as TContract;
       }
     }

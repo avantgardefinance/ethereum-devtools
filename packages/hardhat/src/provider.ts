@@ -22,7 +22,7 @@ export class EthereumTestnetProvider extends providers.StaticJsonRpcProvider {
     return this.env.network.provider.send(method, params);
   }
 
-  public async getSignerWithAddress(addressOrIndex: string | number) {
+  public async getSignerWithAddress(addressOrIndex: number | string) {
     return SignerWithAddress.create(await this.getSigner(addressOrIndex));
   }
 }

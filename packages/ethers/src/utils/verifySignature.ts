@@ -7,7 +7,7 @@ import type { TypedData } from './typedData';
 
 interface VerifySignatureProps {
   walletAddress: string;
-  message: string | TypedData;
+  message: TypedData | string;
   signature: string;
   provider: providers.StaticJsonRpcProvider;
 }
@@ -21,6 +21,7 @@ export async function verifySignature({
   try {
     const bytecode = await provider.getCode(walletAddress);
     const isSmartContract = bytecode && utils.hexStripZeros(bytecode) !== '0x';
+
     if (isSmartContract) {
       const hash =
         typeof message === 'string'
@@ -31,14 +32,14 @@ export async function verifySignature({
 
       // Per https://eips.ethereum.org/EIPS/eip-1271
       return result === '0x1626ba7e';
-    } else {
-      const recoveredAddress =
-        typeof message === 'string'
-          ? utils.verifyMessage(message, signature)
-          : utils.verifyTypedData(message.domain, message.types, message.value, signature);
-
-      return sameAddress(recoveredAddress, walletAddress);
     }
+
+    const recoveredAddress =
+      typeof message === 'string'
+        ? utils.verifyMessage(message, signature)
+        : utils.verifyTypedData(message.domain, message.types, message.value, signature);
+
+    return sameAddress(recoveredAddress, walletAddress);
   } catch {
     return false;
   }

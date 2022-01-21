@@ -5,6 +5,7 @@ import { matcherHint } from 'jest-matcher-utils';
 import { ensureBigNumbers } from './utils';
 
 let defaultTolerance: BigNumberish = 0.1; // 10% tolerance
+
 export function setToBeAroundBigNumberTolerance(tolerance: BigNumberish) {
   defaultTolerance = tolerance;
 }
@@ -16,6 +17,7 @@ export function toBeAroundBigNumber(
   tolerance: BigNumberish,
 ) {
   return ensureBigNumbers([received, expected], this.isNot, ([received, expected]) => {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     const givenOrDefault = tolerance ?? defaultTolerance;
 
     if (BigNumber.isBigNumber(givenOrDefault) || Number.isInteger(givenOrDefault)) {
@@ -23,11 +25,13 @@ export function toBeAroundBigNumber(
     }
 
     const relativeTolerance = parseInt(`${parseFloat(`${givenOrDefault}`) * 100}`, 10);
+
     if (isNaN(relativeTolerance)) {
       throw new Error('Invalid relative tolerance value');
     }
 
     const relativeToleranceBn = BigNumber.from(relativeTolerance);
+
     if (!(relativeToleranceBn.lt(100) && relativeToleranceBn.gte(0))) {
       throw new Error('Invalid relative tolerance value');
     }

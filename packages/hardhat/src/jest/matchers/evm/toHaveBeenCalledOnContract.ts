@@ -19,13 +19,11 @@ export function toHaveBeenCalledOnContract(
 
     const message = pass
       ? () =>
-          matcherHint('.toHaveBeenCalledOnContract', expected, undefined, this) +
-          '\n\n' +
+          `${matcherHint('.toHaveBeenCalledOnContract', expected, undefined, this)}\n\n` +
           `Expected: ${printExpected('not to have been called')}\n` +
           `Actual: ${printReceived('has been called')}`
       : () =>
-          matcherHint('.toHaveBeenCalledOnContract', expected, undefined, this) +
-          '\n\n' +
+          `${matcherHint('.toHaveBeenCalledOnContract', expected, undefined, this)}\n\n` +
           `Expected: ${printExpected('to have been called')}\n` +
           `Actual: ${printReceived('has not been called')}`;
 

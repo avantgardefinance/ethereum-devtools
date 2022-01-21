@@ -76,6 +76,7 @@ export default class EnzymeHardhatEnvironment extends NodeEnvironment {
     if (this.recordCodeCoverage) {
       const metadata = await fs.readJson(this.metadataFilePath);
       const collector = createCoverageCollector(metadata, this.codeCoverageRuntimeRecording);
+
       this.removeCodeCoverageListener = addListener(env.network.provider, 'step', collector);
     }
   }
@@ -101,7 +102,9 @@ export default class EnzymeHardhatEnvironment extends NodeEnvironment {
 }
 
 let environment: HardhatRuntimeEnvironment;
+
 export function getRuntimeEnvironment(coverage = false) {
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition,eqeqeq
   if (environment != null) {
     return environment;
   }
@@ -130,6 +133,7 @@ export function getRuntimeEnvironment(coverage = false) {
   }
 
   const extenders = context.extendersManager.getExtenders();
+
   environment = new Environment(config, args, {}, extenders) as unknown as HardhatRuntimeEnvironment;
   context.setHardhatRuntimeEnvironment(environment);
 
@@ -138,6 +142,7 @@ export function getRuntimeEnvironment(coverage = false) {
 
 export function addListener(provider: EthereumProvider, event: string, handler: (...args: any) => void) {
   let inner: any = (provider as any)._provider;
+
   while (inner._wrapped) {
     inner = (inner as any)._wrapped;
   }
@@ -153,6 +158,7 @@ export function addListener(provider: EthereumProvider, event: string, handler: 
     if (!subscribed && !removed) {
       subscribed = true;
       const vm = inner._node._vm as EventEmitter;
+
       vm.on(event, handler);
     }
   };
@@ -164,6 +170,8 @@ export function addListener(provider: EthereumProvider, event: string, handler: 
 
     removed = true;
     const vm = (inner as any)._node?._vm as EventEmitter;
+
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition,eqeqeq
     if (vm != null) {
       vm.off(event, handler);
     }

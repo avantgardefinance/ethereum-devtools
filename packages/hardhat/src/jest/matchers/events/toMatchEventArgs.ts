@@ -31,7 +31,7 @@ export function toMatchEventArgs(this: jest.MatcherContext, received: utils.LogD
     : () => {
         const suffix = diff(receivedParams, expectedMatchers);
 
-        return matcherHint('.toMatchEventArgs', undefined, undefined, this) + `\n\n${suffix}`;
+        return `${matcherHint('.toMatchEventArgs', undefined, undefined, this)}\n\n${suffix}`;
       };
 
   return { message, pass };

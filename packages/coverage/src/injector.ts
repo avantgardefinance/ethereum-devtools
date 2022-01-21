@@ -24,7 +24,7 @@ export interface FunctionInstrumentation extends InstrumentationBase {
   type: 'function';
 }
 
-export type Instrumentation = StatementInstrumentation | BranchInstrumentation | FunctionInstrumentation;
+export type Instrumentation = BranchInstrumentation | FunctionInstrumentation | StatementInstrumentation;
 
 export interface InjectionBase {
   type: string;
@@ -61,8 +61,8 @@ export interface BlockDelimiterInjection extends InjectionBase {
   delimiter: BlockDelimiter;
 }
 
-export type InstrumentationInjection = FunctionInjection | StatementInjection | BranchInjection;
-export type Injection = InstrumentationInjection | HashMethodInjection | BlockDelimiterInjection;
+export type InstrumentationInjection = BranchInjection | FunctionInjection | StatementInjection;
+export type Injection = BlockDelimiterInjection | HashMethodInjection | InstrumentationInjection;
 
 export interface InstrumentationTarget extends ParseResult {
   target: string;
@@ -79,6 +79,7 @@ export function inject(parsed: ParseResult, path: string) {
   };
 
   const points = (Object.keys(state.injections) as any as number[]).sort((a, b) => b - a);
+
   points.forEach((point) => {
     state.injections[point].forEach((injection) => {
       switch (injection.type) {
@@ -187,10 +188,12 @@ function injectBranch(state: InstrumentationTarget, point: number, injection: Br
 function injectHashMethod(state: InstrumentationTarget, point: number, injection: HashMethodInjection) {
   const { start, end } = split(state, point);
   const id = `${state.target}:${injection.contract}`;
+
   state.instrumented = `${start}${getHashMethodDefinition(id)}${end}`;
 }
 
 function injectBlockDelimiter(state: InstrumentationTarget, point: number, injection: BlockDelimiterInjection) {
   const { start, end } = split(state, point);
+
   state.instrumented = `${start}${injection.delimiter}${end}`;
 }

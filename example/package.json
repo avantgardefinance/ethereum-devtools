@@ -14,41 +14,32 @@
     "format": "yarn format:prettier && yarn format:eslint",
     "format:prettier": "yarn lint:prettier --write",
     "format:eslint": "yarn lint:eslint --fix",
-    "test": "TS_JEST_DISABLE_VER_CHECKER=true jest",
+    "test": "jest",
     "prepare": "husky install"
   },
   "dependencies": {
-    "@babel/runtime": "^7.16.3",
     "@enzymefinance/ethers": "1.0.11",
-    "ethers": "^5.5.1"
+    "ethers": "^5.5.3"
   },
   "devDependencies": {
-    "@enzymefinance/babel-config": "^1.0.16",
     "@enzymefinance/codegen": "^1.0.1",
-    "@enzymefinance/eslint-config": "^1.0.14",
+    "@enzymefinance/eslint-config": "^1.0.17",
     "@enzymefinance/hardhat": "^1.0.12",
     "@enzymefinance/prettier-config-solidity": "^1.0.1",
     "@openzeppelin/contracts": "^4.3.2",
-    "@types/jest": "^27.0.2",
-    "eslint": "^8.2.0",
-    "husky": "^7.0.4",
-    "jest": "^27.3.1",
-    "prettier": "^2.4.1",
+    "@types/jest": "^27.4.0",
+    "eslint": "^8.7.0",
+    "jest": "^27.4.7",
+    "prettier": "^2.5.1",
     "solhint": "^3.3.4",
-    "typescript": "^4.4.4"
+    "typescript": "^4.5.5"
   },
-  "prettier": "@enzymefinance/prettier-config-solidity",
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
+  "eslintConfig": {
+    "extends": "@enzymefinance/eslint-config",
+    "parserOptions": {
+      "project": [
+        "./tsconfig.json"
+      ]
     }
-  },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx}": "eslint --fix",
-    "*.json": "prettier --write",
-    "*.sol": [
-      "prettier --write",
-      "solhint --fix"
-    ]
   }
 }

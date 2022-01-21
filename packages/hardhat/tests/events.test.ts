@@ -1,6 +1,7 @@
 import { BasicToken } from '@enzymefinance/example';
-import type { EthereumTestnetProvider } from '@enzymefinance/hardhat';
 import { utils } from 'ethers';
+
+import type { EthereumTestnetProvider } from '../src';
 
 async function snapshot(provider: EthereumTestnetProvider) {
   const someone = await provider.getSignerWithAddress(0);
@@ -20,6 +21,7 @@ describe('events', () => {
     const amount = utils.parseEther('100');
 
     const tx = token.approve(someone, amount);
+
     await expect(tx).resolves.toHaveEmitted('Approval');
   });
 
@@ -28,6 +30,7 @@ describe('events', () => {
     const amount = utils.parseEther('100');
 
     const tx = token.approve(someone, amount);
+
     await expect(tx).resolves.toHaveEmittedWith('Approval', {
       owner: signer,
       spender: someone,

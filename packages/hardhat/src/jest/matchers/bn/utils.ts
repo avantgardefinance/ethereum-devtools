@@ -7,6 +7,7 @@ export type MatcherCallback = (values: BigNumber[]) => jest.CustomMatcherResult;
 
 export function ensureBigNumbers(values: BigNumberish[], invert: boolean, callback: MatcherCallback) {
   const converted = values.map((item) => convertToBigNumberMaybe(item));
+
   if (converted.some((item) => item === undefined)) {
     return forceFail('The received value is not numberish', invert);
   }

@@ -31,23 +31,21 @@ export function toHaveBeenCalledOnContractWith<TArgs extends any[] = []>(
 
     const message = pass
       ? () =>
-          matcherHint(
+          `${matcherHint(
             '.toHaveBeenCalledOnContractWith',
             `${expectedFunction}`,
             `\n  ${expectedArgs.join(',\n  ')}\n`,
             this,
-          ) +
-          '\n\n' +
+          )}\n\n` +
           `Expected: ${printExpected('to not have been called')}\n` +
           `Actual: ${printReceived('has been called')}`
       : () =>
-          matcherHint(
+          `${matcherHint(
             '.toHaveBeenCalledOnContractWith',
             `${expectedFunction}`,
             `\n  ${expectedArgs.join(',\n  ')}\n`,
             this,
-          ) +
-          '\n\n' +
+          )}\n\n` +
           `Expected: ${printExpected('to have been called')}\n` +
           `Actual: ${printReceived('has not been called with these arguments')}${printHelper(
             contract,
@@ -63,6 +61,7 @@ function printHelper(contract: Contract, fragment: utils.FunctionFragment, calls
   const signature = contract.abi.getSighash(fragment);
   const latest = calls.reverse().find((call) => call.startsWith(signature));
 
+  // eslint-disable-next-line eqeqeq
   if (latest == null) {
     return '';
   }

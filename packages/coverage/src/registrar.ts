@@ -20,6 +20,7 @@ export function createInjection(state: ParseState, key: number, value: Partial<I
     contract: state.contract,
   } as Injection;
 
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   if (state.injections[key]) {
     state.injections[key].push(injection);
   } else {
@@ -39,6 +40,7 @@ export function registerStatement(state: ParseState, expression: Expression | St
   const endline = startline + (expressionContent.match(/\n/g) || []).length;
 
   let endcol;
+
   if (expressionContent.lastIndexOf('\n') >= 0) {
     endcol = state.source.slice(expressionContent.lastIndexOf('\n'), expression.range![1]).length;
   } else {

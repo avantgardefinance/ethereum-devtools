@@ -9,7 +9,7 @@ import { resolveFunctionFragment, resolveParamMatchers } from '../helpers';
 export function toMatchFunctionOutput(
   this: jest.MatcherContext,
   received: any,
-  fragment: string | utils.FunctionFragment | SendFunction<any> | CallFunction<any>,
+  fragment: CallFunction<any> | SendFunction<any> | utils.FunctionFragment | string,
   expected?: any,
 ) {
   const invert = this.isNot;
@@ -37,6 +37,7 @@ export function toMatchFunctionOutput(
 
   try {
     const params = types.length === 1 ? types[0] : types;
+
     receivedParams = resolveArguments(params, received);
   } catch (e) {
     return forceFail(`Failed to resolve received arguments: ${e}`, invert);
@@ -44,6 +45,7 @@ export function toMatchFunctionOutput(
 
   try {
     const params = types.length === 1 ? types[0] : types;
+
     expectedMatchers = resolveParamMatchers(params, expected);
   } catch (e) {
     return forceFail(`Failed to resolve expected matchers: ${e}`, invert);
@@ -55,7 +57,7 @@ export function toMatchFunctionOutput(
     : () => {
         const suffix = diff(receivedParams, expectedMatchers);
 
-        return matcherHint('.toMatchFunctionOutput', undefined, undefined, this) + `\n\n${suffix}`;
+        return `${matcherHint('.toMatchFunctionOutput', undefined, undefined, this)}\n\n${suffix}`;
       };
 
   return { message, pass };

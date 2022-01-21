@@ -3,12 +3,16 @@ import { createCoverageMap, createFileCoverage } from 'istanbul-lib-coverage';
 import type { InstrumentationMetadata } from './instrument';
 
 export function createCoverageCollector(metadata: InstrumentationMetadata, recording: Record<string, number>) {
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   const instrumentation = metadata.instrumentations ?? {};
 
   return (info: any) => {
     if (info.opcode.name === 'PUSH1' && info.stack.length > 0) {
       const hash = toHex(info.stack[info.stack.length - 1].toString(16));
+
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       if (instrumentation[hash]) {
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         recording[hash] = (recording[hash] ?? 0) + 1;
       }
     }
@@ -18,6 +22,7 @@ export function createCoverageCollector(metadata: InstrumentationMetadata, recor
 export function mergeCoverageReports(recording: Record<string, number>, metadata: InstrumentationMetadata) {
   // Set up the coverage map using for all contracts.
   const coverage = createCoverageMap();
+
   Object.keys(metadata.targets).forEach((contract) => {
     const file = createFileCoverage({
       b: {},
@@ -64,6 +69,7 @@ export function mergeCoverageReports(recording: Record<string, number>, metadata
 
       case 'branch': {
         const before = file.b[instrumentation.id][instrumentation.branch] ?? 0;
+
         file.b[instrumentation.id][instrumentation.branch] = before + hits;
 
         return;
@@ -76,7 +82,7 @@ export function mergeCoverageReports(recording: Record<string, number>, metadata
 
 function toHex(value: string) {
   // If negative, prepend the negative sign to the normalized positive value.
-  if (value[0] === '-') {
+  if (value.startsWith('-')) {
     // Strip off the negative sign.
     value = value.substring(1);
     // Call toHex on the positive component.
@@ -88,12 +94,12 @@ function toHex(value: string) {
     }
 
     // Negate the value.
-    return '-' + value;
+    return `-${  value}`;
   }
 
   // Add a "0x" prefix if missing.
-  if (value.substring(0, 2) !== '0x') {
-    value = '0x' + value;
+  if (!value.startsWith('0x')) {
+    value = `0x${  value}`;
   }
 
   // Normalize zero.
@@ -103,12 +109,12 @@ function toHex(value: string) {
 
   // Make the string even length.
   if (value.length % 2) {
-    value = '0x0' + value.substring(2);
+    value = `0x0${  value.substring(2)}`;
   }
 
   // Trim to smallest even-length string.
-  while (value.length > 4 && value.substring(0, 4) === '0x00') {
-    value = '0x' + value.substring(4);
+  while (value.length > 4 && value.startsWith('0x00')) {
+    value = `0x${  value.substring(4)}`;
   }
 
   return value;

@@ -1,6 +1,7 @@
 import { BasicToken } from '@enzymefinance/example';
-import type { EthereumTestnetProvider } from '@enzymefinance/hardhat';
 import { utils } from 'ethers';
+
+import type { EthereumTestnetProvider } from '../src';
 
 async function snapshot(provider: EthereumTestnetProvider) {
   const deployer = await provider.getSignerWithAddress(0);
@@ -21,6 +22,7 @@ fdescribe('functions', () => {
     const { token, someone } = await provider.snapshot(snapshot);
 
     const receipt = await token.transfer(someone, '456');
+
     expect(receipt).toCostLessThan('52200');
   });
 
@@ -28,6 +30,7 @@ fdescribe('functions', () => {
     const { token, someone } = await provider.snapshot(snapshot);
 
     const receipt = await token.transfer(someone, '456');
+
     expect(receipt).toCostBetween('52100', '521300');
   });
 
@@ -35,6 +38,7 @@ fdescribe('functions', () => {
     const { token, someone } = await provider.snapshot(snapshot);
 
     const receipt = await token.transfer(someone, '456');
+
     expect(receipt).toCostAround('52100', 100);
   });
 
@@ -42,6 +46,7 @@ fdescribe('functions', () => {
     const { token, signer } = await provider.snapshot(snapshot);
 
     const result = await token.balanceOf(signer);
+
     expect(result).toMatchFunctionOutput(token.balanceOf, utils.parseEther('100'));
   });
 });

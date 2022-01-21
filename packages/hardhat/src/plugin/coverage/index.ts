@@ -19,6 +19,7 @@ extendConfig((config, userConfig) => {
   };
 
   const provided = userConfig.codeCoverage ?? {};
+
   config.codeCoverage = deepmerge<CodeCoverageConfig>(defaults, provided as any);
   config.codeCoverage.path = validateDir(config.paths.root, config.codeCoverage.path);
 
@@ -36,6 +37,7 @@ interface Arguments {
 }
 
 const description = 'Add code coverage instrumentations statements during compilation';
+
 task<Arguments>('coverage', description, async (args, env) => {
   const config = env.config.codeCoverage;
   const dir = path.resolve(config.path, 'contracts');
@@ -72,13 +74,13 @@ task<Arguments>('coverage', description, async (args, env) => {
 
   // Then create the instrumentation metadata for all matched files.
   const instrumentation = instrumentSources(
-    sources.reduce((carry, current) => {
+    sources.reduce<Record<string, string>>((carry, current) => {
       if (!current.instrument) {
         return carry;
       }
 
       return { ...carry, [current.origin]: current.source };
-    }, {} as Record<string, string>),
+    }, {}),
   );
 
   // Prepare the temporary instrumentation source & metadata directory.
@@ -89,7 +91,8 @@ task<Arguments>('coverage', description, async (args, env) => {
   // Save each file's instrumented source (or original source if excluded).
   await Promise.all(
     sources.map((file) => {
-      const output = instrumentation.instrumented[file.origin]?.instrumented ?? file.source;
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+      const output = instrumentation.instrumented[file.origin].instrumented ?? file.source;
 
       return fs.outputFile(file.destination, output, 'utf8');
     }),
@@ -102,6 +105,7 @@ task<Arguments>('coverage', description, async (args, env) => {
 
   // Move the original compilation cache file out of harms way.
   const cache = path.join(env.config.paths.cache, 'solidity-files-cache.json');
+
   if (await fs.pathExists(cache)) {
     await fs.move(cache, `${cache}.bkp`, {
       overwrite: true,
@@ -115,7 +119,7 @@ task<Arguments>('coverage', description, async (args, env) => {
 
   env.config.paths.sources = dir;
   env.config.solidity.compilers = clonedCompilers.map((item) => {
-    if (!!item.settings?.optimizer?.enabled) {
+    if (item.settings?.optimizer?.enabled) {
       item.settings.optimizer.enabled = false;
     }
 

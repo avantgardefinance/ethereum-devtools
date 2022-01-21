@@ -47,6 +47,7 @@ export class Snapshots<TProvider extends EthereumTestnetProvider = EthereumTestn
     // to be primed explicitly (with an optional snapshot) to even obtain a provider
     // instance.
     if (!(await this.provider.send('evm_revert', [snapshot.id]))) {
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       const name = create.name ?? 'unknown';
 
       console.warn(`

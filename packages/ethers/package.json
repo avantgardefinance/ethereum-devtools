@@ -5,8 +5,6 @@
   "author": "Enzyme Council DAO <council@enzyme.finance>",
   "license": "MIT",
   "homepage": "https://enzyme.finance",
-  "main": "dist/enzymefinance-ethers.cjs.js",
-  "module": "dist/enzymefinance-ethers.esm.js",
   "files": [
     "dist"
   ],
@@ -20,18 +18,47 @@
   "bugs": {
     "url": "https://github.com/avantgardefinance/ethereum-devtools/issues"
   },
-  "scripts": {
-    "typecheck": "tsc --noEmit"
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
   },
-  "dependencies": {
-    "@babel/runtime": "^7.16.3"
+  "typesVersions": {
+    "*": {
+      "*": [
+        "dist/index.d.ts"
+      ]
+    }
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --format esm,cjs --dts",
+    "clean": "rimraf .turbo .eslintcache node_modules dist",
+    "lint": "TIMING=1 eslint \"src/**/*.{js,ts}\" --cache",
+    "format": "yarn lint --fix",
+    "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
     "@ethersproject/abi": "^5.5.0",
-    "ethers": "^5.5.1"
+    "@types/jest": "^27.4.0",
+    "ethers": "^5.5.3",
+    "jest": "^27.4.7",
+    "tsup": "^5.11.11",
+    "typescript": "^4.5.5"
   },
   "peerDependencies": {
     "@ethersproject/abi": "^5.5.0",
     "ethers": "^5.5.1"
+  },
+  "eslintConfig": {
+    "extends": "@enzymefinance/eslint-config",
+    "parserOptions": {
+      "project": [
+        "./tsconfig.json"
+      ]
+    }
   }
 }

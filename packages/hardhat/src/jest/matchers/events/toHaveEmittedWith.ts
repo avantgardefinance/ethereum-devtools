@@ -10,7 +10,7 @@ import { resolveEventFragment, resolveParamMatchers } from '../helpers';
 export function toHaveEmittedWith(
   this: jest.MatcherContext,
   receipt: ContractReceipt,
-  event: string | utils.EventFragment,
+  event: utils.EventFragment | string,
   expected: any,
 ): jest.CustomMatcherResult {
   const invert = this.isNot;
@@ -44,7 +44,7 @@ export function toHaveEmittedWith(
     : () => {
         const suffix = diff(args[args.length - 1], expectedMatchers);
 
-        return matcherHint('.toHaveEmittedWith', signature, undefined, this) + `\n\n${suffix}`;
+        return `${matcherHint('.toHaveEmittedWith', signature, undefined, this)}\n\n${suffix}`;
       };
 
   return { message, pass };

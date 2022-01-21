@@ -15,12 +15,12 @@ import type { AddressLike } from './types';
 import { resolveAddress } from './utils/resolveAddress';
 import { resolveArguments } from './utils/resolveArguments';
 
-export interface ContractReceipt<TFunction extends SendFunction<any, any> | ConstructorFunction<any> = SendFunction>
+export interface ContractReceipt<TFunction extends ConstructorFunction<any> | SendFunction<any, any> = SendFunction>
   extends EthersContractReceipt {
   function: TFunction;
 }
 
-export interface ContractTransaction<TFunction extends SendFunction<any, any> | ConstructorFunction<any> = SendFunction>
+export interface ContractTransaction<TFunction extends ConstructorFunction<any> | SendFunction<any, any> = SendFunction>
   extends EthersContractTransaction {
   function: TFunction;
 }
@@ -31,16 +31,18 @@ function propertyOf<TOr = any>(property: string, candidates: object[] = []): TOr
   return (obj as any)?.[property] ?? undefined;
 }
 
-function enhanceResponse<TFunction extends SendFunction<any, any> | ConstructorFunction<any> = SendFunction>(
+function enhanceResponse<TFunction extends ConstructorFunction<any> | SendFunction<any, any> = SendFunction>(
   fn: TFunction,
   response: EthersContractTransaction,
 ): ContractTransaction<TFunction> {
   const wait = response.wait.bind(response);
   const enhanced = response as any as ContractTransaction<TFunction>;
+
   enhanced.function = fn;
   enhanced.wait = async (confirmations?: number) => {
     const receipt = await wait(confirmations);
     const enhanced = receipt as any as ContractReceipt<TFunction>;
+
     enhanced.function = fn;
 
     return enhanced;
@@ -90,9 +92,11 @@ export function isFunctionOptions<TArgs extends any[] = []>(value: any): value i
 }
 
 export function resolveFunctionOptions<TArgs extends any[] = []>(
-  ...args: [FunctionOptions<TArgs>] | TArgs
+  ...args: TArgs | [FunctionOptions<TArgs>]
 ): FunctionOptions<TArgs> {
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   const [first, ...rest] = args || [];
+
   if (rest.length === 0 && isFunctionOptions<TArgs>(first)) {
     return first;
   }
@@ -130,8 +134,9 @@ export class ContractFunction<
     TArgs extends any[] = [],
     TFragment extends Fragment = Fragment,
     TContract extends Contract = Contract,
-  >(contract: TContract, fragment: TFragment, ...args: [FunctionOptions<TArgs>] | TArgs) {
+  >(contract: TContract, fragment: TFragment, ...args: TArgs | [FunctionOptions<TArgs>]) {
     const options = resolveFunctionOptions(...args) as FunctionOptions<TArgs>;
+
     if (FunctionFragment.isFunctionFragment(fragment)) {
       if (fragment.constant) {
         return new CallFunction<TArgs>(contract, fragment, options);
@@ -232,6 +237,8 @@ export class CallFunction<
 
   public async call(): Promise<TReturn> {
     const tx = await this.populate();
+
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition,eqeqeq
     if (this.contract.provider == null) {
       throw new Error('Missing provider');
     }
@@ -248,6 +255,7 @@ export class CallFunction<
 
   public attach(contract: TContract): this {
     const formatted = this.fragment.format();
+
     if (!contract.abi.functions.hasOwnProperty(formatted)) {
       throw new Error('Failed to attach function to incompatible contract');
     }
@@ -275,6 +283,7 @@ export class CallFunction<
             ...(from && {
               from: resolveAddress(from),
             }),
+            // eslint-disable-next-line eqeqeq
             ...(this.options.type != undefined && {
               type: this.options.type,
             }),
@@ -313,6 +322,8 @@ export class SendFunction<
 
   public async estimate(): Promise<BigNumber> {
     const tx = await this.populate();
+
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition,eqeqeq
     if (this.contract.provider == null) {
       throw new Error('Missing provider');
     }
@@ -357,6 +368,8 @@ export class ConstructorFunction<
 
   public async call(): Promise<string> {
     const tx = await this.populate();
+
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition,eqeqeq
     if (this.contract.provider == null) {
       throw new Error('Missing provider');
     }
@@ -366,6 +379,8 @@ export class ConstructorFunction<
 
   public async estimate(): Promise<BigNumber> {
     const tx = await this.populate();
+
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition,eqeqeq
     if (this.contract.provider == null) {
       throw new Error('Missing provider');
     }
@@ -378,7 +393,7 @@ export class ConstructorFunction<
   public async send(
     wait = true,
   ): Promise<
-    ContractTransaction<ConstructorFunction<TArgs, TContract>> | ContractReceipt<ConstructorFunction<TArgs, TContract>>
+    ContractReceipt<ConstructorFunction<TArgs, TContract>> | ContractTransaction<ConstructorFunction<TArgs, TContract>>
   > {
     if (!this.contract.signer) {
       throw new Error('Missing signer');
@@ -419,6 +434,7 @@ export class ConstructorFunction<
             ...(from && {
               from: resolveAddress(from),
             }),
+            // eslint-disable-next-line eqeqeq
             ...(this.options.type != undefined && {
               type: this.options.type,
             }),

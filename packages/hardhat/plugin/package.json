@@ -1,4 +1,0 @@
-{
-  "main": "dist/enzymefinance-hardhat-plugin.cjs.js",
-  "module": "dist/enzymefinance-hardhat-plugin.esm.js"
-}

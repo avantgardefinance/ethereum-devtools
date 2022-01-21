@@ -17,6 +17,7 @@ export function deploy<TContract extends Contract = Contract, TArgs extends any[
   const constructor = contract.abi.deploy;
   const fn = new ConstructorFunction<TArgs, TContract>(contract, constructor, options);
 
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   const hex = utils.hexlify(bytecode ?? '', {
     allowMissingPrefix: true,
   });
@@ -43,6 +44,7 @@ export class Contract<TContract extends Contract = any> {
   private readonly _provider?: providers.Provider = undefined;
   public get provider() {
     const provider = this._provider ?? this.signer?.provider;
+
     if (!provider) {
       throw new Error('Missing provider');
     }
@@ -61,13 +63,14 @@ export class Contract<TContract extends Contract = any> {
       throw new Error('Missing provider');
     }
 
-    const names = Object.values(this.abi.functions).reduce((carry, current) => {
+    const names = Object.values(this.abi.functions).reduce<Record<string, FunctionFragment>>((carry, current) => {
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       if (!carry[current.name]) {
         carry[current.name] = current;
       }
 
       return carry;
-    }, {} as { [name: string]: FunctionFragment });
+    }, {});
 
     return new Proxy(this, {
       get: (target, prop: string, receiver) => {
@@ -76,7 +79,8 @@ export class Contract<TContract extends Contract = any> {
         }
 
         // Do not attempt to call `getFunction` for non-signatures.
-        if (!names[prop] && !prop?.includes?.('(')) {
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+        if (!names[prop] && !prop.includes('(')) {
           return;
         }
 
@@ -84,6 +88,7 @@ export class Contract<TContract extends Contract = any> {
           return;
         }
 
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         const fragment = names[prop] ?? target.abi.getFunction(prop);
         const instance = ContractFunction.create(target, fragment);
 
@@ -92,6 +97,7 @@ export class Contract<TContract extends Contract = any> {
           apply: (_, __, args) => {
             // eslint-disable-next-line prefer-spread
             const fn = instance.args.apply(instance, args as any);
+
             if (ConstructorFunction.isConstructorFunction(fn)) {
               return fn.send();
             }
@@ -120,7 +126,7 @@ export class Contract<TContract extends Contract = any> {
     });
   }
 
-  public clone(address: AddressLike, provider: Signer | providers.Provider): TContract {
+  public clone(address: AddressLike, provider: providers.Provider | Signer): TContract {
     return new Contract(this.abi, address, provider) as any;
   }
 
@@ -130,7 +136,7 @@ export class Contract<TContract extends Contract = any> {
     return this.clone(address, provider);
   }
 
-  public connect(provider: Signer | providers.Provider) {
+  public connect(provider: providers.Provider | Signer) {
     return this.clone(this.address, provider);
   }
 

@@ -19,6 +19,7 @@ function stub<TContract extends Contract = Contract>(
   return {
     given: (...input: any) => stub(doppelganger, contract, func, input),
     reset: async () => {
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       const args = params ? resolveArguments(func.inputs ?? [], params) : undefined;
 
       const data = args ? contract.abi.encodeFunctionData(func, args) : contract.abi.getSighash(func);
@@ -32,17 +33,21 @@ function stub<TContract extends Contract = Contract>(
         throw new Error(`Attempting to mock return value of function with no outputs: ${formatted}`);
       }
 
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       const args = params ? resolveArguments(func.inputs ?? [], params) : undefined;
 
       const data = args ? contract.abi.encodeFunctionData(func, args) : contract.abi.getSighash(func);
 
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       const resolved = output?.length ? resolveArguments(func.outputs ?? [], output) : undefined;
 
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       const encoded = encoder.encode(func.outputs ?? [], resolved);
 
       return doppelganger.__doppelganger__mockReturns(data, encoded);
     },
     reverts: async (reason: string) => {
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       const args = params ? resolveArguments(func.inputs ?? [], params) : undefined;
 
       const data = args ? contract.abi.encodeFunctionData(func, args) : contract.abi.getSighash(func);
@@ -65,7 +70,7 @@ export async function mock<TContract extends Contract = Contract>(
   const doppelganger = await Doppelganger.deploy(contract.signer, hashes, signatures);
 
   const forward = async <TArgs extends any[] = any, TReturn = any, TContract extends Contract = Contract>(
-    subject: SendFunction<TArgs, TReturn, TContract> | CallFunction<TArgs, TReturn, TContract>,
+    subject: CallFunction<TArgs, TReturn, TContract> | SendFunction<TArgs, TReturn, TContract>,
     ...params: any
   ): Promise<any> => {
     const fn = ContractFunction.isContractFunction(subject)
@@ -74,6 +79,7 @@ export async function mock<TContract extends Contract = Contract>(
       ? (subject as ContractFunction).ref
       : undefined;
 
+    // eslint-disable-next-line eqeqeq
     if (fn == null) {
       throw new Error('Not a valid contract function');
     }
@@ -90,9 +96,11 @@ export async function mock<TContract extends Contract = Contract>(
     const data = args ? fn.contract.abi.encodeFunctionData(fragment, args) : fn.contract.abi.getSighash(fragment);
 
     const forward = doppelganger.__doppelganger__mockForward.args(data, callee);
+
     if (SendFunction.isSendFunction(fn)) {
       const receipt = (await forward.send()) as any;
       const refined: ContractReceipt<SendFunction<TArgs, TReturn, TContract>> = receipt;
+
       refined.function = fn;
 
       return refined;
@@ -100,6 +108,7 @@ export async function mock<TContract extends Contract = Contract>(
 
     const result = await forward.call();
     const decoded = fn.contract.abi.decodeFunctionResult(fragment, result);
+
     if (fragment.outputs?.length === 1) {
       return decoded[0];
     }
@@ -108,12 +117,14 @@ export async function mock<TContract extends Contract = Contract>(
   };
 
   const mocked = contract.attach(doppelganger.address);
+
   mocked.forward = forward;
 
   const proxy = new Proxy(mocked, {
     get: (target, prop: string, receiver) => {
       const value = Reflect.get(target, prop, receiver);
       const fn = value?.ref;
+
       if (!ContractFunction.isContractFunction(fn)) {
         return value;
       }
@@ -137,26 +148,26 @@ export async function mock<TContract extends Contract = Contract>(
 
 export type MockContract<TContract extends Contract = Contract> = {
   [TKey in keyof TContract]: TContract[TKey] extends ProxiedFunction<any>
-    ? TContract[TKey] & RefinableStub<Parameters<TContract[TKey]['args']>>
+    ? RefinableStub<Parameters<TContract[TKey]['args']>> & TContract[TKey]
     : TContract[TKey];
 } & {
-  forward<TArgs extends any[] = any, TReturn = any, TContract extends Contract = Contract>(
+  forward: (<TArgs extends any[] = any, TReturn = any, TContract extends Contract = Contract>(
     send: SendFunction<TArgs, TReturn, TContract>,
     ...args: TArgs
-  ): Promise<ContractReceipt<SendFunction<TArgs, TReturn, TContract>>>;
-  forward<TArgs extends any[] = any, TReturn = any>(
-    call: CallFunction<TArgs, TReturn>,
-    ...args: TArgs
-  ): Promise<TReturn>;
+  ) => Promise<ContractReceipt<SendFunction<TArgs, TReturn, TContract>>>) &
+    (<TArgs extends any[] = any, TReturn = any>(
+      call: CallFunction<TArgs, TReturn>,
+      ...args: TArgs
+    ) => Promise<TReturn>);
 };
 
 export interface Stub<TOutput extends any[] = any[]> {
-  returns(...args: TOutput): Promise<EthersContractReceipt>;
-  reverts(reason: string): Promise<EthersContractReceipt>;
-  reset(): Promise<EthersContractReceipt>;
+  returns: (...args: TOutput) => Promise<EthersContractReceipt>;
+  reverts: (reason: string) => Promise<EthersContractReceipt>;
+  reset: () => Promise<EthersContractReceipt>;
 }
 
 export type RefinableStub<TInput extends any[] = any[], TOutput extends any[] = any[]> = Stub<TOutput> & {
-  given(...args: TInput): Stub<TOutput>;
-  reset(): Promise<EthersContractReceipt>;
+  given: (...args: TInput) => Stub<TOutput>;
+  reset: () => Promise<EthersContractReceipt>;
 };

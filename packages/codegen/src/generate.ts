@@ -18,6 +18,7 @@ export function getOutput(fragment: ConstructorFragment) {
   }
 
   const outputs = fragment.outputs ?? [];
+
   if (!outputs.length) {
     return 'void';
   }
@@ -73,15 +74,15 @@ export function getType(param: utils.ParamType, flexible?: boolean): string {
     return flexible ? 'AddressLike' : 'string';
   }
 
-  if (param.type.substring(0, 5) === 'bytes') {
+  if (param.type.startsWith('bytes')) {
     return flexible ? 'BytesLike' : 'string';
   }
 
-  if (param.type.substring(0, 4) === 'uint') {
+  if (param.type.startsWith('uint')) {
     return flexible ? 'BigNumberish' : 'BigNumber';
   }
 
-  if (param.type.substring(0, 3) === 'int') {
+  if (param.type.startsWith('int')) {
     return flexible ? 'BigNumberish' : 'BigNumber';
   }
 
@@ -101,7 +102,7 @@ export function generateFunctions(contract: string, fragments: utils.FunctionFra
     return '';
   }
 
-  const output = fragments.reduce((output, fragment, index, array) => {
+  const output = fragments.reduce<string[]>((output, fragment, index, array) => {
     const type = generateFunction(contract, fragment);
     const found = array.findIndex((current) => fragment.name === current.name);
 
@@ -110,7 +111,7 @@ export function generateFunctions(contract: string, fragments: utils.FunctionFra
     }
 
     return output;
-  }, [] as string[]);
+  }, []);
 
   return output.join('\n  ');
 }

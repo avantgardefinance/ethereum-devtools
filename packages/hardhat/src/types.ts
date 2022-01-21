@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/method-signature-style */
 import '@nomiclabs/hardhat-ethers/internal/type-extensions';
 import 'hardhat-deploy/dist/src/type-extensions';
 
@@ -27,7 +28,7 @@ declare global {
       toMatchAddress(expected: AddressLike): R;
       toMatchParams(types: utils.ParamType | utils.ParamType[], expected: any): R;
       toMatchFunctionOutput(
-        fragment: string | utils.FunctionFragment | CallFunction<any> | SendFunction<any>,
+        fragment: CallFunction<any> | SendFunction<any> | utils.FunctionFragment | string,
         expected: any,
       ): R;
       toMatchEventArgs(expected: any): R;
@@ -44,8 +45,8 @@ declare global {
       toCostLessThan(expected: BigNumberish, tolerance?: BigNumberish): R;
       toCostAround(expected: BigNumberish, tolerance?: BigNumberish): R;
       toCostBetween(min: BigNumberish, max: BigNumberish): R;
-      toHaveEmitted(event: string | utils.EventFragment): R;
-      toHaveEmittedWith(event: string | utils.EventFragment, expected: any): R;
+      toHaveEmitted(event: utils.EventFragment | string): R;
+      toHaveEmittedWith(event: utils.EventFragment | string, expected: any): R;
       toHaveBeenCalledOnContract(): R;
       toHaveBeenCalledOnContractWith<TArgs extends any[] = []>(...args: TArgs): Promise<R>;
     }

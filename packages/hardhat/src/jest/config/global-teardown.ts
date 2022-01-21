@@ -12,30 +12,34 @@ export default async (config: Config.GlobalConfig) => {
   }
 
   const tmp = process.env.__HARDHAT_COVERAGE_TEMPDIR__ as string;
+
   if (!(await fs.pathExists(tmp))) {
     return;
   }
 
   const files = glob.sync(path.join(tmp, '*.json'));
   const outputs = await Promise.all(files.map((file) => fs.readJson(file)));
+
   if (!outputs.length) {
     return;
   }
 
   const unique = outputs.map((item) => item.metadata).filter((item, index, array) => array.indexOf(item) === index);
+
   if (unique.length !== 1) {
     throw new Error('Mismatching code coverage metadata');
   }
 
   // Retrieve the metadata and flatten & merge the hits from all emitted outputs.
   const metadata = await fs.readJson(unique[0]);
-  const hits = outputs.reduce((carry, current) => {
+  const hits = outputs.reduce<Record<string, number>>((carry, current) => {
     Object.entries(current.hits).forEach(([hash, hits]) => {
-      carry[hash] = (carry[hash] ?? 0) + hits;
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+      carry[hash] = (carry[hash] ?? 0) + (hits as number);
     });
 
     return carry;
-  }, {} as Record<string, number>);
+  }, {});
 
   const coverage = mergeCoverageReports(hits, metadata);
   const context = Reporter.createContext({
@@ -51,6 +55,7 @@ export default async (config: Config.GlobalConfig) => {
 
   config.coverageReporters.forEach((reporter) => {
     const report = Reports.create(reporter as any);
+
     (report as any).execute(context);
   });
 

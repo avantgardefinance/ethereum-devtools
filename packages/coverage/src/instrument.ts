@@ -28,13 +28,13 @@ export function instrumentSource(source: string, file: string) {
 }
 
 export function instrumentSources(sources: Record<string, string>) {
-  const instrumented = Object.entries(sources).reduce((carry, [path, source]) => {
+  const instrumented = Object.entries(sources).reduce<Record<string, InstrumentationTarget>>((carry, [path, source]) => {
     const instrumented = instrumentSource(source, path);
 
     return { ...carry, [path]: instrumented };
-  }, {} as Record<string, InstrumentationTarget>);
+  }, {});
 
-  const metadata = Object.entries(instrumented).reduce(
+  const metadata = Object.entries(instrumented).reduce<InstrumentationMetadata>(
     (carry, [path, instrumented]) => {
       // Ignore metadata for all files with no instrumentation (e.g. interfaces).
       if (Object.keys(instrumented.instrumentations).length === 0) {
@@ -58,7 +58,7 @@ export function instrumentSources(sources: Record<string, string>) {
     {
       instrumentations: {},
       targets: {},
-    } as InstrumentationMetadata,
+    },
   );
 
   return { instrumented, metadata };

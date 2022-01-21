@@ -17,7 +17,7 @@ export function ensureParameters<
 >(subject: TSubject, invert: boolean, callback: MatcherCallback<TReturn>): TReturn {
   const fn = ContractFunction.isContractFunction(subject)
     ? subject
-    : typeof subject === 'function' && ContractFunction.isContractFunction((subject as ContractFunction)?.ref)
+    : typeof subject === 'function' && ContractFunction.isContractFunction((subject as ContractFunction).ref)
     ? (subject as ContractFunction).ref
     : undefined;
 
@@ -33,7 +33,9 @@ export function ensureParameters<
     return forceFail(error, invert) as TReturn;
   }
 
-  const history = (contract?.provider as EthereumTestnetProvider)?.history;
+  const history = (contract?.provider as EthereumTestnetProvider).history;
+
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   if (!history) {
     const error = 'Invalid or unsupported provider for contract call history assertion';
 

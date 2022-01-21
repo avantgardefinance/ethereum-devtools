@@ -1,6 +1,7 @@
 import { BasicToken } from '@enzymefinance/example';
-import type { EthereumTestnetProvider } from '@enzymefinance/hardhat';
 import { utils } from 'ethers';
+
+import type { EthereumTestnetProvider } from '../src';
 
 async function snapshot(provider: EthereumTestnetProvider) {
   const deployer = await provider.getSignerWithAddress(0);

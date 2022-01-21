@@ -10,6 +10,7 @@ export class History {
   private history = new Map<string, string[]>();
 
   public constructor(seed?: Map<string, string[]>) {
+    // eslint-disable-next-line eqeqeq
     if (seed != null) {
       this.history = new Map(seed);
     }
@@ -44,13 +45,17 @@ export class History {
   }
 
   public record(message: EvmMessage) {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     const to = message.to ? utils.hexlify(`${message.to}`) : '0x';
+
     if (to === '0x') {
       return;
     }
 
     const checksum = utils.getAddress(to);
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     const data = message.data ? utils.hexlify(message.data) : '0x';
+
     this.history.set(checksum, this.calls(checksum).concat(data));
   }
 }

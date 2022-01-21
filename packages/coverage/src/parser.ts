@@ -155,6 +155,7 @@ function parseBinaryOperation(state: ParseState, expression: BinaryOperation) {
   if (expression.right.type === 'Conditional') {
     // TODO: Location is incorrectly typed in solidty-parser.
     const location = expression.loc as any;
+
     console.warn(
       `Instrumentation for ternary statements is currently not supported: ${state.contract}:${location.start.line}`,
     );
@@ -182,6 +183,7 @@ function parseContractDefinition(state: ParseState, expression: ContractDefiniti
 
   // It's possible a base contract will have constructor string arg
   // which contains an open curly brace. Skip ahead pass the bases...
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   if (expression.baseContracts && expression.baseContracts.length) {
     for (const base of expression.baseContracts) {
       if (base.range && base.range[1] > start) {
@@ -200,6 +202,7 @@ function parseContractDefinition(state: ParseState, expression: ContractDefiniti
     type: 'HashMethod',
   });
 
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   if (expression.subNodes) {
     expression.subNodes.forEach((construct) => {
       parseExpression(state, construct as ASTNode);
@@ -213,6 +216,7 @@ function parseFunctionDefinition(state: ParseState, expression: FunctionDefiniti
     return;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   if (expression.modifiers) {
     expression.modifiers.forEach((modifier) => parseExpression(state, modifier));
   }
@@ -225,6 +229,7 @@ function parseFunctionDefinition(state: ParseState, expression: FunctionDefiniti
 
 function parseIfStatement(state: ParseState, expression: IfStatement) {
   const before = state.branch;
+
   state.branch = registerBranch(state, expression);
 
   parseExpression(state, expression.trueBody);
@@ -332,7 +337,7 @@ function parseForStatement(state: ParseState, expression: ForStatement) {
   ensureBlock(state, expression.body);
 }
 
-function ensureBlock(state: ParseState, expression: Statement | Expression) {
+function ensureBlock(state: ParseState, expression: Expression | Statement) {
   if (expression.type !== 'Block') {
     createInjection(state, expression.range![0], {
       delimiter: BlockDelimiter.OPEN,

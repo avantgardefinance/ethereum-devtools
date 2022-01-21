@@ -1,7 +1,7 @@
 import fs from 'fs-extra';
 import path from 'path';
 
-export function regexOrString(matcher: string | RegExp) {
+export function regexOrString(matcher: RegExp | string) {
   try {
     if (matcher instanceof RegExp) {
       return matcher;
@@ -21,6 +21,7 @@ export function regexOrString(matcher: string | RegExp) {
 
 export function validateDir(root: string, relative: string) {
   const dir = path.resolve(root, relative);
+
   if (!dir.startsWith(root)) {
     throw new Error('@enzymefinance/hardhat: resolved path must be inside of project directory');
   }

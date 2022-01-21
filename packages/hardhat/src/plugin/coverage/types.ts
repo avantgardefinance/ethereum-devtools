@@ -1,7 +1,7 @@
 export interface CodeCoverageConfig {
   path: string;
-  include: (string | RegExp)[];
-  exclude: (string | RegExp)[];
+  include: (RegExp | string)[];
+  exclude: (RegExp | string)[];
   clear: boolean;
 }
 

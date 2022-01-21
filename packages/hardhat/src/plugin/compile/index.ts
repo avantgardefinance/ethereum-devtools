@@ -37,6 +37,7 @@ extendConfig((config, userConfig) => {
   };
 
   const provided = userConfig.codeGenerator ?? {};
+
   config.codeGenerator = deepmerge<CodeGeneratorConfig>(defaults, provided as any);
   config.codeGenerator.abi.path = validateDir(config.paths.root, config.codeGenerator.abi.path);
   config.codeGenerator.bytecode.path = validateDir(config.paths.root, config.codeGenerator.bytecode.path);
@@ -59,6 +60,7 @@ task<Arguments>('compile', async (args, env, parent) => {
   await parent(args);
 
   const config = env.config.codeGenerator;
+
   if (!config.enabled) {
     return;
   }
@@ -93,10 +95,12 @@ task<Arguments>('compile', async (args, env, parent) => {
       const name = item.split(':')[1];
 
       const included = config.include.some((rule) =>
+        // eslint-disable-next-line eqeqeq
         typeof rule === 'string' ? name === rule : name.match(rule) != null,
       );
 
       const excluded = config.exclude.some((rule) =>
+        // eslint-disable-next-line eqeqeq
         typeof rule === 'string' ? name === rule : name.match(rule) != null,
       );
 
@@ -104,7 +108,7 @@ task<Arguments>('compile', async (args, env, parent) => {
     }),
   );
 
-  artifacts = artifacts.filter((item) => (item.excluded && !item.included ? false : true));
+  artifacts = artifacts.filter((item) => !(item.excluded && !item.included));
 
   if (config.options.ignoreContractsWithoutAbi) {
     artifacts = artifacts.filter((item) => item.included || item.artifact.abi.length > 0);
@@ -142,7 +146,7 @@ async function generateAbiFiles(dir: string, artifacts: ArtifactDescriptor[]): P
     artifacts.map(async (artifact) => {
       const destination = path.resolve(dir, `${artifact.name}.json`);
 
-      return await fs.writeJson(destination, artifact.artifact.abi, {
+      return fs.writeJson(destination, artifact.artifact.abi, {
         spaces: 2,
       });
     }),
@@ -155,7 +159,7 @@ async function generateBytecodeFiles(dir: string, artifacts: ArtifactDescriptor[
       const destination = path.resolve(dir, `${artifact.name}.bin.json`);
       const content = { bytecode: artifact.artifact.bytecode };
 
-      return await fs.writeJson(destination, content, {
+      return fs.writeJson(destination, content, {
         spaces: 2,
       });
     }),
@@ -170,7 +174,7 @@ async function generateTypeScriptFiles(dir: string, artifacts: ArtifactDescripto
       const formatted = formatOutput(content);
       const destination = path.join(dir, `${artifact.name}.ts`);
 
-      return await fs.writeFile(destination, formatted);
+      return fs.writeFile(destination, formatted);
     }),
   );
 }
