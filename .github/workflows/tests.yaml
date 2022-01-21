@@ -9,9 +9,12 @@ on:
       - main
 
 jobs:
-  test:
-    name: Test
+  verify:
+    name: Verify
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x]
 
     steps:
       - name: Check out repository
@@ -20,66 +23,39 @@ jobs:
       - name: Set up node
         uses: actions/setup-node@v2
         with:
-          node-version: 12
+          cache: yarn
+          cache-dependency-path: yarn.lock
+          node-version: ${{ matrix.node-version }}
 
-      - name: Retrieve dependency cache
+      - name: Turborepo cache
         uses: actions/cache@v2
         with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          path: .turbo/cache
+          key: ${{ runner.os }}-${{ matrix.node-version }}-yarn-${{ github.sha }}-${{ github.workflow }}-${{ github.job }}
+          restore-keys: |
+            ${{ runner.os }}-${{ matrix.node-version }}-yarn-${{ github.sha }}-${{ github.workflow }}-
+            ${{ runner.os }}-${{ matrix.node-version }}-yarn-${{ github.sha }}-
+            ${{ runner.os }}-${{ matrix.node-version }}-yarn-
 
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
-
-      - name: Test
-        run: yarn test
-
-  lint:
-    name: Lint
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v2
-
-      - name: Set up node
-        uses: actions/setup-node@v2
-        with:
-          node-version: 12
-
-      - name: Retrieve dependency cache
+      - name: Linting cache
         uses: actions/cache@v2
         with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          path: '**/.eslintcache'
+          key: ${{ runner.os }}-${{ matrix.node-version }}-yarn-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-${{ matrix.node-version }}-yarn-
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn --frozen-lockfile
 
-      - name: Check linting
-        run: yarn lint
-
-  typecheck:
-    name: Typecheck
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v2
-
-      - name: Set up node
-        uses: actions/setup-node@v2
-        with:
-          node-version: 12
-
-      - name: Retrieve dependency cache
-        uses: actions/cache@v2
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
+      - name: Build
+        run: yarn build
 
       - name: Check types
         run: yarn typecheck
+
+      - name: Check formatting
+        run: yarn lint
+
+      - name: Check formatting
+        run: yarn test
