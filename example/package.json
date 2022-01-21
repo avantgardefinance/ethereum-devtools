@@ -11,14 +11,14 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@enzymefinance/ethers": "1.0.11",
+    "@enzymefinance/ethers": "1.0.13",
     "ethers": "^5.5.3"
   },
   "devDependencies": {
-    "@enzymefinance/codegen": "^1.0.1",
+    "@enzymefinance/codegen": "^1.0.13",
     "@enzymefinance/eslint-config": "^1.0.17",
-    "@enzymefinance/hardhat": "^1.0.12",
-    "@enzymefinance/prettier-config-solidity": "^1.0.1",
+    "@enzymefinance/hardhat": "^1.0.13",
+    "@enzymefinance/prettier-config-solidity": "^1.0.13",
     "@openzeppelin/contracts": "^4.3.2",
     "@types/jest": "^27.4.0",
     "eslint": "^8.7.0",
