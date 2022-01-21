@@ -4,6 +4,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
+      "@enzymefinance/example": ["../../example/src"],
       "@enzymefinance/ethers": ["../ethers/src"],
       "@enzymefinance/codegen": ["../codegen/src"],
       "@enzymefinance/coverage": ["../coverage/src"]

@@ -2,20 +2,13 @@
   "name": "@enzymefinance/example",
   "version": "0.0.0",
   "private": true,
-  "main": "dist/enzymefinance-example.cjs.js",
-  "module": "dist/enzymefinance-example.esm.js",
   "scripts": {
     "compile": "hardhat compile",
-    "typecheck": "tsc --noEmit",
-    "lint": "yarn lint:prettier && yarn lint:solhint",
-    "lint:eslint": "eslint \"{*,**/*}.{js,jsx,ts,tsx}\"",
-    "lint:prettier": "prettier --list-different \"{*,**/*}.{sol,json}\"",
-    "lint:solhint": "solhint --max-warnings 0 \"contracts/{*,**/*}.sol\"",
-    "format": "yarn format:prettier && yarn format:eslint",
-    "format:prettier": "yarn lint:prettier --write",
-    "format:eslint": "yarn lint:eslint --fix",
+    "clean": "rimraf .turbo .eslintcache node_modules dist",
+    "lint": "TIMING=1 eslint \"**/*.{js,ts}\" --cache",
+    "format": "yarn lint --fix",
     "test": "jest",
-    "prepare": "husky install"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@enzymefinance/ethers": "1.0.11",
@@ -30,8 +23,6 @@
     "@types/jest": "^27.4.0",
     "eslint": "^8.7.0",
     "jest": "^27.4.7",
-    "prettier": "^2.5.1",
-    "solhint": "^3.3.4",
     "typescript": "^4.5.5"
   },
   "eslintConfig": {
