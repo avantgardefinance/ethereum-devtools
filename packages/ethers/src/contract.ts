@@ -80,11 +80,7 @@ export class Contract<TContract extends Contract = any> {
 
         // Do not attempt to call `getFunction` for non-signatures.
         // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-        if (!names[prop] && !prop.includes('(')) {
-          return;
-        }
-
-        if (typeof prop !== 'string') {
+        if (typeof prop !== 'string' || (!names[prop] && !prop.includes('('))) {
           return;
         }
 
