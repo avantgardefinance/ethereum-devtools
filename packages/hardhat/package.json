@@ -1,6 +1,6 @@
 {
   "name": "@enzymefinance/hardhat",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "description": "Technology Regulated and Operated Investment Funds",
   "author": "Enzyme Council DAO <council@enzyme.finance>",
   "license": "MIT",
@@ -102,9 +102,9 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@enzymefinance/codegen": "1.0.15",
-    "@enzymefinance/coverage": "1.0.15",
-    "@enzymefinance/ethers": "1.0.15",
+    "@enzymefinance/codegen": "1.0.16",
+    "@enzymefinance/coverage": "1.0.16",
+    "@enzymefinance/ethers": "1.0.16",
     "@nomiclabs/hardhat-ethers": "^2.0.4",
     "deepmerge": "^4.2.2",
     "fs-extra": "^10.0.0",
