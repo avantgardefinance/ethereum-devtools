@@ -1,5 +1,16 @@
 # @enzymefinance/hardhat
 
+## 1.0.16
+
+### Patch Changes
+
+- [`62ba817`](https://github.com/avantgardefinance/ethereum-devtools/commit/62ba817e62acf52597e3f3ffeef256e24c90d08e) Thanks [@fubhy](https://github.com/fubhy)! - Fix proxy get for non-strings
+
+- Updated dependencies [[`62ba817`](https://github.com/avantgardefinance/ethereum-devtools/commit/62ba817e62acf52597e3f3ffeef256e24c90d08e)]:
+  - @enzymefinance/ethers@1.0.16
+  - @enzymefinance/codegen@1.0.16
+  - @enzymefinance/coverage@1.0.16
+
 ## 1.0.15
 
 ### Patch Changes
